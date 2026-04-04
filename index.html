@@ -500,6 +500,40 @@ tbody tr.urgent:hover{background:#FEE2E2;}
 .page-bc-link:hover{text-decoration:underline;}
 .page-bc-sep{color:var(--g300);margin:0 4px;}
 
+
+/* ── BADGE DEMO EN LOGIN ── */
+.demo-login-badge{background:linear-gradient(135deg,#7C3AED,#6D28D9);
+  color:#fff;border-radius:10px;padding:10px 14px;margin-bottom:12px;
+  display:none;align-items:center;gap:10px;font-size:12px;font-weight:700;
+  border:2px solid rgba(255,255,255,.2);animation:slideUp .3s ease;}
+.demo-login-badge.active{display:flex;}
+.demo-login-badge .dlb-icon{font-size:20px;}
+.demo-login-badge .dlb-text{flex:1;}
+.demo-login-badge .dlb-text strong{display:block;font-size:13px;margin-bottom:2px;}
+.demo-login-badge .dlb-cancel{background:rgba(255,255,255,.2);border:none;
+  color:#fff;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;
+  cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;transition:var(--tr);}
+.demo-login-badge .dlb-cancel:hover{background:rgba(255,255,255,.35);}
+.btn-demo-login{background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;
+  border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;
+  cursor:pointer;width:100%;font-family:'Segoe UI',Arial,sans-serif;
+  transition:var(--tr);margin-top:6px;letter-spacing:.3px;}
+.btn-demo-login:hover{filter:brightness(1.1);transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(124,58,237,.4);}
+.btn-demo-login.active{background:linear-gradient(135deg,#15803D,#166534);
+  cursor:default;transform:none;box-shadow:none;}
+
+
+/* ── BOTÓN VOLVER ── */
+.btn-back{display:none;align-items:center;gap:6px;padding:8px 14px;
+  background:#fff;color:var(--g600);border:1.5px solid var(--g300);
+  border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;
+  transition:var(--tr);font-family:'Segoe UI',Arial,sans-serif;white-space:nowrap;
+  margin-right:8px;}
+.btn-back:hover{background:var(--g50);color:var(--g800);border-color:var(--g400);
+  transform:translateX(-2px);}
+.btn-back.visible{display:inline-flex;}
+
 </style>
 <!-- Chart.js para gráficos reales -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -532,8 +566,17 @@ tbody tr.urgent:hover{background:#FEE2E2;}
     </div>
     <div class="fg"><label class="fl">Contraseña</label>
       <input class="fc" id="loginPass" type="password" value="demo1234"></div>
+    <!-- Badge modo demo activo -->
+    <div class="demo-login-badge" id="demo-login-badge">
+      <span class="dlb-icon">🎬</span>
+      <div class="dlb-text">
+        <strong>Modo Demostración Activado</strong>
+        10 pacientes de ejemplo listos · Elige tu rol e ingresa
+      </div>
+      <button class="dlb-cancel" onclick="cancelarDemo()">✕ Cancelar</button>
+    </div>
     <button class="btn btn-primary" onclick="doLogin(false)">🔐 Ingresar</button>
-    <button class="btn btn-demo" onclick="doLogin(true)">🎬 Entrar en Modo Demostración</button>
+    <button class="btn-demo-login" id="btn-demo-toggle" onclick="activarDemo()">🎬 Entrar en Modo Demostración</button>
     <div class="lfooter"><a href="#" onclick="openModal();return false;">Recuperar contraseña</a> · Soporte: +56 2 3223 8787</div>
   </div>
 </div>
@@ -565,14 +608,17 @@ tbody tr.urgent:hover{background:#FEE2E2;}
     <!-- Demo bar -->
     <div id="demo-bar" class="demo-bar hidden">
       <span class="demo-badge-bar" style="font-size:13px;">🎬</span>
-      <span><strong>MODO DEMOSTRACIÓN</strong> — Haz clic en cualquier caso para cargarlo automáticamente</span>
-      <button class="demo-close" onclick="toggleDemo(false)">✕ Salir del modo demo</button>
+      <span><strong>🎬 MODO DEMOSTRACIÓN</strong> — 10 pacientes de ejemplo cargados · Navega por los módulos con normalidad · Los datos se borran al salir</span>
+      <button class="demo-close" onclick="salirDemo()">✕ Salir del modo demo</button>
     </div>
 
     <header class="top-header">
       <div class="hdr-left">
-        <button class="btn-home" id="btnHome" onclick="navTo('dashboard')" title="Volver al Menú Principal">
+        <button class="btn-home" id="btnHome" onclick="volverAlLogin()" title="Volver a la pantalla de inicio">
           <span class="home-icon">🏠</span>Menú Principal
+        </button>
+        <button class="btn-back" id="btnBack" onclick="navTo('dashboard')" title="Volver al Dashboard">
+          ← Volver
         </button>
         <div>
           <div class="page-title" id="pageTitle">Dashboard</div>
@@ -626,63 +672,47 @@ tbody tr.urgent:hover{background:#FEE2E2;}
         </div>
 
         <div id="dash-secretaria">
-          <div class="alert alert-info"><span class="alert-icon">👋</span>Hola Marcela. Tienes <strong>3 exámenes</strong> pendientes de ingreso hoy.</div>
+          <div class="alert alert-info" id="alert-secretaria"><span class="alert-icon">👋</span><span id="msg-secretaria">Bienvenida Marcela. El sistema está listo.</span></div>
           <div class="stats-grid">
             <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Pacientes registrados</div><div class="stat-icon">👥</div></div>
-            <div class="stat-card warn"><div class="stat-val">8</div><div class="stat-lbl">Exámenes sin resultados</div><div class="stat-icon">🧪</div></div>
+            <div class="stat-card warn"><div class="stat-val" id="stat-sin-resultado">0</div><div class="stat-lbl">Exámenes sin resultados</div><div class="stat-icon">🧪</div></div>
             <div class="stat-card succ"><div class="stat-val" id="stat-mes">0</div><div class="stat-lbl">Exámenes este mes</div><div class="stat-icon">📋</div></div>
           </div>
           <div class="card"><div class="card-header"><div class="card-title">Acceso Rápido</div></div>
-          <div class="card-body"><div class="action-grid">
-            <button class="act-btn" onclick="navTo('nuevo-paciente')"><span class="ai">👤</span>Nuevo Paciente</button>
-            <button class="act-btn" onclick="navTo('buscar-paciente')"><span class="ai">🔍</span>Buscar Paciente</button>
-            <button class="act-btn" onclick="navTo('nuevo-examen')"><span class="ai">🧪</span>Nuevo Examen</button>
-            <button class="act-btn off"><span class="ai">📋</span>Resultados</button>
-            <button class="act-btn off"><span class="ai">📊</span>Seguimiento</button>
-            <button class="act-btn" onclick="navTo('reportes')"><span class="ai">📈</span>Reportes</button>
-          </div></div></div>
+          <div class="card-body"><div class="action-grid" id="acceso-rapido-secretaria"></div></div></div>
         </div>
         <div id="dash-laboratorio" class="hidden">
-          <div class="alert alert-warning"><span class="alert-icon">⚠️</span>Tienes <strong>5 muestras</strong> pendientes de procesamiento.</div>
+          <div class="alert alert-warning" id="alert-laboratorio"><span class="alert-icon">⚠️</span><span id="msg-laboratorio">Bienvenida Claudia. Revisa las muestras pendientes.</span></div>
           <div class="stats-grid">
-            <div class="stat-card warn"><div class="stat-val">5</div><div class="stat-lbl">Muestras pendientes</div><div class="stat-icon">🔬</div></div>
-            <div class="stat-card succ"><div class="stat-val">28</div><div class="stat-lbl">Resultados ingresados hoy</div><div class="stat-icon">✅</div></div>
-            <div class="stat-card"><div class="stat-val">156</div><div class="stat-lbl">Total este mes</div><div class="stat-icon">📊</div></div>
+            <div class="stat-card warn"><div class="stat-val" id="stat-lab-pendientes">0</div><div class="stat-lbl">Muestras pendientes</div><div class="stat-icon">🔬</div></div>
+            <div class="stat-card succ"><div class="stat-val" id="stat-lab-hoy">0</div><div class="stat-lbl">Resultados ingresados</div><div class="stat-icon">✅</div></div>
+            <div class="stat-card"><div class="stat-val" id="stat-lab-total">0</div><div class="stat-lbl">Total exámenes</div><div class="stat-icon">📊</div></div>
           </div>
           <div class="card"><div class="card-header"><div class="card-title">Acceso Rápido</div></div>
-          <div class="card-body"><div class="action-grid">
-            <button class="act-btn off"><span class="ai">👤</span>Nuevo Paciente</button>
-            <button class="act-btn off"><span class="ai">🔍</span>Buscar Paciente</button>
-            <button class="act-btn off"><span class="ai">🧪</span>Nuevo Examen</button>
-            <button class="act-btn" onclick="navTo('ingreso-resultados')"><span class="ai">📋</span>Ingreso Resultados</button>
-            <button class="act-btn off"><span class="ai">📊</span>Seguimiento</button>
-            <button class="act-btn off"><span class="ai">📈</span>Reportes</button>
-          </div></div></div>
+          <div class="card-body"><div class="action-grid" id="acceso-rapido-laboratorio"></div></div></div>
         </div>
         <div id="dash-enfermera" class="hidden">
-          <div class="alert alert-info"><span class="alert-icon">👋</span>Hola Carla. Puedes buscar pacientes y visualizar historial completo de exámenes.</div>
+          <div class="alert alert-info" id="alert-enfermera"><span class="alert-icon">👋</span><span id="msg-enfermera">Bienvenida Carla. Puedes buscar pacientes y visualizar historial completo.</span></div>
           <div class="stats-grid">
-            <div class="stat-card dang"><div class="stat-val">19</div><div class="stat-lbl">Sin seguimiento 🔴 urgente</div><div class="stat-icon">🚨</div></div>
-            <div class="stat-card warn"><div class="stat-val">12</div><div class="stat-lbl">Sin seguimiento 🟡 médico</div><div class="stat-icon">⚠️</div></div>
-            <div class="stat-card succ"><div class="stat-val">45</div><div class="stat-lbl">Seguimientos al día</div><div class="stat-icon">✅</div></div>
+            <div class="stat-card dang"><div class="stat-val" id="stat-enf-urgente">0</div><div class="stat-lbl">Sin seguimiento 🔴 urgente</div><div class="stat-icon">🚨</div></div>
+            <div class="stat-card warn"><div class="stat-val" id="stat-enf-medico">0</div><div class="stat-lbl">Sin seguimiento 🟡 médico</div><div class="stat-icon">⚠️</div></div>
+            <div class="stat-card succ"><div class="stat-val" id="stat-enf-ok">0</div><div class="stat-lbl">Seguimientos al día</div><div class="stat-icon">✅</div></div>
           </div>
           <div class="card"><div class="card-header"><div class="card-title">Acceso Rápido</div></div>
-          <div class="card-body"><div class="action-grid">
-            <button class="act-btn off"><span class="ai">👤</span>Nuevo Paciente</button>
-            <button class="act-btn" onclick="navTo('buscar-paciente')"><span class="ai">🔍</span>Buscar Paciente</button>
-            <button class="act-btn off"><span class="ai">🧪</span>Nuevo Examen</button>
-            <button class="act-btn off"><span class="ai">📋</span>Resultados</button>
-            <button class="act-btn off"><span class="ai">📊</span>Seguimiento</button>
-            <button class="act-btn" onclick="navTo('reportes')"><span class="ai">📈</span>Reportes</button>
-          </div></div></div>
+          <div class="card-body"><div class="action-grid" id="acceso-rapido-enfermera"></div></div></div>
         </div>
         <div id="dash-medico" class="hidden">
-          <div class="alert alert-danger"><span class="alert-icon">🏥</span><div><strong>31 pacientes</strong> pendientes de seguimiento. <strong>19 requieren derivación urgente a especialista.</strong></div></div>
+          <div class="alert alert-danger" id="alert-medico"><span class="alert-icon">🏥</span><div id="msg-medico">Bienvenida Sandra. Revisa los pacientes pendientes de seguimiento.</div></div>
           <div class="stats-grid">
-            <div class="stat-card dang"><div class="stat-val">19</div><div class="stat-lbl">🔴 Pendiente especialista</div></div>
-            <div class="stat-card warn"><div class="stat-val">12</div><div class="stat-lbl">🟡 Pendiente médico general</div></div>
-            <div class="stat-card succ"><div class="stat-val">89</div><div class="stat-lbl">Seguimientos completados</div></div>
+            <div class="stat-card dang"><div class="stat-val" id="stat-med-esp">0</div><div class="stat-lbl">🔴 Pendiente especialista</div></div>
+            <div class="stat-card warn"><div class="stat-val" id="stat-med-med">0</div><div class="stat-lbl">🟡 Pendiente médico general</div></div>
+            <div class="stat-card succ"><div class="stat-val" id="stat-med-ok">0</div><div class="stat-lbl">Seguimientos completados</div></div>
             <div class="stat-card"><div class="stat-val" id="stat-total-med">0</div><div class="stat-lbl">Total pacientes</div></div>
+          </div>
+          <!-- Acceso Rápido Médico -->
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-header"><div class="card-title">Acceso Rápido</div></div>
+            <div class="card-body"><div class="action-grid" id="acceso-rapido-medico"></div></div>
           </div>
           <!-- Fila 1: Gráficos principales -->
           <div class="charts-grid" style="margin-bottom:16px;">
@@ -1229,11 +1259,49 @@ document.querySelectorAll('.role-opt').forEach(el=>{
     document.getElementById('loginUser').value=ROLES_CFG[currentRole].nombre.split(' ')[0].toLowerCase()+'@cesfam.cl';
   });
 });
+/* ── Activar modo demo desde login (queda en login) ── */
+function activarDemo(){
+  if(demoMode) return; // ya está activo
+  demoMode = true;
+  // Cargar datos demo en memoria
+  PATIENTS.length = 0;
+  PATIENTS_DEMO.forEach(p => PATIENTS.push(JSON.parse(JSON.stringify(p))));
+  const conSeg = PATIENTS.flatMap(p => p.resultados.filter(r=>r.seg_tipo).map(r=>r.id));
+  conSeg.forEach(id => crearPDFDemo(id));
+  // Mostrar badge en login
+  const badge = document.getElementById('demo-login-badge');
+  if(badge) badge.classList.add('active');
+  const btnDemo = document.getElementById('btn-demo-toggle');
+  if(btnDemo){
+    btnDemo.textContent = '✅ Modo Demo Activado — Haz clic en Ingresar';
+    btnDemo.classList.add('active');
+    btnDemo.onclick = null; // deshabilitar
+  }
+}
+
+/* ── Cancelar modo demo (queda en login limpio) ── */
+function cancelarDemo(){
+  demoMode = false;
+  PATIENTS.length = 0;
+  Object.keys(PDF_STORE).forEach(k=>{
+    if(PDF_STORE[k]&&PDF_STORE[k].url) URL.revokeObjectURL(PDF_STORE[k].url);
+    delete PDF_STORE[k];
+  });
+  const badge = document.getElementById('demo-login-badge');
+  if(badge) badge.classList.remove('active');
+  const btnDemo = document.getElementById('btn-demo-toggle');
+  if(btnDemo){
+    btnDemo.textContent = '🎬 Entrar en Modo Demostración';
+    btnDemo.classList.remove('active');
+    btnDemo.onclick = activarDemo;
+  }
+}
+
 function doLogin(demo){
   const email = document.getElementById('loginUser').value.trim();
   const pass  = document.getElementById('loginPass').value;
-  // En modo demo se omite la validación para facilitar la presentación
-  if(!demo){
+  // En modo demo se omite la validación
+  if(!demoMode){
     if(!email){ alert('Ingresa tu email institucional.'); return; }
     if(!isDominioValido(email)){
       const hint = document.getElementById('login-email-hint');
@@ -1243,7 +1311,7 @@ function doLogin(demo){
     }
     if(!pass){ alert('Ingresa tu contraseña.'); return; }
   }
-  demoMode=demo;
+  // Entrar a la app (demoMode ya está seteado por activarDemo o false)
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').classList.add('active');
   sidebarOpen=false;
@@ -1251,8 +1319,28 @@ function doLogin(demo){
   document.querySelector('.main-content').classList.remove('pushed');
   document.getElementById('hamBtn').classList.remove('open');
   setupRole(currentRole);
-  if(demo) toggleDemo(true);
+  // Si hay demo activo: activar barra y construir módulos
+  if(demoMode){
+    document.getElementById('demo-bar').classList.remove('hidden');
+    document.getElementById('demo-sb-badge').classList.remove('hidden');
+    updateAllStats();
+    buildSeguimiento();
+    buildReportes();
+    if(currentRole==='medico'){
+      setTimeout(()=>buildMedicoDashboard(), 80);
+      setTimeout(()=>buildEpiDashboard(), 160);
+    }
+  }
   navTo('dashboard');
+  // Si hay demo: forzar actualización visual del dashboard del rol
+  if(demoMode){
+    setTimeout(()=>{
+      updateAllStats();
+      buildAccesoRapido(currentRole);
+      const dpd=document.getElementById('demo-dashboard');
+      if(dpd) dpd.classList.add('hidden');
+    }, 50);
+  }
 }
 function doLogout(){
   // ── Destruir todos los gráficos Chart.js para liberar memoria ──
@@ -1284,20 +1372,45 @@ function doLogout(){
   const lt=document.getElementById('labTestId');    if(lt) lt.value='';
   const pi=document.getElementById('patIdentifier');if(pi) pi.value='';
   const pr=document.getElementById('patResult');    if(pr) pr.innerHTML='';
+
+  // ── Resetear badge demo en login ──
+  cancelarDemo();
 }
 function toggleDemo(on){
   demoMode=on;
   document.getElementById('demo-bar').classList.toggle('hidden',!on);
   document.getElementById('demo-sb-badge').classList.toggle('hidden',!on);
-  document.querySelectorAll('.demo-panel').forEach(el=>el.classList.toggle('hidden',!on));
+  // En modo demo: ocultar TODOS los paneles demo en módulos
+  // Solo el panel del dashboard queda disponible (para cambiar de rol)
+  // Ocultar TODOS los paneles demo — el modo demo se indica solo con la barra superior
+  document.querySelectorAll('.demo-panel').forEach(el=>el.classList.add('hidden'));
 
   if(on){
-    // ── Cargar datos demo al activar ──
+    // ── Cargar los 10 pacientes demo ──
     PATIENTS.length = 0;
     PATIENTS_DEMO.forEach(p => PATIENTS.push(JSON.parse(JSON.stringify(p))));
-    // Pre-generar PDFs demo para exámenes con seguimiento
+
+    // ── Pre-generar PDFs demo para exámenes con seguimiento ──
     const conSeg = PATIENTS.flatMap(p => p.resultados.filter(r=>r.seg_tipo).map(r=>r.id));
     conSeg.forEach(id => crearPDFDemo(id));
+
+    // ── Actualizar TODOS los módulos con los datos cargados ──
+    updateAllStats();
+    buildSeguimiento();
+    buildReportes();
+    if(currentRole==='medico'){
+      setTimeout(()=>buildMedicoDashboard(), 80);
+      setTimeout(()=>buildEpiDashboard(), 160);
+    }
+
+    // ── Navegar al dashboard limpio (sin panel demo) ──
+    navTo('dashboard');
+    // Garantizar que el panel de roles demo esté oculto
+    const dp = document.getElementById('demo-dashboard');
+    if(dp) dp.classList.add('hidden');
+
+    // ── Toast de bienvenida al demo ──
+    showExportFeedback('🎬 Modo demo activo — 10 pacientes cargados. ¡Navega libremente!');
   }
 
   if(!on){
@@ -1320,13 +1433,25 @@ function toggleDemo(on){
     if(labInput) labInput.value = '';
 
     // Redibujar todo con datos limpios
+    updateAllStats();
     buildSeguimiento();
     buildReportes();
     if(currentRole==='medico') buildMedicoDashboard();
 
-    // Mostrar alerta de confirmación
+    // ── Volver al dashboard limpio ──
+    navTo('dashboard');
+
+    // ── Resetear badge del login ──
+    cancelarDemo();
+
+    // ── Toast de confirmación ──
     showExportFeedback('✅ Modo demo desactivado — datos de demostración eliminados');
   }
+}
+
+/* ── Salir del demo desde dentro de la app ── */
+function salirDemo(){
+  toggleDemo(false);
 }
 
 /* ═══ SETUP ROLE ═══ */
@@ -1336,32 +1461,36 @@ function setupRole(role){
   document.getElementById('sbUserRole').textContent=cfg.rol;
   document.getElementById('hdrAvatar').textContent=cfg.initials;
   const nav=document.getElementById('sbNav');
-  nav.innerHTML=`<div class="nav-item active" data-view="dashboard" onclick="navTo('dashboard')" style="background:var(--primary);color:#fff;margin-bottom:6px;border-radius:8px;">
+  nav.innerHTML=`<div class="nav-item" onclick="volverAlLogin()" style="background:var(--primary);color:#fff;margin-bottom:6px;border-radius:8px;cursor:pointer;">
     <span class="nav-icon">🏠</span>Menú Principal
   </div>
   <div class="nav-sec" style="margin-top:8px;">Módulos</div>`;
   cfg.nav.forEach(item=>{
     const b=item.badge?`<span class="nav-badge">${item.badge}</span>`:'';
-    nav.innerHTML+=`<div class="nav-item${item.on?'':' disabled'}" data-view="${item.id}" onclick="navTo('${item.id}')"><span class="nav-icon">${item.icon}</span>${item.lbl}${b}</div>`;
+    // En modo demo: todos los módulos clickeables en el sidebar
+    const isActive = demoMode ? true : item.on;
+    nav.innerHTML+=`<div class="nav-item${isActive?'':' disabled'}" data-view="${item.id}" onclick="navTo('${item.id}')"><span class="nav-icon">${item.icon}</span>${item.lbl}${b}</div>`;
   });
   ['secretaria','laboratorio','enfermera','medico','paciente'].forEach(r=>{
     const el=document.getElementById('dash-'+r);
     if(el) el.classList.toggle('hidden',r!==role);
   });
-  // Update live stats
-  const tot=document.getElementById('stat-total');
-  const totM=document.getElementById('stat-total-med');
-  const mes=document.getElementById('stat-mes');
-  if(tot) tot.textContent=PATIENTS.length;
-  if(totM) totM.textContent=PATIENTS.length;
-  if(mes) mes.textContent=PATIENTS.reduce((s,p)=>s+p.resultados.length,0);
+  // Actualizar todos los stats dinámicamente desde PATIENTS
+  updateAllStats();
+  // Generar botones de Acceso Rápido según permisos del rol
+  buildAccesoRapido(role);
   if(role==='medico') buildMedicoDashboard();
   buildReportes(); buildSeguimiento();
-  buildDemoPanels();
+  // Ocultar SIEMPRE el panel demo-dashboard (nunca debe mostrarse automáticamente)
+  const dpd = document.getElementById('demo-dashboard');
+  if(dpd) dpd.classList.add('hidden');
   document.getElementById('reporteDate').textContent=new Date().toLocaleDateString('es-CL');
   // Ocultar btn home en dashboard inicial
   const btnHome=document.getElementById('btnHome');
-  if(btnHome) btnHome.style.display='none';
+  if(btnHome) btnHome.style.display='inline-flex';
+  // Ocultar botón Volver al inicio (estamos en dashboard)
+  const btnBackInit=document.getElementById('btnBack');
+  if(btnBackInit) btnBackInit.classList.remove('visible');
   // Breadcrumb inicial
   const bcEl=document.getElementById('pageBc');
   if(bcEl) bcEl.textContent='GastroPanel® · Sistema de Gestión de Exámenes';
@@ -1383,14 +1512,21 @@ function navTo(id){
   }
   if(id==='buscar-paciente') document.getElementById('searchResult').innerHTML='';
   if(id==='ingreso-resultados'){ const lr=document.getElementById('labResult'); if(lr) lr.innerHTML=''; }
-  // Mostrar/ocultar botón Menú Principal
+  // Menú Principal siempre visible — lleva de vuelta al login
   const btnHome = document.getElementById('btnHome');
-  if(btnHome) btnHome.style.display = (id==='dashboard') ? 'none' : 'inline-flex';
-  // Re-show demo panel for this view if demo mode is active
-  if(demoMode){
-    const dp=document.getElementById('demo-'+id);
-    if(dp) dp.classList.remove('hidden');
+  if(btnHome) btnHome.style.display = 'inline-flex';
+
+  // Botón Volver: visible en módulos, oculto en dashboard
+  const btnBack = document.getElementById('btnBack');
+  if(btnBack){
+    if(id === 'dashboard'){
+      btnBack.classList.remove('visible');
+    } else {
+      btnBack.classList.add('visible');
+    }
   }
+  // Modo demo: NO mostrar paneles — los módulos se ven 100% normales
+  // La barra superior morada ya indica que estás en demo
   // Redibujar gráficos Chart.js al navegar (canvas debe estar visible)
   if(id==='dashboard' && currentRole==='medico'){
     setTimeout(()=>buildChartsmedico(), 100);
@@ -1467,7 +1603,20 @@ function demoSwitchRole(role){
   const el=document.querySelector(`[data-role="${role}"]`);
   if(el) el.classList.add('sel');
   setupRole(role);
-  if(demoMode) toggleDemo(true);
+  // En modo demo: redibujar módulos con datos ya cargados sin recargar PATIENTS
+  if(demoMode){
+    document.getElementById('demo-bar').classList.remove('hidden');
+    document.getElementById('demo-sb-badge').classList.remove('hidden');
+    // Ocultar todos los paneles demo — módulos se ven normales
+    document.querySelectorAll('.demo-panel').forEach(e=>e.classList.add('hidden'));
+    updateAllStats();
+    buildSeguimiento();
+    buildReportes();
+    if(role==='medico'){
+      setTimeout(()=>buildMedicoDashboard(), 80);
+      setTimeout(()=>buildEpiDashboard(), 160);
+    }
+  }
   navTo('dashboard');
 }
 function demoSearch(rut){
@@ -1609,7 +1758,7 @@ function registrarPaciente(){
   ['np-nombre','np-apP','np-apM','np-rut','np-tel','np-email'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('np-nac').value='';document.getElementById('np-sexo').value='';
   document.getElementById('np-edad').value='';document.getElementById('np-cancer').value='no';
-  const tot=document.getElementById('stat-total');if(tot)tot.textContent=PATIENTS.length;
+  updateAllStats();
 }
 
 /* ═══ BUSCAR PACIENTE ═══ */
@@ -3313,6 +3462,168 @@ function showHelp(module){
 }
 
 
+
+/* ═══════════════════════════════════════════
+   STATS DINÁMICOS — Calculados desde PATIENTS
+   Se actualiza en setupRole y al cambiar datos
+   ═══════════════════════════════════════════ */
+function updateAllStats(){
+  const allR  = PATIENTS.flatMap(p => p.resultados);
+  const total = PATIENTS.length;
+  const totalR = allR.length;
+
+  // Exámenes sin resultado (sin diag cargado desde lab)
+  const sinResult = allR.filter(r => !r.pgi).length;
+
+  // Pendientes seguimiento
+  const pendEsp = PATIENTS.filter(p =>
+    p.resultados.some(r => !r.seg_tipo && r.diag==='especialista')).length;
+  const pendMed = PATIENTS.filter(p =>
+    p.resultados.some(r => !r.seg_tipo && r.diag==='medico')).length;
+  const conSeg  = allR.filter(r => r.seg_tipo).length;
+
+  // ── Secretaria ──
+  const msgSec = document.getElementById('msg-secretaria');
+  if(msgSec){
+    if(total === 0){
+      msgSec.innerHTML = 'Bienvenida. El sistema está listo — registra el primer paciente.';
+    } else {
+      const pend = allR.filter(r=>!r.pgi).length;
+      msgSec.innerHTML = `Hola Marcela. Tienes <strong>${total} pacientes</strong> y <strong>${pend} exámenes</strong> pendientes de resultado.`;
+    }
+  }
+  const el = (id, val) => { const e=document.getElementById(id); if(e) e.textContent=val; };
+  el('stat-total',         total);
+  el('stat-mes',           totalR);
+  el('stat-sin-resultado', sinResult);
+
+  // ── Laboratorio ──
+  // Muestras pendientes = exámenes sin diag (no han sido procesados por lab)
+  const labPendientes = allR.filter(r => !r.diag).length;
+  // Resultados ingresados = exámenes con diagnóstico registrado
+  const labIngresados = allR.filter(r => r.diag).length;
+
+  const msgLab = document.getElementById('msg-laboratorio');
+  if(msgLab){
+    if(total === 0){
+      msgLab.innerHTML = 'Bienvenida Claudia. No hay muestras pendientes aún.';
+    } else if(labPendientes === 0){
+      msgLab.innerHTML = `Claudia, todos los exámenes tienen resultado. <strong>${labIngresados} resultados</strong> ingresados.`;
+    } else {
+      msgLab.innerHTML = `Claudia, tienes <strong>${labPendientes} muestras</strong> pendientes de procesamiento.`;
+    }
+  }
+  el('stat-lab-pendientes', labPendientes);
+  el('stat-lab-hoy',        labIngresados);
+  el('stat-lab-total',      totalR);
+
+  // ── Enfermera ──
+  const msgEnf = document.getElementById('msg-enfermera');
+  if(msgEnf){
+    if(total === 0){
+      msgEnf.innerHTML = 'Bienvenida Carla. No hay pacientes registrados aún.';
+    } else {
+      msgEnf.innerHTML = `Carla, hay <strong>${pendEsp} casos urgentes</strong> 🔴 y <strong>${pendMed} derivaciones</strong> 🟡 pendientes.`;
+    }
+  }
+  el('stat-enf-urgente', pendEsp);
+  el('stat-enf-medico',  pendMed);
+  el('stat-enf-ok',      conSeg);
+
+  // ── Médico ──
+  const msgMed = document.getElementById('msg-medico');
+  if(msgMed){
+    if(total === 0){
+      msgMed.innerHTML = 'Bienvenida Sandra. No hay pacientes pendientes de seguimiento.';
+    } else {
+      msgMed.innerHTML = `<strong>${pendEsp+pendMed} pacientes</strong> pendientes de seguimiento. <strong>${pendEsp} requieren derivación urgente 🔴</strong>.`;
+    }
+  }
+  el('stat-med-esp',    pendEsp);
+  el('stat-med-med',    pendMed);
+  el('stat-med-ok',     conSeg);
+  el('stat-total-med',  total);
+}
+
+
+/* ═══════════════════════════════════════════
+   ACCESO RÁPIDO DINÁMICO
+   Genera botones según permisos del rol activo
+   ═══════════════════════════════════════════ */
+
+const MODULO_CFG = {
+  'nuevo-paciente'    : { icon:'👤', lbl:'Nuevo Paciente' },
+  'buscar-paciente'   : { icon:'🔍', lbl:'Buscar Paciente' },
+  'nuevo-examen'      : { icon:'🧪', lbl:'Nuevo Examen' },
+  'ingreso-resultados': { icon:'📋', lbl:'Ingreso Resultados' },
+  'seguimiento'       : { icon:'📊', lbl:'Seguimiento' },
+  'reportes'          : { icon:'📈', lbl:'Reportes' }
+};
+
+function buildAccesoRapido(role){
+  const cfg = ROLES_CFG[role];
+  if(!cfg) return;
+
+  const containerId = 'acceso-rapido-' + role;
+  const cont = document.getElementById(containerId);
+  if(!cont) return;
+
+  // Excluir el dashboard del acceso rápido (ya estamos en él)
+  const modulos = cfg.nav.filter(item => item.id !== 'dashboard');
+
+  cont.innerHTML = modulos.map(item => {
+    const mcfg = MODULO_CFG[item.id] || { icon:'📌', lbl: item.lbl };
+
+    // En modo demo: todos los módulos están activos para explorar
+    const activo = demoMode ? true : item.on;
+
+    if(activo){
+      return `<button class="act-btn" onclick="navTo('${item.id}')">
+        <span class="ai">${mcfg.icon}</span>${mcfg.lbl}
+      </button>`;
+    } else {
+      return `<button class="act-btn off" disabled title="Sin acceso para este rol">
+        <span class="ai">${mcfg.icon}</span>${mcfg.lbl}
+      </button>`;
+    }
+  }).join('');
+}
+
+
+/* ── Volver al login respetando modo demo ── */
+function volverAlLogin(){
+  // Destruir charts para liberar memoria
+  Object.keys(CHART_INSTANCES).forEach(id => destroyChart(id));
+
+  // Cerrar panel de ayuda
+  closeHelp();
+
+  // Volver al login SIN limpiar demoMode ni PATIENTS
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('login-screen').style.display='flex';
+  sidebarOpen=false;
+  document.querySelector('.sidebar').classList.add('collapsed');
+  document.querySelector('.main-content').classList.remove('pushed');
+  document.getElementById('hamBtn').classList.remove('open');
+
+  // Limpiar campos de búsqueda (no los datos)
+  const sr=document.getElementById('searchResult'); if(sr) sr.innerHTML='';
+  const lr=document.getElementById('labResult');    if(lr) lr.innerHTML='';
+  const sq=document.getElementById('searchQuery');  if(sq) sq.value='';
+  const lt=document.getElementById('labTestId');    if(lt) lt.value='';
+  const pi=document.getElementById('patIdentifier');if(pi) pi.value='';
+  const pr=document.getElementById('patResult');    if(pr) pr.innerHTML='';
+
+  // Si hay demo activo → mostrar badge en login (ya está activo)
+  // Si no hay demo → limpiar como doLogout normal
+  if(!demoMode){
+    currentRole='secretaria'; selectedPatient=null;
+    document.querySelectorAll('.role-opt').forEach(e=>e.classList.remove('sel'));
+    document.querySelector('[data-role="secretaria"]').classList.add('sel');
+  }
+  // En modo demo: el rol seleccionado se mantiene para que puedan cambiar y re-ingresar
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
   console.log('GastroPanel v5 — Demo Mode + PDF Store + Chart.js activo');
   const allIds = PATIENTS.flatMap(p=>p.resultados.map(r=>r.id));
@@ -3360,7 +3671,7 @@ window.addEventListener('DOMContentLoaded',()=>{
           </div>
           <div class="help-item">
             <div class="help-item-title">¿Cómo navegar entre módulos?</div>
-            <div class="help-item-text">Usa el botón <strong>🏠 Menú Principal</strong> en la parte superior izquierda para volver al inicio desde cualquier pantalla. También puedes usar el menú lateral haciendo clic en el botón ☰.</div>
+            <div class="help-item-text">Usa el botón <strong>🏠 Menú Principal</strong> en la parte superior izquierda para volver a la pantalla de inicio de sesión desde cualquier módulo. También puedes usar el menú lateral o "Cerrar Sesión" al pie del menú.</div>
           </div>
           <div class="help-item succ">
             <div class="help-item-title">💡 Modo Demostración</div>
