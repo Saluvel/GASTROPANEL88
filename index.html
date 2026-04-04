@@ -534,6 +534,77 @@ tbody tr.urgent:hover{background:#FEE2E2;}
   transform:translateX(-2px);}
 .btn-back.visible{display:inline-flex;}
 
+
+/* ── MODAL EXPORT EXCEL ── */
+.export-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:700;display:flex;align-items:center;justify-content:center;
+  animation:fadeIn .2s ease;}
+.export-modal{background:#fff;border-radius:16px;width:540px;max-width:95vw;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:slideUp .25s ease;}
+.export-modal-head{background:linear-gradient(135deg,#1D6F42,#15803D);
+  color:#fff;padding:20px 24px;border-radius:16px 16px 0 0;
+  display:flex;align-items:center;justify-content:space-between;}
+.export-modal-title{font-size:17px;font-weight:800;}
+.export-modal-sub{font-size:11px;opacity:.8;margin-top:2px;}
+.export-modal-close{background:rgba(255,255,255,.2);border:none;color:#fff;
+  border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:var(--tr);}
+.export-modal-close:hover{background:rgba(255,255,255,.35);}
+.export-modal-body{padding:20px 24px;}
+.export-section{margin-bottom:18px;}
+.export-section-title{font-size:12px;font-weight:800;color:var(--g600);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;}
+.export-checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.export-check{display:flex;align-items:center;gap:8px;padding:8px 10px;
+  border:1.5px solid var(--g200);border-radius:8px;cursor:pointer;
+  transition:var(--tr);font-size:12px;font-weight:600;color:var(--g700);
+  background:var(--g50);}
+.export-check:has(input:checked){border-color:#1D6F42;background:#F0FDF4;color:#166534;}
+.export-check input{accent-color:#1D6F42;width:15px;height:15px;flex-shrink:0;}
+.export-date-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.export-modal-footer{padding:16px 24px;border-top:1px solid var(--g100);
+  display:flex;justify-content:flex-end;gap:10px;}
+.btn-export-go{background:#1D6F42;color:#fff;border:none;border-radius:9px;
+  padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Segoe UI',Arial,sans-serif;transition:var(--tr);
+  display:flex;align-items:center;gap:7px;}
+.btn-export-go:hover{background:#155534;transform:translateY(-1px);}
+
+/* ── MODAL IMPORTAR EXCEL ── */
+.import-modal{background:#fff;border-radius:16px;width:580px;max-width:95vw;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:slideUp .25s ease;}
+.import-modal-head{background:linear-gradient(135deg,#1B7EC8,#1565C0);
+  color:#fff;padding:20px 24px;border-radius:16px 16px 0 0;
+  display:flex;align-items:center;justify-content:space-between;}
+.import-drop-zone{border:2.5px dashed var(--g300);border-radius:12px;
+  padding:30px;text-align:center;cursor:pointer;transition:var(--tr);
+  background:var(--g50);position:relative;}
+.import-drop-zone:hover,.import-drop-zone.drag-over{border-color:var(--primary);
+  background:var(--primary-light);}
+.import-drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;
+  width:100%;height:100%;}
+.import-drop-icon{font-size:36px;margin-bottom:8px;}
+.import-drop-text{font-size:13px;font-weight:700;color:var(--g600);}
+.import-drop-hint{font-size:11px;color:var(--g400);margin-top:4px;}
+.import-preview{background:var(--g50);border-radius:10px;padding:14px;
+  margin-top:12px;border:1px solid var(--g200);}
+.import-preview-title{font-size:12px;font-weight:800;color:var(--g700);
+  margin-bottom:8px;}
+.import-table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--g200);}
+.import-table{width:100%;border-collapse:collapse;font-size:11px;}
+.import-table th{background:var(--primary);color:#fff;padding:7px 10px;
+  font-weight:700;text-align:left;white-space:nowrap;}
+.import-table td{padding:6px 10px;border-bottom:1px solid var(--g100);
+  white-space:nowrap;}
+.import-table tr:hover td{background:var(--primary-light);}
+.import-result{padding:12px;border-radius:8px;font-size:12px;font-weight:700;
+  margin-top:10px;display:flex;align-items:center;gap:8px;}
+.import-result.ok{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0;}
+.import-result.err{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;}
+
 </style>
 <!-- Chart.js para gráficos reales -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -571,7 +642,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
       <span class="dlb-icon">🎬</span>
       <div class="dlb-text">
         <strong>Modo Demostración Activado</strong>
-        10 pacientes de ejemplo listos · Elige tu rol e ingresa
+        40 pacientes de ejemplo listos · Elige tu rol e ingresa
       </div>
       <button class="dlb-cancel" onclick="cancelarDemo()">✕ Cancelar</button>
     </div>
@@ -608,7 +679,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
     <!-- Demo bar -->
     <div id="demo-bar" class="demo-bar hidden">
       <span class="demo-badge-bar" style="font-size:13px;">🎬</span>
-      <span><strong>🎬 MODO DEMOSTRACIÓN</strong> — 10 pacientes de ejemplo cargados · Navega por los módulos con normalidad · Los datos se borran al salir</span>
+      <span><strong>🎬 MODO DEMOSTRACIÓN</strong> — 40 pacientes de ejemplo cargados · Navega por los módulos con normalidad · Los datos se borran al salir</span>
       <button class="demo-close" onclick="salirDemo()">✕ Salir del modo demo</button>
     </div>
 
@@ -899,7 +970,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
           <div class="demo-panel-body"><div class="demo-cards" id="demo-cards-resultados"></div></div>
         </div>
         <div class="card" style="max-width:720px;">
-          <div class="card-header"><div><div class="card-title">Ingreso de Resultados de Laboratorio</div><div class="card-sub">Busca el test por su identificador</div></div><button class="btn-help" onclick="openHelp('clinica')">❓ Valores ref.</button></div>
+          <div class="card-header"><div><div class="card-title">Ingreso de Resultados de Laboratorio</div><div class="card-sub">Busca el test por su identificador</div></div><button class="btn-help" onclick="openHelp('tecnica')">❓ Ayuda reportes</button></div>
           <div class="card-body">
             <div class="row mb12"><input class="fc f1" id="labTestId" placeholder="Identificador del test" style="font-family:'Courier New',monospace;letter-spacing:2px;text-transform:uppercase;" onkeyup="if(event.key==='Enter')buscarTest()"><button class="btn btn-primary" style="width:auto;" onclick="buscarTest()">🔍 Buscar</button></div>
             <div id="labResult"></div>
@@ -946,10 +1017,11 @@ tbody tr.urgent:hover{background:#FEE2E2;}
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Reporte de Gestión de Seguimientos</div><div class="card-sub">Pacientes sin registro de seguimiento médico por CESFAM</div></div><button class="btn-help" onclick="showHelp('reportes')" title="Ayuda" style="margin-right:8px;">?</button>
+          <div class="card-header"><div><div class="card-title">Reporte de Gestión de Seguimientos</div><div class="card-sub">Pacientes sin registro de seguimiento médico por CESFAM</div></div><button class="btn-help" onclick="openHelp('tecnica')" title="Ayuda">❓ Ayuda</button>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-excel btn-sm" onclick="exportarExcelSeguimientos()">📊 Exportar Seguimientos</button>
-              <button class="btn btn-excel btn-sm" onclick="exportarExcelResultados()">🔬 Exportar Resultados</button>
+              <button class="btn btn-excel btn-sm" onclick="abrirExportModal('seguimientos')">📊 Exportar Seguimientos</button>
+              <button class="btn btn-excel btn-sm" onclick="abrirExportModal('resultados')">🔬 Exportar Resultados</button>
+              <button class="btn btn-primary btn-sm" style="background:var(--primary);" onclick="abrirImportModal()">📥 Importar Excel</button>
             </div>
           </div>
           <div class="card-body">
@@ -1124,7 +1196,235 @@ const PATIENTS_DEMO = [
       { id:'DK22LMN', fecha_m:'15 Mar 2024', fecha_r:'19 Mar 2024', diag:'medico', texto:'Derivación a médico general',
         cesfam:'C.S.F. Lucas Sierra', seg_tipo:null, seg_fecha:null, doctor:null,
         pgi:55.4, pgii:4.1, ratio:13.5, g17:1.8, hp:48.9, ibpUso:'no', diasSinIBP:'15+' }
-    ]}
+    ]},
+
+  // ── PACIENTES ADICIONALES DEMO (30 casos variados) ──
+
+  { id:11, nombre:'Valentina', apP:'Morales', apM:'Fuentes', rut:'16.789.012-3',
+    nac:'1978-09-15', nacStr:'15 Sep 1978', edad:46, sexo:'Femenino',
+    tel:'+56 9 8765 4321', email:'vmorales@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'VM11AAA', fecha_m:'2024-01-10', fecha_r:'2024-01-14', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Panquehue', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:12.3, pgii:0.8, ratio:15.4, g17:0.6, hp:95.2, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:12, nombre:'Rodrigo', apP:'Castillo', apM:'Vega', rut:'9.876.543-2',
+    nac:'1955-03-22', nacStr:'22 Mar 1955', edad:70, sexo:'Masculino',
+    tel:'+56 9 7654 3210', email:'rcastillo@cesfam.cl', cancer:'lejano',
+    resultados:[
+      { id:'RC12BBB', fecha_m:'2023-06-05', fecha_r:'2023-06-09', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Recoleta', seg_tipo:'Se deriva a médico general', seg_fecha:'2023-06-20', doctor:'Dra. Patricia Soto',
+        pgi:28.4, pgii:2.1, ratio:13.5, g17:1.2, hp:22.8, ibpUso:'si', diasSinIBP:'7' }]},
+  { id:13, nombre:'Francisca', apP:'Herrera', apM:'Lagos', rut:'14.567.890-1',
+    nac:'1980-11-30', nacStr:'30 Nov 1980', edad:44, sexo:'Femenino',
+    tel:'+56 9 6543 2109', email:'fherrera@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'FH13CCC', fecha_m:'2022-03-14', fecha_r:'2022-03-18', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Valdivieso', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2022-04-01', doctor:'Dr. José Reyes',
+        pgi:88.2, pgii:7.4, ratio:11.9, g17:4.1, hp:14.3, ibpUso:'no', diasSinIBP:'15+' },
+      { id:'FH13DDD', fecha_m:'2024-03-10', fecha_r:'2024-03-14', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Valdivieso', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:92.1, pgii:7.8, ratio:11.8, g17:4.5, hp:12.1, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:14, nombre:'Marcelo', apP:'Navarro', apM:'Díaz', rut:'11.234.567-8',
+    nac:'1970-07-04', nacStr:'4 Jul 1970', edad:54, sexo:'Masculino',
+    tel:'+56 9 5432 1098', email:'mnavarro@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'MN14EEE', fecha_m:'2024-02-20', fecha_r:'2024-02-24', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Dr. Segismundo Iturra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:9.8, pgii:0.5, ratio:19.6, g17:0.3, hp:112.7, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:15, nombre:'Soledad', apP:'Pizarro', apM:'Ramos', rut:'13.456.789-0',
+    nac:'1963-02-18', nacStr:'18 Feb 1963', edad:62, sexo:'Femenino',
+    tel:'+56 9 4321 0987', email:'spizarro@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'SP15FFF', fecha_m:'2023-11-08', fecha_r:'2023-11-12', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Quinta Bella', seg_tipo:'Se deriva al hospital de referencia', seg_fecha:'2023-11-25', doctor:'Dr. Eduardo Molina',
+        pgi:18.6, pgii:1.1, ratio:16.9, g17:0.8, hp:78.4, ibpUso:'si', diasSinIBP:'3' }]},
+  { id:16, nombre:'Ignacio', apP:'Flores', apM:'Muñoz', rut:'19.876.543-1',
+    nac:'1995-05-12', nacStr:'12 May 1995', edad:29, sexo:'Masculino',
+    tel:'+56 9 3210 9876', email:'iflores@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'IF16GGG', fecha_m:'2024-04-15', fecha_r:'2024-04-19', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Agustín Cruz Melo', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2024-05-02', doctor:'Dra. Claudia Vera',
+        pgi:145.3, pgii:11.2, ratio:13.0, g17:6.2, hp:8.9, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:17, nombre:'Mercedes', apP:'Rojas', apM:'Silva', rut:'5.678.901-2',
+    nac:'1948-12-03', nacStr:'3 Dic 1948', edad:76, sexo:'Femenino',
+    tel:'+56 9 2109 8765', email:'mrojas@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'MR17HHH', fecha_m:'2023-09-20', fecha_r:'2023-09-24', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Panquehue', seg_tipo:'Se deriva al hospital de referencia', seg_fecha:'2023-10-05', doctor:'Dr. Andrés Lagos',
+        pgi:8.1, pgii:0.4, ratio:20.3, g17:0.2, hp:88.9, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:18, nombre:'Alberto', apP:'Medina', apM:'Torres', rut:'10.234.567-3',
+    nac:'1968-08-25', nacStr:'25 Ago 1968', edad:56, sexo:'Masculino',
+    tel:'+56 9 1098 7654', email:'amedina@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'AM18III', fecha_m:'2024-01-28', fecha_r:'2024-02-01', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Lucas Sierra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:45.2, pgii:3.8, ratio:11.9, g17:2.1, hp:42.1, ibpUso:'si', diasSinIBP:'2' }]},
+  { id:19, nombre:'Camila', apP:'Guerrero', apM:'Pino', rut:'20.345.678-4',
+    nac:'1998-01-14', nacStr:'14 Ene 1998', edad:26, sexo:'Femenino',
+    tel:'+56 9 0987 6543', email:'cguerrero@cesfam.cl', cancer:'lejano',
+    resultados:[
+      { id:'CG19JJJ', fecha_m:'2024-03-05', fecha_r:'2024-03-09', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Dr. Juan Petrinovic', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:62.1, pgii:5.1, ratio:12.2, g17:3.4, hp:51.8, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:20, nombre:'Ricardo', apP:'Saavedra', apM:'Castro', rut:'8.765.432-5',
+    nac:'1974-06-30', nacStr:'30 Jun 1974', edad:50, sexo:'Masculino',
+    tel:'+56 9 9988 7766', email:'rsaavedra@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'RS20KKK', fecha_m:'2023-10-15', fecha_r:'2023-10-19', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Alberto Bachelet', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:15.7, pgii:0.9, ratio:17.4, g17:0.7, hp:67.3, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:21, nombre:'Isabel', apP:'Vargas', apM:'Ortiz', rut:'15.432.109-6',
+    nac:'1960-04-07', nacStr:'7 Abr 1960', edad:64, sexo:'Femenino',
+    tel:'+56 9 8877 6655', email:'ivargas@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'IV21LLL', fecha_m:'2024-02-12', fecha_r:'2024-02-16', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. José Symon Ojeda', seg_tipo:'Se le indica tratamiento Helicobacter Pylori', seg_fecha:'2024-02-28', doctor:'Dra. Mónica Araya',
+        pgi:41.8, pgii:3.2, ratio:13.1, g17:1.9, hp:58.4, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:22, nombre:'Ernesto', apP:'Campos', apM:'Bravo', rut:'4.567.890-7',
+    nac:'1945-11-19', nacStr:'19 Nov 1945', edad:79, sexo:'Masculino',
+    tel:'+56 9 7766 5544', email:'ecampos@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'EC22MMM', fecha_m:'2023-08-22', fecha_r:'2023-08-26', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Recoleta', seg_tipo:'Se deriva al hospital de referencia', seg_fecha:'2023-09-08', doctor:'Dr. Felipe Contreras',
+        pgi:7.2, pgii:0.3, ratio:24.0, g17:0.1, hp:103.6, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:23, nombre:'Alejandra', apP:'Ríos', apM:'Fuentes', rut:'17.654.321-8',
+    nac:'1982-07-23', nacStr:'23 Jul 1982', edad:42, sexo:'Femenino',
+    tel:'+56 9 6655 4433', email:'arios@cesfam.cl', cancer:'lejano',
+    resultados:[
+      { id:'AR23NNN', fecha_m:'2024-01-08', fecha_r:'2024-01-12', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Valdivieso', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2024-01-25', doctor:'Dra. Sandra Rojas',
+        pgi:118.4, pgii:9.1, ratio:13.0, g17:5.6, hp:16.7, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:24, nombre:'Sebastián', apP:'Espinoza', apM:'Leal', rut:'21.234.567-9',
+    nac:'1996-03-08', nacStr:'8 Mar 1996', edad:28, sexo:'Masculino',
+    tel:'+56 9 5544 3322', email:'sespinoza@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'SE24OOO', fecha_m:'2024-04-02', fecha_r:'2024-04-06', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Agustín Cruz Melo', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:71.3, pgii:5.8, ratio:12.3, g17:3.8, hp:44.2, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:25, nombre:'Patricia', apP:'Meza', apM:'Arenas', rut:'7.890.123-0',
+    nac:'1958-09-14', nacStr:'14 Sep 1958', edad:66, sexo:'Femenino',
+    tel:'+56 9 4433 2211', email:'pmeza@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'PM25PPP', fecha_m:'2020-05-10', fecha_r:'2020-05-14', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Lucas Sierra', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2020-06-01', doctor:'Dr. Tomás Herrera',
+        pgi:95.6, pgii:7.9, ratio:12.1, g17:4.8, hp:19.3, ibpUso:'no', diasSinIBP:'15+' },
+      { id:'PM25QQQ', fecha_m:'2022-05-08', fecha_r:'2022-05-12', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Lucas Sierra', seg_tipo:'Se le indica tratamiento Helicobacter Pylori', seg_fecha:'2022-05-25', doctor:'Dr. Tomás Herrera',
+        pgi:48.3, pgii:3.7, ratio:13.1, g17:2.2, hp:56.8, ibpUso:'no', diasSinIBP:'15+' },
+      { id:'PM25RRR', fecha_m:'2024-05-06', fecha_r:'2024-05-10', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Lucas Sierra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:102.1, pgii:8.4, ratio:12.2, g17:5.1, hp:12.4, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:26, nombre:'Manuel', apP:'Gutiérrez', apM:'Parra', rut:'6.789.012-1',
+    nac:'1959-01-27', nacStr:'27 Ene 1959', edad:65, sexo:'Masculino',
+    tel:'+56 9 3322 1100', email:'mgutierrez@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'MG26SSS', fecha_m:'2024-03-18', fecha_r:'2024-03-22', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Dr. Segismundo Iturra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:11.4, pgii:0.7, ratio:16.3, g17:0.5, hp:82.1, ibpUso:'si', diasSinIBP:'5' }]},
+  { id:27, nombre:'Claudia', apP:'Pacheco', apM:'Salas', rut:'12.111.222-3',
+    nac:'1969-06-11', nacStr:'11 Jun 1969', edad:55, sexo:'Femenino',
+    tel:'+56 9 2211 0099', email:'cpacheco@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'CP27TTT', fecha_m:'2022-08-14', fecha_r:'2022-08-18', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Quinta Bella', seg_tipo:'Se le indica tratamiento Helicobacter Pylori', seg_fecha:'2022-09-01', doctor:'Dra. Verónica Muñoz',
+        pgi:52.7, pgii:4.1, ratio:12.9, g17:2.7, hp:63.5, ibpUso:'no', diasSinIBP:'15+' },
+      { id:'CP27UUU', fecha_m:'2024-08-10', fecha_r:'2024-08-14', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Quinta Bella', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2024-09-01', doctor:'Dra. Verónica Muñoz',
+        pgi:98.4, pgii:8.1, ratio:12.1, g17:4.9, hp:11.2, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:28, nombre:'Gonzalo', apP:'Tapia', apM:'Vera', rut:'13.222.333-4',
+    nac:'1972-10-09', nacStr:'9 Oct 1972', edad:52, sexo:'Masculino',
+    tel:'+56 9 1100 9988', email:'gtapia@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'GT28VVV', fecha_m:'2024-02-05', fecha_r:'2024-02-09', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Panquehue', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:38.9, pgii:3.1, ratio:12.5, g17:1.6, hp:37.8, ibpUso:'si', diasSinIBP:'1' }]},
+  { id:29, nombre:'Elisa', apP:'Vidal', apM:'Cortés', rut:'3.456.789-5',
+    nac:'1952-04-16', nacStr:'16 Abr 1952', edad:72, sexo:'Femenino',
+    tel:'+56 9 0099 8877', email:'evidal@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'EV29WWW', fecha_m:'2021-07-20', fecha_r:'2021-07-24', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Recoleta', seg_tipo:'Se deriva al hospital de referencia', seg_fecha:'2021-08-05', doctor:'Dr. Héctor Contreras',
+        pgi:10.2, pgii:0.6, ratio:17.0, g17:0.4, hp:91.3, ibpUso:'no', diasSinIBP:'15+' },
+      { id:'EV29XXX', fecha_m:'2023-07-18', fecha_r:'2023-07-22', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Recoleta', seg_tipo:'Se deriva al hospital de referencia', seg_fecha:'2023-08-01', doctor:'Dr. Héctor Contreras',
+        pgi:8.7, pgii:0.4, ratio:21.8, g17:0.2, hp:97.8, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:30, nombre:'Felipe', apP:'Arce', apM:'Montoya', rut:'18.333.444-6',
+    nac:'1984-02-28', nacStr:'28 Feb 1984', edad:40, sexo:'Masculino',
+    tel:'+56 9 9977 8866', email:'farce@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'FA30YYY', fecha_m:'2024-04-22', fecha_r:'2024-04-26', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Alberto Bachelet', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:132.6, pgii:10.3, ratio:12.9, g17:6.1, hp:9.4, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:31, nombre:'Andrea', apP:'Soto', apM:'Figueroa', rut:'11.444.555-7',
+    nac:'1966-08-17', nacStr:'17 Ago 1966', edad:58, sexo:'Femenino',
+    tel:'+56 9 8866 7755', email:'asoto@cesfam.cl', cancer:'lejano',
+    resultados:[
+      { id:'AS31ZZZ', fecha_m:'2024-03-12', fecha_r:'2024-03-16', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Dr. Segismundo Iturra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:33.4, pgii:2.6, ratio:12.8, g17:1.4, hp:39.7, ibpUso:'si', diasSinIBP:'0' }]},
+  { id:32, nombre:'Matías', apP:'Reyes', apM:'Gallardo', rut:'22.555.666-8',
+    nac:'2003-11-05', nacStr:'5 Nov 2003', edad:21, sexo:'Masculino',
+    tel:'+56 9 7755 6644', email:'mreyes@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'MR32A1A', fecha_m:'2024-04-08', fecha_r:'2024-04-12', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Agustín Cruz Melo', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:78.3, pgii:6.2, ratio:12.6, g17:4.1, hp:47.6, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:33, nombre:'Lorena', apP:'Muñoz', apM:'Acevedo', rut:'14.666.777-9',
+    nac:'1976-05-20', nacStr:'20 May 1976', edad:48, sexo:'Femenino',
+    tel:'+56 9 6644 5533', email:'lmunoz@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'LM33B2B', fecha_m:'2023-12-05', fecha_r:'2023-12-09', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Panquehue', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:14.1, pgii:0.9, ratio:15.7, g17:0.7, hp:71.4, ibpUso:'si', diasSinIBP:'4' }]},
+  { id:34, nombre:'Roberto', apP:'Cifuentes', apM:'Peña', rut:'8.777.888-0',
+    nac:'1962-03-03', nacStr:'3 Mar 1962', edad:62, sexo:'Masculino',
+    tel:'+56 9 5533 4422', email:'rcifuentes@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'RC34C3C', fecha_m:'2023-09-10', fecha_r:'2023-09-14', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Quinta Bella', seg_tipo:'Se le indica tratamiento Helicobacter Pylori', seg_fecha:'2023-09-28', doctor:'Dr. Raúl Núñez',
+        pgi:44.6, pgii:3.5, ratio:12.7, g17:2.0, hp:55.9, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:35, nombre:'Catalina', apP:'Lara', apM:'Espejo', rut:'20.888.999-1',
+    nac:'1989-09-28', nacStr:'28 Sep 1989', edad:35, sexo:'Femenino',
+    tel:'+56 9 4422 3311', email:'clara@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'CL35D4D', fecha_m:'2024-04-18', fecha_r:'2024-04-22', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. José Symon Ojeda', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2024-05-05', doctor:'Dra. Carmen Rojas',
+        pgi:155.2, pgii:12.1, ratio:12.8, g17:7.3, hp:7.2, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:36, nombre:'Héctor', apP:'Bustos', apM:'Contreras', rut:'5.999.111-2',
+    nac:'1957-07-14', nacStr:'14 Jul 1957', edad:67, sexo:'Masculino',
+    tel:'+56 9 3311 2200', email:'hbustos@cesfam.cl', cancer:'lejano',
+    resultados:[
+      { id:'HB36E5E', fecha_m:'2024-01-22', fecha_r:'2024-01-26', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Recoleta', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:10.8, pgii:0.6, ratio:18.0, g17:0.4, hp:86.2, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:37, nombre:'Viviana', apP:'Carrasco', apM:'Navarrete', rut:'12.000.111-3',
+    nac:'1971-12-01', nacStr:'1 Dic 1971', edad:53, sexo:'Femenino',
+    tel:'+56 9 2200 1199', email:'vcarrasco@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'VC37F6F', fecha_m:'2024-02-14', fecha_r:'2024-02-18', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Dr. Juan Petrinovic', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:109.7, pgii:8.8, ratio:12.5, g17:5.4, hp:13.8, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:38, nombre:'Diego', apP:'Molina', apM:'Zamora', rut:'16.111.222-4',
+    nac:'1980-04-19', nacStr:'19 Abr 1980', edad:44, sexo:'Masculino',
+    tel:'+56 9 1199 0088', email:'dmolina@cesfam.cl', cancer:'no',
+    resultados:[
+      { id:'DM38G7G', fecha_m:'2024-03-25', fecha_r:'2024-03-29', diag:'medico', texto:'Derivación a médico general',
+        cesfam:'C.S.F. Valdivieso', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:58.9, pgii:4.6, ratio:12.8, g17:3.1, hp:53.7, ibpUso:'no', diasSinIBP:'15+' }]},
+  { id:39, nombre:'Gloria', apP:'Salinas', apM:'Ibáñez', rut:'4.222.333-5',
+    nac:'1955-10-30', nacStr:'30 Oct 1955', edad:69, sexo:'Femenino',
+    tel:'+56 9 0088 9977', email:'gsalinas@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'GS39H8H', fecha_m:'2023-11-28', fecha_r:'2023-12-02', diag:'especialista', texto:'Referir a especialista: endoscopía/biopsia',
+        cesfam:'C.S.F. Dr. Segismundo Iturra', seg_tipo:null, seg_fecha:null, doctor:null,
+        pgi:9.4, pgii:0.5, ratio:18.8, g17:0.2, hp:94.7, ibpUso:'si', diasSinIBP:'6' }]},
+  { id:40, nombre:'Cristóbal', apP:'Núñez', apM:'Aguilera', rut:'19.333.444-6',
+    nac:'1986-06-22', nacStr:'22 Jun 1986', edad:38, sexo:'Masculino',
+    tel:'+56 9 9977 1166', email:'cnunez@cesfam.cl', cancer:'directo',
+    resultados:[
+      { id:'CN40I9I', fecha_m:'2024-04-10', fecha_r:'2024-04-14', diag:'normal', texto:'Estructura normal',
+        cesfam:'C.S.F. Panquehue', seg_tipo:'Realizar seguimiento anual', seg_fecha:'2024-04-28', doctor:'Dr. Rodrigo Avendaño',
+        pgi:138.4, pgii:10.9, ratio:12.7, g17:6.8, hp:18.3, ibpUso:'no', diasSinIBP:'15+' }]}
 ];
 
 // PATIENTS es el array activo — empieza vacío en modo normal
@@ -1152,7 +1452,7 @@ const ROLES_CFG={
   secretaria:{nombre:'Marcela Rojas',rol:'Secretaria / Técnico',initials:'MR',
     nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
          {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
-         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:false},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:false},
+         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:false},
          {id:'reportes',icon:'📈',lbl:'Reportes',on:true}]},
   laboratorio:{nombre:'Claudia Martínez',rol:'Laboratorio',initials:'CM',
     nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:false},
@@ -1237,7 +1537,6 @@ function enviarRecuperacion(){
   setTimeout(()=>{ closeModal(); }, 3500);
 }
 // Cerrar modal con Escape
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 // Cerrar modal al hacer clic fuera
 document.getElementById('modal-recuperar')?.addEventListener('click', function(e){
   if(e.target===this) closeModal();
@@ -1410,7 +1709,7 @@ function toggleDemo(on){
     if(dp) dp.classList.add('hidden');
 
     // ── Toast de bienvenida al demo ──
-    showExportFeedback('🎬 Modo demo activo — 10 pacientes cargados. ¡Navega libremente!');
+    showExportFeedback('🎬 Modo demo activo — 40 pacientes · 47 exámenes cargados. ¡Navega libremente!');
   }
 
   if(!on){
@@ -2118,10 +2417,35 @@ function buildMedicoDashboard(){
 function buildReportes(){
   setTimeout(() => buildChartsReportes(), 80);
   const rtbody=document.getElementById('reporteTable');
-  if(rtbody){rtbody.innerHTML=CESFAM_DATA.map(c=>{
-    const t=c.y+c.r,n=t>20?'bg-red':t>10?'bg-yellow':'bg-green',e=t>20?'Crítico':t>10?'Moderado':'Bajo';
-    return`<tr><td>${c.n}</td><td><span class="badge bg-yellow">${c.y}</span></td><td><span class="badge bg-red">${c.r}</span></td><td><strong>${t}</strong></td><td><span class="badge ${n}">${e}</span></td></tr>`;
-  }).join('');}
+  if(!rtbody) return;
+
+  // Calcular desde PATIENTS reales si hay datos
+  if(PATIENTS.length > 0){
+    // Agrupar por CESFAM desde datos reales
+    const cesfamReal = {};
+    PATIENTS.forEach(p => p.resultados.forEach(r => {
+      const cf = r.cesfam || 'Sin CESFAM';
+      if(!cesfamReal[cf]) cesfamReal[cf] = {y:0, r:0};
+      if(!r.seg_tipo){
+        if(r.diag==='medico') cesfamReal[cf].y++;
+        if(r.diag==='especialista') cesfamReal[cf].r++;
+      }
+    }));
+    const entries = Object.entries(cesfamReal).filter(([,d])=>d.y+d.r>0);
+    if(entries.length > 0){
+      rtbody.innerHTML = entries
+        .sort((a,b)=>(b[1].y+b[1].r)-(a[1].y+a[1].r))
+        .map(([name,d])=>{
+          const t=d.y+d.r,n=t>20?'bg-red':t>10?'bg-yellow':'bg-green',e=t>20?'Crítico':t>10?'Moderado':'Bajo';
+          return`<tr><td>${name}</td><td><span class="badge bg-yellow">${d.y}</span></td><td><span class="badge bg-red">${d.r}</span></td><td><strong>${t}</strong></td><td><span class="badge ${n}">${e}</span></td></tr>`;
+        }).join('');
+      return;
+    }
+  }
+
+  // Sin datos reales → mostrar tabla vacía (no datos hardcodeados)
+  rtbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--g400);">
+    Sin datos de seguimiento pendientes.</td></tr>`;
 }
 
 /* ═══ PACIENTE ═══ */
@@ -2617,15 +2941,48 @@ function buildChartHBar(canvasId){
   destroyChart(canvasId);
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
-  const labels = CESFAM_DATA.map(c => c.n.replace('Centro de Salud Familiar ','').replace('C.S.F. ',''));
+
+  // Sin datos → canvas vacío
+  if(PATIENTS.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  // Calcular desde PATIENTS reales
+  const cesfamReal = {};
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    const cf = (r.cesfam||'Sin CESFAM').replace('Centro de Salud Familiar ','').replace('C.S.F. ','');
+    if(!cesfamReal[cf]) cesfamReal[cf] = {n:r.cesfam||'Sin CESFAM', y:0, r:0};
+    if(!r.seg_tipo){
+      if(r.diag==='medico') cesfamReal[cf].y++;
+      if(r.diag==='especialista') cesfamReal[cf].r++;
+    }
+  }));
+  const chartData = Object.values(cesfamReal);
+  if(chartData.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin pendientes', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  const labels = chartData.map(c => (c.n||c).replace('Centro de Salud Familiar ','').replace('C.S.F. ',''));
   CHART_INSTANCES[canvasId] = new Chart(canvas, {
     type: 'bar',
     data:{
       labels,
       datasets:[
-        { label:'🟡 Médico general', data: CESFAM_DATA.map(c=>c.y),
+        { label:'🟡 Médico general', data: chartData.map(c=>c.y||0),
           backgroundColor: C_YELLOW, borderRadius: 4 },
-        { label:'🔴 Especialista',   data: CESFAM_DATA.map(c=>c.r),
+        { label:'🔴 Especialista',   data: chartData.map(c=>c.r||0),
           backgroundColor: C_RED,    borderRadius: 4 }
       ]
     },
@@ -2650,15 +3007,49 @@ function buildChartStacked(canvasId){
   destroyChart(canvasId);
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
-  const labels = CESFAM_DATA.map(c => c.n.replace('Centro de Salud Familiar ','').replace('C.S.F. ',''));
+
+  // Sin datos reales → gráfico vacío
+  if(PATIENTS.length === 0){
+    destroyChart(canvasId);
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  // Calcular desde PATIENTS reales
+  const cesfamReal = {};
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    const cf = (r.cesfam||'Sin CESFAM').replace('Centro de Salud Familiar ','').replace('C.S.F. ','');
+    if(!cesfamReal[cf]) cesfamReal[cf] = {n:r.cesfam||'Sin CESFAM', y:0, r:0};
+    if(!r.seg_tipo){
+      if(r.diag==='medico') cesfamReal[cf].y++;
+      if(r.diag==='especialista') cesfamReal[cf].r++;
+    }
+  }));
+  const chartData = Object.values(cesfamReal).filter(d=>d.y+d.r>0);
+  if(chartData.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin pendientes de seguimiento', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  const labels = chartData.map(c => (c.n||c).replace('Centro de Salud Familiar ','').replace('C.S.F. ',''));
   CHART_INSTANCES[canvasId] = new Chart(canvas, {
     type: 'bar',
     data:{
       labels,
       datasets:[
-        { label:'🟡 Médico general', data: CESFAM_DATA.map(c=>c.y),
+        { label:'🟡 Médico general', data: chartData.map(c=>c.y||0),
           backgroundColor: C_YELLOW, borderRadius:3 },
-        { label:'🔴 Especialista',   data: CESFAM_DATA.map(c=>c.r),
+        { label:'🔴 Especialista',   data: chartData.map(c=>c.r||0),
           backgroundColor: C_RED,    borderRadius:3 }
       ]
     },
@@ -2681,10 +3072,51 @@ function buildChartLine(canvasId){
   destroyChart(canvasId);
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
-  // Datos simulados realistas para demo
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const exams  = [18,22,35,28,41,38,52,45,60,55,72,68];
-  const followups = [12,15,28,20,32,30,40,38,48,44,58,55];
+
+  // Calcular desde PATIENTS reales si hay datos
+  let exams, followups;
+  if(PATIENTS.length > 0){
+    // Distribuir exámenes por mes desde fechas reales
+    const examsPorMes = new Array(12).fill(0);
+    const segPorMes   = new Array(12).fill(0);
+    PATIENTS.forEach(p => p.resultados.forEach(r => {
+      // Intentar parsear mes desde fecha_r
+      let mes = -1;
+      if(r.fecha_r){
+        const mesesMap = {
+          'ene':0,'feb':1,'mar':2,'abr':3,'may':4,'jun':5,
+          'jul':6,'ago':7,'sep':8,'oct':9,'nov':10,'dic':11
+        };
+        const parts = String(r.fecha_r).toLowerCase().split(' ');
+        parts.forEach(p => { if(mesesMap[p] !== undefined) mes = mesesMap[p]; });
+        // Intentar formato YYYY-MM-DD
+        if(mes < 0 && r.fecha_r.includes('-')){
+          const m = parseInt(r.fecha_r.split('-')[1]) - 1;
+          if(m >= 0 && m <= 11) mes = m;
+        }
+      }
+      if(mes >= 0){
+        examsPorMes[mes]++;
+        if(r.seg_tipo) segPorMes[mes]++;
+      }
+    }));
+    // Si todos en mes -1 (sin fecha parseada) → distribuir uniformemente
+    const totalParsed = examsPorMes.reduce((a,b)=>a+b,0);
+    if(totalParsed === 0){
+      const total = PATIENTS.reduce((s,p)=>s+p.resultados.length,0);
+      const conSeg = PATIENTS.reduce((s,p)=>s+p.resultados.filter(r=>r.seg_tipo).length,0);
+      exams     = new Array(12).fill(Math.round(total/12)||0);
+      followups = new Array(12).fill(Math.round(conSeg/12)||0);
+    } else {
+      exams     = examsPorMes;
+      followups = segPorMes;
+    }
+  } else {
+    // Sin datos: mostrar línea plana en cero
+    exams     = new Array(12).fill(0);
+    followups = new Array(12).fill(0);
+  }
   CHART_INSTANCES[canvasId] = new Chart(canvas, {
     type: 'line',
     data:{
@@ -2784,35 +3216,68 @@ function buildChartRadar(canvasId, resultado){
 
 /* ── Construir todos los gráficos del dashboard médico ── */
 function buildChartsmedico(){
-  // Donut diagnóstico
   const allR = PATIENTS.flatMap(p=>p.resultados);
-  const normal  = allR.filter(r=>r.diag==='normal').length;
-  const medico  = allR.filter(r=>r.diag==='medico').length;
-  const espec   = allR.filter(r=>r.diag==='especialista').length;
+
+  if(allR.length === 0){
+    destroyChart('chart-donut-diag');
+    const canvas = document.getElementById('chart-donut-diag');
+    if(canvas){
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.font = '12px Segoe UI, Arial';
+      ctx.fillStyle = '#94A3B8';
+      ctx.textAlign = 'center';
+      ctx.fillText('Sin datos', canvas.width/2, canvas.height/2);
+    }
+    buildChartHBar('chart-bar-cesfam');
+    buildChartLine('chart-line-vol');
+    return;
+  }
+
+  const normal = allR.filter(r=>r.diag==='normal').length;
+  const medico = allR.filter(r=>r.diag==='medico').length;
+  const espec  = allR.filter(r=>r.diag==='especialista').length;
   buildChartDonut('chart-donut-diag',
     [normal, medico, espec],
     ['Estructura normal','Deriv. médico','Especialista'],
     [C_GREEN, C_YELLOW, C_RED]
   );
-  // Barras horizontales CESFAM
   buildChartHBar('chart-bar-cesfam');
-  // Línea tendencia
   buildChartLine('chart-line-vol');
 }
 
 /* ── Construir todos los gráficos de reportes ── */
 function buildChartsReportes(){
-  // Donut diagnóstico
   const allR = PATIENTS.flatMap(p=>p.resultados);
-  const normal  = allR.filter(r=>r.diag==='normal').length;
-  const medico  = allR.filter(r=>r.diag==='medico').length;
-  const espec   = allR.filter(r=>r.diag==='especialista').length;
+
+  if(allR.length === 0){
+    // Sin datos: limpiar canvas y mostrar mensaje
+    ['chart-rep-donut','chart-rep-hp'].forEach(id=>{
+      destroyChart(id);
+      const canvas = document.getElementById(id);
+      if(canvas){
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font = '12px Segoe UI, Arial';
+        ctx.fillStyle = '#94A3B8';
+        ctx.textAlign = 'center';
+        ctx.fillText('Sin datos', canvas.width/2, canvas.height/2);
+      }
+    });
+    buildChartLine('chart-rep-line');
+    buildChartStacked('chart-rep-stacked');
+    return;
+  }
+
+  // Con datos reales
+  const normal = allR.filter(r=>r.diag==='normal').length;
+  const medico = allR.filter(r=>r.diag==='medico').length;
+  const espec  = allR.filter(r=>r.diag==='especialista').length;
   buildChartDonut('chart-rep-donut',
     [normal, medico, espec],
     ['Normal','Médico','Especialista'],
     [C_GREEN, C_YELLOW, C_RED]
   );
-  // Donut HP
   const hpPos = allR.filter(r=>r.hp>30).length;
   const hpNeg = allR.length - hpPos;
   buildChartDonut('chart-rep-hp',
@@ -2820,9 +3285,7 @@ function buildChartsReportes(){
     ['HP Positivo','HP Negativo'],
     [C_RED, C_GREEN]
   );
-  // Línea tendencia
   buildChartLine('chart-rep-line');
-  // Barras apiladas
   buildChartStacked('chart-rep-stacked');
 }
 
@@ -2987,7 +3450,18 @@ function buildChartHPCesfam(canvasId){
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
 
-  // Calcular por CESFAM desde PATIENTS
+  // Sin datos: mostrar canvas vacío
+  if(PATIENTS.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  // Calcular desde PATIENTS reales únicamente
   const cesfamMap = {};
   PATIENTS.forEach(p => p.resultados.forEach(r => {
     const cf = r.cesfam ? r.cesfam.replace('C.S.F. ','').replace('Centro de Salud Familiar ','') : 'Sin CESFAM';
@@ -2996,27 +3470,19 @@ function buildChartHPCesfam(canvasId){
     if(r.hp > 30) cesfamMap[cf].pos++;
   }));
 
-  // Completar con datos simulados de CESFAM_DATA para mayor riqueza demo
-  const cesfamSim = {
-    'Panquehue':{total:31,pos:18},'Dr. Segismundo Iturra':{total:25,pos:14},
-    'Agustín Cruz Melo':{total:23,pos:11},'Recoleta':{total:19,pos:9},
-    'Lucas Sierra':{total:18,pos:8},'Quinta Bella':{total:18,pos:7},
-    'Valdivieso':{total:14,pos:5},'Dr. Juan Petrinovic':{total:11,pos:4},
-    'Alberto Bachelet':{total:9,pos:3},'José Symon Ojeda':{total:6,pos:2},
-    'Colina -1':{total:4,pos:1}
-  };
+  if(Object.keys(cesfamMap).length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
 
-  // Mezclar datos reales con simulados
-  Object.entries(cesfamMap).forEach(([k,v]) => {
-    if(cesfamSim[k]) {
-      cesfamSim[k].total += v.total;
-      cesfamSim[k].pos   += v.pos;
-    }
-  });
-
-  const labels = Object.keys(cesfamSim);
+  const labels = Object.keys(cesfamMap);
   const prevalencias = labels.map(k => {
-    const d = cesfamSim[k];
+    const d = cesfamMap[k];
     return d.total > 0 ? +(d.pos / d.total * 100).toFixed(1) : 0;
   });
 
@@ -3065,20 +3531,57 @@ function buildChartTiempoSeguimiento(canvasId){
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
 
-  // Tiempos simulados realistas por diagnóstico (días)
-  // En producción: calcular desde fecha_r y seg_fecha reales
-  const datos = {
-    'Normal':       { dias: [43, 8, 6, 12], color: C_GREEN },
-    'Deriv. médico':{ dias: [18, 22, 15, 9, 28], color: C_YELLOW },
-    'Especialista': { dias: [5, 3, 7, 4], color: C_RED }
-  };
+  // Sin datos: vacío
+  const conSeg = PATIENTS.flatMap(p => p.resultados.filter(r => r.seg_tipo));
+  if(conSeg.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '12px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos de seguimiento', canvas.width/2, canvas.height/2-8);
+    ctx.fillText('completado aún', canvas.width/2, canvas.height/2+10);
+    return;
+  }
 
-  const labels = Object.keys(datos);
-  const promedios = labels.map(k => {
-    const d = datos[k].dias;
-    return +(d.reduce((a,b)=>a+b,0)/d.length).toFixed(1);
+  // Calcular días promedio por diagnóstico desde datos reales
+  const diasPorDiag = { normal:[], medico:[], especialista:[] };
+  conSeg.forEach(r => {
+    // Intentar calcular días entre fecha_r y seg_fecha
+    let dias = null;
+    if(r.fecha_r && r.seg_fecha){
+      const d1 = new Date(r.fecha_r);
+      const d2 = new Date(r.seg_fecha);
+      if(!isNaN(d1) && !isNaN(d2)) dias = Math.abs((d2-d1)/(1000*60*60*24));
+    }
+    // Si no hay fechas parseables, usar valor típico por diagnóstico
+    if(dias === null) dias = r.diag==='especialista' ? 5 : r.diag==='medico' ? 18 : 12;
+    if(diasPorDiag[r.diag]) diasPorDiag[r.diag].push(dias);
   });
-  const colors = labels.map(k => datos[k].color);
+
+  const mapaLabels = { normal:'Normal', medico:'Deriv. médico', especialista:'Especialista' };
+  const mapaColors = { normal: C_GREEN, medico: C_YELLOW, especialista: C_RED };
+
+  const labels    = [];
+  const promedios = [];
+  const colors    = [];
+  Object.entries(diasPorDiag).forEach(([diag, arr]) => {
+    if(arr.length > 0){
+      labels.push(mapaLabels[diag]);
+      promedios.push(+(arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1));
+      colors.push(mapaColors[diag]);
+    }
+  });
+
+  if(labels.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '12px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin seguimientos completados', canvas.width/2, canvas.height/2);
+    return;
+  }
 
   CHART_INSTANCES[canvasId] = new Chart(canvas, {
     type: 'bar',
@@ -3120,6 +3623,17 @@ function buildChartRiesgoFamiliar(canvasId){
   destroyChart(canvasId);
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
+
+  // Sin datos: vacío
+  if(PATIENTS.length === 0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '13px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
 
   // Por cada diagnóstico: cuántos tienen riesgo familiar directo/lejano/ninguno
   const diags = ['normal','medico','especialista'];
@@ -3174,24 +3688,29 @@ function buildEpiDashboard(){
    MÓDULO AYUDA — Panel lateral de ayuda
    ═══════════════════════════════════════════ */
 function openHelp(tab){
-  document.getElementById('help-modal').classList.remove('hidden');
-  if(tab) switchHelpTab(tab);
-  document.body.style.overflow='hidden';
+  const overlay = document.getElementById('help-modal-overlay');
+  if(overlay) overlay.classList.remove('hidden');
+  switchHelpTab(tab || 'general');
 }
 function closeHelp(){
-  document.getElementById('help-modal').classList.add('hidden');
-  document.body.style.overflow='';
+  const overlay = document.getElementById('help-modal-overlay');
+  if(overlay) overlay.classList.add('hidden');
+  const o = document.getElementById('help-overlay');
+  if(o) o.classList.add('hidden');
 }
 function switchHelpTab(tab){
-  // Desactivar todos los tabs
-  document.querySelectorAll('.help-tab').forEach(t=>t.classList.remove('active'));
+  // Ocultar todos los contenidos de tabs
   document.querySelectorAll('[id^="help-tab-"]').forEach(t=>t.classList.add('hidden'));
-  // Activar el seleccionado
+  // Mostrar el seleccionado
   const tabContent = document.getElementById('help-tab-'+tab);
   if(tabContent) tabContent.classList.remove('hidden');
-  // Marcar tab activo
+  // Resetear estilos de todos los tabs
   document.querySelectorAll('.help-tab').forEach(t=>{
-    if(t.getAttribute('onclick')===`switchHelpTab('${tab}')`) t.classList.add('active');
+    const isActive = t.getAttribute('onclick')===`switchHelpTab('${tab}')`;
+    t.style.background    = isActive ? '#fff'       : 'transparent';
+    t.style.color         = isActive ? '#1E3A5F'    : '#64748B';
+    t.style.borderColor   = isActive ? '#e2e8f0 #e2e8f0 #fff' : 'transparent';
+    t.style.fontWeight    = isActive ? '700' : '600';
   });
 }
 // Cerrar con Escape (agregar al listener existente)
@@ -3433,32 +3952,14 @@ const HELP_CONTENT = {
   }
 };
 
+// showHelp redirige al sistema nuevo de ayuda
 function showHelp(module){
-  const data = HELP_CONTENT[module] || HELP_CONTENT['general'];
-  document.getElementById('help-title').textContent = data.title;
-  document.getElementById('help-sub').textContent   = data.sub;
-  document.querySelector('.help-modal-icon').textContent = data.icon;
-
-  let html = '';
-  data.sections.forEach(sec => {
-    html += `<div class="help-section">
-      <div class="help-section-title">${sec.title}</div>`;
-    sec.items.forEach(item => {
-      html += `<div class="help-item">
-        <span class="help-item-icon">${item.icon}</span>
-        <span class="help-item-text">${item.text}</span>
-      </div>`;
-    });
-    html += '</div>';
-  });
-  if(data.tip){
-    html += `<div class="help-tip">${data.tip}</div>`;
-  }
-
-  document.getElementById('help-body').innerHTML = html;
-  document.getElementById('help-overlay').classList.remove('hidden');
-  // Cerrar con Escape
-  document.addEventListener('keydown', _helpEscHandler);
+  const tabMap = {
+    'general':'general','roles':'roles','clinica':'clinica',
+    'tecnica':'tecnica','reportes':'tecnica','laboratorio':'clinica',
+    'seguimiento':'roles','paciente':'roles'
+  };
+  openHelp(tabMap[module] || 'general');
 }
 
 
@@ -3624,6 +4125,359 @@ function volverAlLogin(){
   // En modo demo: el rol seleccionado se mantiene para que puedan cambiar y re-ingresar
 }
 
+
+/* ═══════════════════════════════════════════
+   MÓDULO EXPORT CON FILTROS + IMPORTAR EXCEL
+   ═══════════════════════════════════════════ */
+
+let currentExportType = 'seguimientos';
+
+const EXPORT_VARS = {
+  seguimientos: [
+    {id:'cesfam',    lbl:'CESFAM',             def:true},
+    {id:'diag',      lbl:'Diagnóstico',         def:true},
+    {id:'fecha_m',   lbl:'Fecha muestra',       def:true},
+    {id:'fecha_r',   lbl:'Fecha resultado',     def:true},
+    {id:'sexo',      lbl:'Sexo',               def:true},
+    {id:'edad_grupo',lbl:'Grupo etario',        def:true},
+    {id:'seg_tipo',  lbl:'Tipo seguimiento',    def:true},
+    {id:'cancer',    lbl:'Riesgo familiar',     def:false},
+    {id:'ibp',       lbl:'Uso IBP',            def:false},
+  ],
+  resultados: [
+    {id:'cesfam',    lbl:'CESFAM',             def:true},
+    {id:'diag',      lbl:'Diagnóstico',         def:true},
+    {id:'fecha_m',   lbl:'Fecha muestra',       def:true},
+    {id:'pgi',       lbl:'PGI (μg/L)',          def:true},
+    {id:'pgii',      lbl:'PGII (μg/L)',         def:true},
+    {id:'ratio',     lbl:'Ratio PGI/PGII',     def:true},
+    {id:'g17',       lbl:'G17 (pmol/L)',        def:true},
+    {id:'hp',        lbl:'Anti-HP (EIU)',       def:true},
+    {id:'sexo',      lbl:'Sexo',               def:true},
+    {id:'edad_grupo',lbl:'Grupo etario',        def:true},
+    {id:'cancer',    lbl:'Riesgo familiar',     def:false},
+    {id:'ibp',       lbl:'Uso IBP',            def:false},
+  ]
+};
+
+/* ── Abrir modal export ── */
+function abrirExportModal(tipo){
+  currentExportType = tipo;
+  const modal = document.getElementById('modal-export');
+  if(!modal) return;
+
+  // Título
+  const t = document.getElementById('export-modal-title');
+  if(t) t.textContent = tipo==='seguimientos'
+    ? '📊 Exportar Gestión de Seguimientos'
+    : '🔬 Exportar Resultados Serológicos';
+
+  // Fechas por defecto: último año
+  const hoy = new Date();
+  const hace1año = new Date(hoy);
+  hace1año.setFullYear(hoy.getFullYear()-1);
+  const fi = document.getElementById('exp-fecha-desde');
+  const ff = document.getElementById('exp-fecha-hasta');
+  if(fi) fi.value = hace1año.toISOString().split('T')[0];
+  if(ff) ff.value = hoy.toISOString().split('T')[0];
+
+  // Variables
+  const grid = document.getElementById('exp-checkgrid');
+  if(grid){
+    const vars = EXPORT_VARS[tipo] || [];
+    grid.innerHTML = vars.map(v => `
+      <label class="export-check">
+        <input type="checkbox" id="exp-var-${v.id}" ${v.def?'checked':''}>
+        ${v.lbl}
+      </label>`).join('');
+  }
+
+  // Sección diag: solo en seguimientos
+  const diagSec = document.getElementById('exp-diag-section');
+  if(diagSec) diagSec.style.display = tipo==='seguimientos' ? 'block' : 'none';
+
+  // Preview
+  actualizarPreviewExport();
+
+  modal.classList.remove('hidden');
+  // scroll no bloqueado
+}
+
+function closeExportModal(){
+  const m = document.getElementById('modal-export');
+  if(m) m.classList.add('hidden');
+  
+}
+
+function actualizarPreviewExport(){
+  const prev = document.getElementById('exp-preview');
+  if(!prev) return;
+  const cesfam = document.getElementById('exp-cesfam')?.value || '';
+  let filas = PATIENTS.flatMap(p => p.resultados);
+  if(cesfam) filas = filas.filter(r => r.cesfam === cesfam);
+  prev.textContent = `Vista previa: ${filas.length} registros coinciden con los filtros seleccionados.`;
+}
+
+/* ── Ejecutar exportación con filtros ── */
+function ejecutarExport(){
+  if(typeof XLSX === 'undefined'){
+    showExportFeedback('⚠️ Cargando librería Excel... intenta en un momento.');
+    return;
+  }
+
+  const cesfam  = document.getElementById('exp-cesfam')?.value || '';
+  const desde   = document.getElementById('exp-fecha-desde')?.value || '';
+  const hasta   = document.getElementById('exp-fecha-hasta')?.value || '';
+  const sinSeg  = document.getElementById('exp-diag-sin-seg')?.checked;
+  const dNorm   = document.getElementById('exp-diag-normal')?.checked;
+  const dMed    = document.getElementById('exp-diag-medico')?.checked;
+  const dEsp    = document.getElementById('exp-diag-esp')?.checked;
+
+  // Filtrar registros
+  let registros = PATIENTS.flatMap(p => p.resultados.map(r => ({...r, pat:p})));
+  if(cesfam) registros = registros.filter(r => r.cesfam === cesfam);
+  if(desde)  registros = registros.filter(r => !r.fecha_m || r.fecha_m >= desde);
+  if(hasta)  registros = registros.filter(r => !r.fecha_r || r.fecha_r <= hasta);
+  if(currentExportType === 'seguimientos'){
+    if(sinSeg) registros = registros.filter(r => !r.seg_tipo);
+    else {
+      const diags = [];
+      if(dNorm) diags.push('normal');
+      if(dMed)  diags.push('medico');
+      if(dEsp)  diags.push('especialista');
+      if(diags.length) registros = registros.filter(r => diags.includes(r.diag));
+    }
+  }
+
+  if(!registros.length){
+    showExportFeedback('⚠️ No hay registros con los filtros seleccionados.');
+    return;
+  }
+
+  // Obtener variables seleccionadas
+  const vars = EXPORT_VARS[currentExportType]||[];
+  const selVars = vars.filter(v => document.getElementById('exp-var-'+v.id)?.checked);
+
+  // Construir datos
+  const wb = XLSX.utils.book_new();
+  const headers = selVars.map(v => v.lbl);
+  const rows = registros.map(r => selVars.map(v => {
+    const grupoEdad = r.pat.edad<40?'<40':r.pat.edad<50?'40-49':r.pat.edad<60?'50-59':r.pat.edad<70?'60-69':'≥70';
+    const map = {
+      cesfam: r.cesfam||'—', diag: r.texto||r.diag||'—',
+      fecha_m: r.fecha_m||'—', fecha_r: r.fecha_r||'—',
+      sexo: r.pat.sexo, edad_grupo: grupoEdad,
+      seg_tipo: r.seg_tipo||'Sin seguimiento',
+      cancer: r.pat.cancer==='directo'?'Familiar directo':r.pat.cancer==='lejano'?'Familiar lejano':'Sin antecedente',
+      ibp: r.ibpUso==='si'?'Sí':'No',
+      pgi: r.pgi, pgii: r.pgii, ratio: r.ratio, g17: r.g17, hp: r.hp,
+    };
+    return map[v.id]||'—';
+  }));
+
+  const wsData = [
+    [`GastroPanel® — ${currentExportType==='seguimientos'?'Gestión de Seguimientos':'Resultados Serológicos'}`],
+    [`Generado: ${new Date().toLocaleDateString('es-CL')} — ${registros.length} registros — Sin datos personales`],
+    [],
+    headers,
+    ...rows
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:headers.length-1}},{s:{r:1,c:0},e:{r:1,c:headers.length-1}}];
+  XLSX.utils.book_append_sheet(wb, ws, currentExportType==='seguimientos'?'Seguimientos':'Resultados');
+
+  const fecha = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `GastroPanel_${currentExportType}_${fecha}.xlsx`);
+
+  closeExportModal();
+  showExportFeedback(`✅ Excel exportado — ${registros.length} registros con filtros aplicados`);
+}
+
+/* ═══ IMPORTAR EXCEL ═══ */
+let importData = null;
+
+function abrirImportModal(){
+  const m = document.getElementById('modal-import');
+  if(m) m.classList.remove('hidden');
+  // scroll no bloqueado
+  // Reset
+  importData = null;
+  document.getElementById('import-preview').classList.add('hidden');
+  document.getElementById('import-result').innerHTML='';
+  const btn = document.getElementById('btn-import-go');
+  if(btn){btn.disabled=true;btn.style.opacity='.5';btn.style.cursor='not-allowed';btn.style.background='var(--g400)';}
+  const inp = document.getElementById('import-file-input');
+  if(inp) inp.value='';
+}
+function closeImportModal(){
+  const m = document.getElementById('modal-import');
+  if(m) m.classList.add('hidden');
+  
+}
+function importDragOver(e){ e.preventDefault(); document.getElementById('import-drop-zone')?.classList.add('drag-over'); }
+function importDragLeave(e){ document.getElementById('import-drop-zone')?.classList.remove('drag-over'); }
+function importDrop(e){ e.preventDefault(); document.getElementById('import-drop-zone')?.classList.remove('drag-over'); procesarImport(e.dataTransfer.files[0]); }
+function importFileSelected(e){ procesarImport(e.target.files[0]); }
+
+function procesarImport(file){
+  if(!file) return;
+  if(!file.name.match(/\.(xlsx|xls|csv)$/i)){
+    showExportFeedback('❌ Solo se aceptan archivos .xlsx, .xls o .csv'); return;
+  }
+  if(typeof XLSX === 'undefined'){
+    showExportFeedback('⚠️ Cargando librería... intenta de nuevo.'); return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const wb = XLSX.read(e.target.result, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+
+      if(!data || data.length < 2){
+        document.getElementById('import-result').innerHTML =
+          '<div class="import-result err">❌ El archivo no tiene datos suficientes.</div>';
+        return;
+      }
+
+      importData = data;
+      const headers = data[0];
+      const rows = data.slice(1,6); // preview primeras 5 filas
+
+      // Detectar formato GastroPanel
+      const colsReq = ['RUT','PGI','PGII','HP'];
+      const colsEncontradas = colsReq.filter(c => headers.some(h => String(h).toUpperCase().includes(c)));
+      const formatoOK = colsEncontradas.length >= 3;
+
+      // Mostrar preview
+      const table = document.getElementById('import-table');
+      if(table){
+        table.innerHTML = '<thead><tr>' + headers.slice(0,8).map(h=>`<th>${h}</th>`).join('') + '</tr></thead><tbody>' +
+          rows.map(r=>'<tr>'+r.slice(0,8).map(c=>`<td>${c}</td>`).join('')+'</tr>').join('') + '</tbody>';
+      }
+      document.getElementById('import-stats').innerHTML =
+        `<strong>${data.length-1} registros</strong> encontrados · ${headers.length} columnas · ` +
+        (formatoOK ? '<span style="color:#166534;font-weight:700;">✅ Formato GastroPanel® detectado</span>' :
+                     '<span style="color:var(--warning);font-weight:700;">⚠️ Revisar formato de columnas</span>');
+      document.getElementById('import-preview').classList.remove('hidden');
+
+      // Habilitar botón importar
+      const btn = document.getElementById('btn-import-go');
+      if(btn){btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';btn.style.background='#1B7EC8';}
+    } catch(err){
+      document.getElementById('import-result').innerHTML =
+        '<div class="import-result err">❌ Error al leer el archivo: ' + err.message + '</div>';
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function ejecutarImport(){
+  if(!importData || importData.length < 2){
+    showExportFeedback('⚠️ Primero carga un archivo válido.'); return;
+  }
+  const headers = importData[0].map(h => String(h).toLowerCase().trim());
+  const rows = importData.slice(1).filter(r => r.some(c => c !== ''));
+
+  // Mapear columnas del archivo a campos de PATIENTS
+  const colMap = {
+    rut:      headers.findIndex(h=>h.includes('rut')),
+    nombre:   headers.findIndex(h=>h.includes('nombre')||h.includes('paciente')),
+    apP:      headers.findIndex(h=>h.includes('apellido')||h.includes('app')),
+    nac:      headers.findIndex(h=>h.includes('nac')||h.includes('fecha_nac')||h.includes('nacimiento')),
+    sexo:     headers.findIndex(h=>h.includes('sexo')||h.includes('genero')),
+    cesfam:   headers.findIndex(h=>h.includes('cesfam')||h.includes('centro')),
+    pgi:      headers.findIndex(h=>h.includes('pgi')&&!h.includes('pgii')),
+    pgii:     headers.findIndex(h=>h.includes('pgii')),
+    ratio:    headers.findIndex(h=>h.includes('ratio')||h.includes('pgi/pgii')),
+    g17:      headers.findIndex(h=>h.includes('g17')||h.includes('gastrina')),
+    hp:       headers.findIndex(h=>h.includes('hp')||h.includes('helico')||h.includes('pylori')),
+    diag:     headers.findIndex(h=>h.includes('diag')||h.includes('clasif')),
+    fecha_m:  headers.findIndex(h=>h.includes('muestra')||h.includes('fecha_m')),
+  };
+
+  let importados = 0;
+  let duplicados = 0;
+  let errores = 0;
+
+  rows.forEach((row, i) => {
+    try{
+      const rut = colMap.rut >= 0 ? String(row[colMap.rut]).trim() : '';
+      if(!rut){ errores++; return; }
+
+      // Verificar si paciente ya existe
+      let pat = PATIENTS.find(p => p.rut.replace(/[.\-\s]/g,'').toLowerCase() === rut.replace(/[.\-\s]/g,'').toLowerCase());
+
+      if(!pat){
+        // Crear nuevo paciente
+        const nombre = colMap.nombre>=0 ? String(row[colMap.nombre]) : 'Importado';
+        const nacRaw = colMap.nac>=0 ? row[colMap.nac] : '';
+        const nacDate = nacRaw ? new Date(nacRaw) : new Date('1980-01-01');
+        const edad = new Date().getFullYear() - nacDate.getFullYear();
+
+        pat = {
+          id: PATIENTS.length + 1,
+          nombre: nombre.split(' ')[0] || 'Paciente',
+          apP: nombre.split(' ')[1] || 'Importado',
+          apM: nombre.split(' ')[2] || '',
+          rut, nac: nacDate.toISOString().split('T')[0],
+          nacStr: nacDate.toLocaleDateString('es-CL'),
+          edad, sexo: colMap.sexo>=0 ? String(row[colMap.sexo]) : 'No especificado',
+          tel:'', email:'', cancer:'no', resultados:[]
+        };
+        PATIENTS.push(pat);
+      }
+
+      // Agregar resultado si hay datos serológicos
+      const pgi = colMap.pgi>=0 ? parseFloat(row[colMap.pgi]) : null;
+      if(pgi && !isNaN(pgi)){
+        const idTest = 'IMP' + Date.now().toString(36).toUpperCase() + i;
+        const diagRaw = colMap.diag>=0 ? String(row[colMap.diag]).toLowerCase() : '';
+        const diag = diagRaw.includes('esp')||diagRaw.includes('biopsia') ? 'especialista' :
+                     diagRaw.includes('med')||diagRaw.includes('general') ? 'medico' : 'normal';
+
+        pat.resultados.push({
+          id: idTest,
+          fecha_m: colMap.fecha_m>=0 ? String(row[colMap.fecha_m]) : new Date().toLocaleDateString('es-CL'),
+          fecha_r: new Date().toLocaleDateString('es-CL'),
+          diag, texto: diag==='especialista'?'Referir a especialista: endoscopía/biopsia':
+                        diag==='medico'?'Derivación a médico general':'Estructura normal',
+          cesfam: colMap.cesfam>=0 ? String(row[colMap.cesfam]) : '—',
+          pgi: parseFloat(row[colMap.pgi])||0,
+          pgii: colMap.pgii>=0 ? parseFloat(row[colMap.pgii])||0 : 0,
+          ratio: colMap.ratio>=0 ? parseFloat(row[colMap.ratio])||0 : 0,
+          g17: colMap.g17>=0 ? parseFloat(row[colMap.g17])||0 : 0,
+          hp: colMap.hp>=0 ? parseFloat(row[colMap.hp])||0 : 0,
+          ibpUso:'no', diasSinIBP:'15+',
+          seg_tipo:null, seg_fecha:null, doctor:null, tienePDF:false
+        });
+        importados++;
+      } else {
+        duplicados++;
+      }
+    } catch(e){ errores++; }
+  });
+
+  // Actualizar sistema
+  updateAllStats();
+  buildSeguimiento();
+  buildReportes();
+
+  document.getElementById('import-result').innerHTML =
+    `<div class="import-result ok">
+      ✅ Importación completada — <strong>${importados} resultados</strong> importados
+      ${duplicados>0?` · ${duplicados} sin datos serológicos`:''}
+      ${errores>0?` · ${errores} errores ignorados`:''}
+    </div>`;
+
+  const btn = document.getElementById('btn-import-go');
+  if(btn){btn.disabled=true;btn.style.opacity='.5';}
+
+  showExportFeedback(`✅ ${importados} resultados importados exitosamente`);
+  setTimeout(()=>closeImportModal(), 2500);
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
   console.log('GastroPanel v5 — Demo Mode + PDF Store + Chart.js activo');
   const allIds = PATIENTS.flatMap(p=>p.resultados.map(r=>r.id));
@@ -3642,24 +4496,25 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 
 
-<!-- Botón flotante ayuda -->
-<button class="btn-help-float" id="btnHelpFloat" onclick="openHelp()" title="Centro de Ayuda">❓</button>
 
-<!-- Panel lateral de Ayuda -->
-<div id="help-modal" class="help-modal hidden" onclick="if(event.target===this)closeHelp()">
-  <div class="help-panel">
-    <div class="help-panel-head" style="position:relative;">
-      <div class="help-panel-title">❓ Centro de Ayuda</div>
-      <div class="help-panel-sub">GastroPanel® · Sistema de Gestión de Exámenes</div>
-      <button class="help-close" onclick="closeHelp()">✕</button>
+<!-- Panel de Ayuda — centrado con overlay -->
+<div id="help-modal-overlay" class="help-overlay hidden" onclick="if(event.target===this)closeHelp()">
+<div id="help-modal" class="help-modal" onclick="event.stopPropagation()">
+  <div class="help-modal-head">
+    <span class="help-modal-icon">❓</span>
+    <div>
+      <div class="help-modal-title">Centro de Ayuda</div>
+      <div class="help-modal-sub">GastroPanel® · Sistema de Gestión de Exámenes</div>
     </div>
-    <div class="help-tabs">
-      <button class="help-tab active" onclick="switchHelpTab('general')">🏠 General</button>
-      <button class="help-tab" onclick="switchHelpTab('roles')">👥 Roles</button>
-      <button class="help-tab" onclick="switchHelpTab('clinica')">🔬 Clínica</button>
-      <button class="help-tab" onclick="switchHelpTab('tecnica')">⚙️ Técnica</button>
-    </div>
-    <div class="help-body">
+    <button class="help-modal-close" onclick="closeHelp()">✕</button>
+  </div>
+  <div class="help-tabs" style="display:flex;gap:4px;padding:12px 20px 0;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+    <button class="help-tab active" onclick="switchHelpTab('general')" style="padding:7px 14px;border-radius:8px 8px 0 0;border:1px solid #e2e8f0;border-bottom:none;background:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;">🏠 General</button>
+    <button class="help-tab" onclick="switchHelpTab('roles')" style="padding:7px 14px;border-radius:8px 8px 0 0;border:1px solid transparent;background:transparent;font-size:12px;font-weight:600;cursor:pointer;color:#64748B;font-family:'Segoe UI',Arial,sans-serif;">👥 Roles</button>
+    <button class="help-tab" onclick="switchHelpTab('clinica')" style="padding:7px 14px;border-radius:8px 8px 0 0;border:1px solid transparent;background:transparent;font-size:12px;font-weight:600;cursor:pointer;color:#64748B;font-family:'Segoe UI',Arial,sans-serif;">🔬 Clínica</button>
+    <button class="help-tab" onclick="switchHelpTab('tecnica')" style="padding:7px 14px;border-radius:8px 8px 0 0;border:1px solid transparent;background:transparent;font-size:12px;font-weight:600;cursor:pointer;color:#64748B;font-family:'Segoe UI',Arial,sans-serif;">⚙️ Técnica</button>
+  </div>
+  <div class="help-modal-body" style="padding:20px;overflow-y:auto;flex:1;">
 
       <!-- TAB: GENERAL -->
       <div id="help-tab-general">
@@ -3825,6 +4680,150 @@ window.addEventListener('DOMContentLoaded',()=>{
         </div>
       </div>
 
+      </div><!-- /help-tab-tecnica -->
+    </div><!-- /help-modal-body -->
+    <div class="help-modal-footer">GastroPanel® · GEBRAX Diagnóstico &amp; Prevención · Soporte: +56 2 3223 8787</div>
+  </div><!-- /help-modal -->
+</div><!-- /help-modal-overlay -->
+
+
+<!-- ═══ MODAL EXPORT EXCEL CON FILTROS ═══ -->
+<div id="modal-export" class="export-modal-overlay hidden" onclick="if(event.target===this)closeExportModal()">
+  <div class="export-modal">
+    <div class="export-modal-head">
+      <div>
+        <div class="export-modal-title" id="export-modal-title">📊 Exportar Datos</div>
+        <div class="export-modal-sub">Configura los filtros antes de exportar</div>
+      </div>
+      <button class="export-modal-close" onclick="closeExportModal()">✕</button>
+    </div>
+    <div class="export-modal-body">
+
+      <!-- Rango de fechas -->
+      <div class="export-section">
+        <div class="export-section-title">📅 Rango de Fechas</div>
+        <div class="export-date-row">
+          <div class="fg">
+            <label class="fl">Fecha desde</label>
+            <input class="fc" type="date" id="exp-fecha-desde">
+          </div>
+          <div class="fg">
+            <label class="fl">Fecha hasta</label>
+            <input class="fc" type="date" id="exp-fecha-hasta" value="">
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro CESFAM -->
+      <div class="export-section">
+        <div class="export-section-title">🏥 Centro de Salud</div>
+        <div class="fg">
+          <select class="fc" id="exp-cesfam">
+            <option value="">Todos los CESFAM</option>
+            <option>C.S.F. Panquehue</option>
+            <option>C.S.F. Dr. Segismundo Iturra</option>
+            <option>C.S.F. Agustín Cruz Melo</option>
+            <option>C.S.F. Recoleta</option>
+            <option>C.S.F. Lucas Sierra</option>
+            <option>C.S.F. Quinta Bella</option>
+            <option>C.S.F. Valdivieso</option>
+            <option>C.S.F. San Ramón</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Variables a incluir -->
+      <div class="export-section" id="exp-variables-section">
+        <div class="export-section-title">📋 Variables a Incluir</div>
+        <div class="export-checkgrid" id="exp-checkgrid"></div>
+      </div>
+
+      <!-- Filtro diagnóstico (solo seguimientos) -->
+      <div class="export-section" id="exp-diag-section">
+        <div class="export-section-title">🔴 Clasificación Diagnóstica</div>
+        <div class="export-checkgrid">
+          <label class="export-check"><input type="checkbox" id="exp-diag-normal" checked> 🟢 Estructura normal</label>
+          <label class="export-check"><input type="checkbox" id="exp-diag-medico" checked> 🟡 Deriv. médico general</label>
+          <label class="export-check"><input type="checkbox" id="exp-diag-esp" checked> 🔴 Referir especialista</label>
+          <label class="export-check"><input type="checkbox" id="exp-diag-sin-seg"> ⏳ Solo sin seguimiento</label>
+        </div>
+      </div>
+
+      <!-- Info privacidad -->
+      <div class="alert alert-info" style="font-size:11px;">
+        <span class="alert-icon">🔒</span>
+        El archivo exportado <strong>no incluye RUT ni nombre</strong>. Solo grupo etario, sexo y CESFAM para cumplir normativa de privacidad.
+      </div>
+
+      <div id="exp-preview" style="margin-top:10px;font-size:11px;color:var(--g500);">
+        Vista previa: calculando...
+      </div>
+    </div>
+    <div class="export-modal-footer">
+      <button class="btn btn-gray btn-sm" onclick="closeExportModal()">Cancelar</button>
+      <button class="btn-export-go" onclick="ejecutarExport()">
+        📥 Exportar Excel
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL IMPORTAR EXCEL ═══ -->
+<div id="modal-import" class="export-modal-overlay hidden" onclick="if(event.target===this)closeImportModal()">
+  <div class="import-modal">
+    <div class="import-modal-head">
+      <div>
+        <div class="export-modal-title">📥 Importar Datos desde Excel</div>
+        <div class="export-modal-sub">Compatible con archivos del dispositivo GastroPanel®</div>
+      </div>
+      <button class="export-modal-close" onclick="closeImportModal()">✕</button>
+    </div>
+    <div class="export-modal-body">
+
+      <!-- Zona upload -->
+      <div class="import-drop-zone" id="import-drop-zone"
+           ondragover="importDragOver(event)" ondragleave="importDragLeave(event)"
+           ondrop="importDrop(event)">
+        <input type="file" accept=".xlsx,.xls,.csv" id="import-file-input"
+               onchange="importFileSelected(event)">
+        <div class="import-drop-icon">📂</div>
+        <div class="import-drop-text">Arrastra el archivo Excel aquí o haz clic</div>
+        <div class="import-drop-hint">Acepta .xlsx, .xls, .csv · Exportado por dispositivo GastroPanel®</div>
+      </div>
+
+      <!-- Instrucciones formato -->
+      <div class="export-section" style="margin-top:16px;">
+        <div class="export-section-title">📋 Formato esperado del archivo</div>
+        <div style="font-size:11px;color:var(--g600);background:var(--g50);
+             border-radius:8px;padding:12px;border:1px solid var(--g200);">
+          <strong>Columnas requeridas:</strong> RUT, Nombre, Apellido, FechaNac, Sexo, CESFAM,
+          FechaMuestra, PGI, PGII, Ratio, G17, HP, Diagnóstico<br><br>
+          <strong>Columnas opcionales:</strong> Teléfono, Email, AntFamiliar, IBP, DiasIBP,
+          Antibióticos, Endoscopía, Seguimiento<br><br>
+          <span style="color:var(--primary);font-weight:700;">💡 El sistema detecta automáticamente
+          el formato del dispositivo GastroPanel®</span>
+        </div>
+      </div>
+
+      <!-- Preview tabla -->
+      <div id="import-preview" class="hidden">
+        <div class="import-preview">
+          <div class="import-preview-title">Vista previa — primeras filas del archivo</div>
+          <div class="import-table-wrap">
+            <table class="import-table" id="import-table"></table>
+          </div>
+        </div>
+        <div id="import-stats" style="font-size:12px;color:var(--g600);margin-top:8px;"></div>
+      </div>
+
+      <div id="import-result"></div>
+    </div>
+    <div class="export-modal-footer">
+      <button class="btn btn-gray btn-sm" onclick="closeImportModal()">Cancelar</button>
+      <button class="btn-export-go" id="btn-import-go" onclick="ejecutarImport()"
+              disabled style="opacity:.5;cursor:not-allowed;background:var(--g400);">
+        📥 Importar datos
+      </button>
     </div>
   </div>
 </div>
