@@ -189,7 +189,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
 /* ── BADGES & DIAG ── */
 .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
 .bg-green{background:var(--success-light);color:#15803D;}
-.bg-yellow{background:var(--warning-light);color:#92400E;}
+.bg-yellow{background:#FEF3C7;color:#92400E;border:1px solid #D97706;}
 .bg-red{background:var(--danger-light);color:#991B1B;}
 .bg-blue{background:var(--primary-light);color:var(--primary-dark);}
 .bg-gray{background:var(--g100);color:var(--g600);}
@@ -197,7 +197,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
 .diag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
 .dot-green{background:var(--success);}
-.dot-yellow{background:var(--warning);}
+.dot-yellow{background:#D97706;}
 .dot-red{background:var(--danger);}
 
 /* ── FORMS ── */
@@ -605,6 +605,158 @@ tbody tr.urgent:hover{background:#FEE2E2;}
 .import-result.ok{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0;}
 .import-result.err{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;}
 
+
+/* ── FILTRO TEMPORAL REPORTES ── */
+.reporte-filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:12px 16px;background:linear-gradient(135deg,#F0F9FF,#E0F2FE);
+  border-radius:10px;border:1px solid #BAE6FD;margin-bottom:16px;}
+.reporte-filter-bar .filter-label{font-size:11px;font-weight:800;color:#0369A1;
+  white-space:nowrap;}
+.filter-period-btn{padding:5px 12px;border-radius:20px;border:1.5px solid #BAE6FD;
+  background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#0369A1;
+  font-family:'Segoe UI',Arial,sans-serif;transition:var(--tr);}
+.filter-period-btn:hover{background:#0EA5E9;color:#fff;border-color:#0EA5E9;}
+.filter-period-btn.active{background:#0369A1;color:#fff;border-color:#0369A1;}
+.filter-separator{width:1px;height:20px;background:#BAE6FD;flex-shrink:0;}
+
+
+/* ── VALIDACIÓN VISUAL DE FORMULARIO ── */
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.fc.field-error{border-color:#DC2626 !important;background:#FEF2F2 !important;animation:shake .35s ease;}
+.fc.field-error::placeholder{color:#FCA5A5;}
+.field-error-msg{font-size:11px;color:#DC2626;font-weight:600;margin-top:3px;display:flex;align-items:center;gap:4px;}
+.field-ok{border-color:#16A34A !important;background:#F0FDF4 !important;}
+
+
+/* ── SISTEMA DE NOTIFICACIONES ── */
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:320px;
+  background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.15);
+  border:1px solid var(--g200);z-index:500;animation:slideUp .2s ease;}
+.notif-header{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid var(--g100);}
+.notif-header-title{font-size:13px;font-weight:800;color:var(--g800);}
+.notif-mark-all{font-size:11px;color:var(--primary);cursor:pointer;font-weight:600;}
+.notif-mark-all:hover{text-decoration:underline;}
+.notif-list{max-height:300px;overflow-y:auto;}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;
+  border-bottom:1px solid var(--g50);cursor:pointer;transition:var(--tr);}
+.notif-item:hover{background:var(--g50);}
+.notif-item.unread{background:#EFF6FF;}
+.notif-item.unread::before{content:'';width:6px;height:6px;background:var(--primary);
+  border-radius:50%;flex-shrink:0;margin-top:6px;}
+.notif-item-icon{font-size:18px;flex-shrink:0;}
+.notif-item-body{flex:1;}
+.notif-item-title{font-size:12px;font-weight:700;color:var(--g800);}
+.notif-item-sub{font-size:11px;color:var(--g500);margin-top:2px;}
+.notif-item-time{font-size:10px;color:var(--g400);margin-top:3px;}
+.notif-empty{padding:24px;text-align:center;color:var(--g400);font-size:12px;}
+.notif-footer{padding:10px 16px;text-align:center;border-top:1px solid var(--g100);}
+
+
+/* ══ MODO OSCURO ══ */
+body.dark-mode {
+  --g50:#1E293B; --g100:#334155; --g200:#475569; --g300:#64748B;
+  --g400:#94A3B8; --g500:#CBD5E1; --g600:#E2E8F0; --g700:#F1F5F9;
+  --g800:#F8FAFC; --g900:#FFFFFF;
+  --primary-dark:#1B7EC8; --primary:#2563EB;
+  background:#0F172A !important;
+}
+body.dark-mode .sidebar      { background:#1E293B; border-right:1px solid #334155; }
+body.dark-mode .main-content { background:#0F172A; }
+body.dark-mode .card         { background:#1E293B; border-color:#334155; }
+body.dark-mode .fc           { background:#0F172A; border-color:#475569; color:#F1F5F9; }
+body.dark-mode .fc:focus     { border-color:var(--primary); background:#1E293B; }
+body.dark-mode .table-wrap table { background:#1E293B; }
+body.dark-mode thead         { background:#334155 !important; }
+body.dark-mode tbody tr:hover{ background:#334155; }
+body.dark-mode .chart-card   { background:#1E293B; border-color:#334155; }
+body.dark-mode .nav-item     { color:#94A3B8; }
+body.dark-mode .nav-item:hover,
+body.dark-mode .nav-item.active { background:#334155; color:#F1F5F9; }
+body.dark-mode .top-bar      { background:#1E293B; border-bottom:1px solid #334155; }
+body.dark-mode .gb-footer    { background:#1E293B; border-top:1px solid #334155; }
+body.dark-mode .demo-panel   { background:#1E293B; border-color:#334155; }
+body.dark-mode .reporte-filter-bar { background:linear-gradient(135deg,#1E293B,#334155); border-color:#475569; }
+body.dark-mode .result-item  { background:#0F172A; border-color:#334155; }
+body.dark-mode .pat-details  { background:#1E293B; }
+.dark-toggle { background:none; border:1.5px solid var(--g300); border-radius:20px; 
+  padding:4px 10px; cursor:pointer; font-size:12px; color:var(--g500);
+  transition:var(--tr); display:flex; align-items:center; gap:5px; }
+.dark-toggle:hover { border-color:var(--primary); color:var(--primary); }
+
+
+/* ══ BÚSQUEDA GLOBAL ══ */
+.global-search-wrap { position:relative; }
+.global-search { padding:7px 14px 7px 34px; border-radius:20px; border:1.5px solid var(--g200);
+  background:var(--g50); font-size:12px; width:200px; transition:var(--tr);
+  font-family:'Segoe UI',Arial,sans-serif; color:var(--g800); }
+.global-search:focus { width:260px; border-color:var(--primary); background:#fff; outline:none; }
+.global-search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%);
+  font-size:13px; color:var(--g400); pointer-events:none; }
+.global-results { position:absolute; top:calc(100%+6px); left:0; width:320px;
+  background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,.12);
+  border:1px solid var(--g200); z-index:500; max-height:320px; overflow-y:auto;
+  animation:slideUp .2s ease; }
+.global-result-item { padding:10px 14px; cursor:pointer; border-bottom:1px solid var(--g50);
+  transition:var(--tr); }
+.global-result-item:hover { background:var(--g50); }
+.global-result-item:last-child { border-bottom:none; }
+.gr-title { font-size:12px; font-weight:700; color:var(--g800); }
+.gr-sub   { font-size:10px; color:var(--g400); margin-top:2px; }
+
+
+/* ══ ONBOARDING ══ */
+.onboarding-overlay { position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
+  display:flex;align-items:center;justify-content:center;animation:fadeIn .3s ease; }
+.onboarding-card { background:#fff;border-radius:20px;padding:32px;max-width:420px;width:90%;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);animation:slideUp .4s ease; }
+.onboarding-step { display:none; }
+.onboarding-step.active { display:block; }
+.ob-icon { font-size:48px; text-align:center; margin-bottom:12px; }
+.ob-title { font-size:20px; font-weight:900; color:#0F172A; text-align:center; margin-bottom:6px; }
+.ob-sub { font-size:13px; color:#64748B; text-align:center; line-height:1.6; margin-bottom:20px; }
+.ob-steps { display:flex; gap:6px; justify-content:center; margin-bottom:20px; }
+.ob-dot { width:8px;height:8px;border-radius:50%;background:#E2E8F0;transition:.3s; }
+.ob-dot.active { background:var(--primary); width:20px;border-radius:4px; }
+.ob-actions { display:flex; gap:10px; justify-content:center; }
+
+
+/* ══ GASTROCALC ══ */
+.gc-tabs { display:flex; gap:0; border-bottom:2px solid var(--g100); margin-bottom:18px; flex-wrap:wrap; }
+.gc-tab  { padding:10px 16px; font-size:12px; font-weight:700; color:var(--g400);
+           cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px;
+           transition:var(--tr); white-space:nowrap; }
+.gc-tab:hover  { color:var(--primary); }
+.gc-tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+.gc-panel { display:none; }
+.gc-panel.active { display:block; }
+.gc-result-box { background:linear-gradient(135deg,#F0F9FF,#E0F2FE);
+  border:2px solid #BAE6FD; border-radius:14px; padding:18px 20px; margin-top:16px; }
+.gc-result-title { font-size:11px; font-weight:800; color:#0369A1;
+  letter-spacing:.5px; margin-bottom:10px; }
+.gc-score-big { font-size:36px; font-weight:900; color:#0F172A; margin-bottom:4px; }
+.gc-score-label { font-size:14px; font-weight:800; margin-bottom:8px; }
+.gc-score-bar-wrap { background:#E2E8F0; border-radius:20px; height:10px;
+  overflow:hidden; margin-bottom:10px; }
+.gc-score-bar { height:100%; border-radius:20px; transition:width .6s ease; }
+.gc-rec-box { background:rgba(255,255,255,.7); border-radius:8px; padding:10px 14px;
+  font-size:11px; color:#334155; line-height:1.6; }
+.gc-input-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+@media(max-width:500px){ .gc-input-grid { grid-template-columns:1fr; } }
+.gc-badge { display:inline-flex; align-items:center; gap:4px; padding:3px 10px;
+  border-radius:20px; font-size:11px; font-weight:700; }
+
+
+/* ══ IMPRESIÓN GASTROCALC ══ */
+@media print {
+  .sidebar, .top-bar, .gb-footer, .gc-tabs,
+  .btn, .dark-toggle, .global-search-wrap,
+  .notif-wrap, .demo-btn-wrap, #onboarding-overlay { display:none !important; }
+  .gc-result-box { border:2px solid #000 !important; break-inside:avoid; }
+  body { font-size:12px; }
+  .gc-panel { display:block !important; }
+}
+
 </style>
 <!-- Chart.js para gráficos reales -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -632,11 +784,11 @@ tbody tr.urgent:hover{background:#FEE2E2;}
     <div class="fg">
       <label class="fl">Usuario (email institucional)</label>
       <input class="fc" id="loginUser" type="text" value="marcela@cesfam.cl"
-        oninput="validateLoginEmail(this.value)" autocomplete="username">
+        oninput="validateLoginEmail(this.value)" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="username">
       <div class="email-hint" id="login-email-hint"></div>
     </div>
     <div class="fg"><label class="fl">Contraseña</label>
-      <input class="fc" id="loginPass" type="password" value="demo1234"></div>
+      <input class="fc" id="loginPass" type="password" value="demo1234" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <!-- Badge modo demo activo -->
     <div class="demo-login-badge" id="demo-login-badge">
       <span class="dlb-icon">🎬</span>
@@ -698,9 +850,28 @@ tbody tr.urgent:hover{background:#FEE2E2;}
       </div>
       <div class="hdr-right">
         <button class="btn btn-ghost btn-sm" onclick="window.print()" title="Imprimir">🖨️</button>
-        <div class="notif-wrap">
-          <button class="notif-btn">🔔</button>
-          <span class="notif-dot"></span>
+        <div class="global-search-wrap" id="global-search-wrap">
+          <span class="global-search-icon">🔍</span>
+          <input class="global-search" id="global-search-input" placeholder="Buscar paciente..." 
+            oninput="globalSearch(this.value)" onblur="setTimeout(()=>closeGlobalSearch(),200)">
+          <div class="global-results hidden" id="global-results"></div>
+        </div>
+        <button class="dark-toggle" onclick="toggleDarkMode()" id="dark-btn" title="Modo oscuro">🌙</button>
+        <div class="notif-wrap" id="notif-wrap" style="position:relative;">
+          <button class="notif-btn" onclick="toggleNotifPanel()" id="notif-bell-btn">🔔</button>
+          <span class="notif-dot" id="notif-dot"></span>
+          <div class="notif-panel hidden" id="notif-panel">
+            <div class="notif-header">
+              <span class="notif-header-title">🔔 Notificaciones</span>
+              <span class="notif-mark-all" onclick="marcarTodasLeidas()">Marcar todas como leídas</span>
+            </div>
+            <div class="notif-list" id="notif-list">
+              <div class="notif-empty">Sin notificaciones nuevas</div>
+            </div>
+            <div class="notif-footer">
+              <span style="font-size:11px;color:var(--g400);">GastroPanel® — Notificaciones del sistema</span>
+            </div>
+          </div>
         </div>
         <div class="hdr-avatar" id="hdrAvatar">MR</div>
       </div>
@@ -773,7 +944,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
           <div class="card-body"><div class="action-grid" id="acceso-rapido-enfermera"></div></div></div>
         </div>
         <div id="dash-medico" class="hidden">
-          <div class="alert alert-danger" id="alert-medico"><span class="alert-icon">🏥</span><div id="msg-medico">Bienvenida Sandra. Revisa los pacientes pendientes de seguimiento.</div></div>
+          <div class="alert alert-danger" id="alert-medico"><span class="alert-icon">🏥</span><div id="msg-medico">Cargando...</div></div>
           <div class="stats-grid">
             <div class="stat-card dang"><div class="stat-val" id="stat-med-esp">0</div><div class="stat-lbl">🔴 Pendiente especialista</div></div>
             <div class="stat-card warn"><div class="stat-val" id="stat-med-med">0</div><div class="stat-lbl">🟡 Pendiente médico general</div></div>
@@ -795,7 +966,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
             </div>
             <div class="chart-card">
               <div class="chart-card-title">Pendientes por CESFAM</div>
-              <div class="chart-card-sub">Sin seguimiento médico 🟡/🔴</div>
+              <div class="chart-card-sub">Sin seguimiento médico</div>
               <div class="chart-canvas-wrap hbar"><canvas id="chart-bar-cesfam"></canvas></div>
             </div>
           </div>
@@ -807,7 +978,12 @@ tbody tr.urgent:hover{background:#FEE2E2;}
               <div class="chart-canvas-wrap line"><canvas id="chart-line-vol"></canvas></div>
             </div>
             <div class="card"><div class="card-header"><div><div class="card-title">Prioridad Alta 🔴</div><div class="card-sub">Requieren atención inmediata</div></div><button class="btn btn-outline btn-sm" onclick="navTo('seguimiento')">Ver todos</button></div>
-            <div class="card-body" style="padding:0;"><table><thead><tr><th>Paciente</th><th>Diagnóstico</th><th></th></tr></thead><tbody id="dashPendingTable"></tbody></table></div></div>
+<!-- Stats personales médico -->
+              <div id="med-stats-personales" style="margin-bottom:14px;"></div>
+              <!-- Semáforo por CESFAM -->
+              <div style="font-size:12px;font-weight:800;color:#334155;margin-bottom:8px;">🚦 Estado de gestión por CESFAM</div>
+              <div id="semaforo-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:14px;"></div>
+              <div class="card-body" style="padding:0;"><table><thead><tr><th>Paciente</th><th>Diagnóstico</th><th></th></tr></thead><tbody id="dashPendingTable"></tbody></table></div></div>
           </div>
 
           <!-- Fila 3: Dashboard Epidemiológico -->
@@ -866,7 +1042,7 @@ tbody tr.urgent:hover{background:#FEE2E2;}
           <div class="demo-panel-body"><div class="demo-cards" id="demo-cards-nuevopac"></div></div>
         </div>
         <div class="card" style="max-width:680px;">
-          <div class="card-header"><div><div class="card-title">Registro de Nuevo Paciente</div><div class="card-sub">Complete todos los campos obligatorios (*)</div></div><button class="btn-help" onclick="openHelp('roles')">❓ Ayuda</button></div>
+          <div class="card-header"><div><div class="card-title">Registro de Nuevo Paciente</div><div class="card-sub">Complete todos los campos obligatorios <span style="color:#DC2626;font-weight:800;">(*)</span></div></div><button class="btn-help" onclick="openHelp('roles')">❓ Ayuda</button></div>
           <div class="card-body">
             <div id="np-alert" class="hidden"></div>
             <div class="form-grid">
@@ -899,7 +1075,8 @@ tbody tr.urgent:hover{background:#FEE2E2;}
         <div class="card" style="max-width:700px;">
           <div class="card-header"><div><div class="card-title">Búsqueda de Paciente</div><div class="card-sub">Busca por RUT o por nombre</div></div><button class="btn-help" onclick="openHelp('roles')">❓ Ayuda</button></div>
           <div class="card-body">
-            <div class="row mb12"><input class="fc f1" id="searchQuery" placeholder="RUT o Nombre/Apellido" onkeyup="if(event.key==='Enter')buscarPaciente()"><button class="btn btn-primary" style="width:auto;" onclick="buscarPaciente()">🔍 Buscar</button></div>
+            <div class="row mb12"><input class="fc f1" id="searchQuery" placeholder="RUT o Nombre/Apellido" onkeyup="if(event.key==='Enter')buscarPaciente()">
+              <select class="fc" id="searchCesfam" onchange="buscarPaciente()" style="max-width:180px;"><option value="">Todos los CESFAM</option><option>C.S.F. Panquehue</option><option>C.S.F. Dr. Segismundo Iturra</option><option>C.S.F. Recoleta</option><option>C.S.F. Lucas Sierra</option><option>C.S.F. San Ramón</option></select><button class="btn btn-primary" style="width:auto;" onclick="buscarPaciente()">🔍 Buscar</button></div>
             <div id="searchResult"></div>
           </div>
         </div>
@@ -938,15 +1115,15 @@ tbody tr.urgent:hover{background:#FEE2E2;}
             <div class="sec-title">📋 Cuestionario Clínico</div>
             <div class="alert alert-info mb12"><span class="alert-icon">ℹ️</span>Completar con el paciente presente. Influye directamente en la interpretación de los resultados.</div>
             <div class="form-grid">
-              <div class="fg"><label class="fl">¿Examen previo?</label><select class="fc" id="ne-previo"><option>No</option><option>Sí</option></select></div>
-              <div class="fg"><label class="fl">¿Tratamiento erradicación H. pylori?</label><select class="fc" id="ne-errad"><option>No</option><option>Sí</option></select></div>
-              <div class="fg"><label class="fl">¿Usa IBP / antiácidos?</label><select class="fc" id="ne-ibp" onchange="checkIBP()"><option value="no">No</option><option value="si">Sí</option></select></div>
-              <div class="fg"><label class="fl">¿Días sin IBP/antiácidos?</label><select class="fc" id="ne-dias-ibp" onchange="checkIBP()"><option value="0">0 días (aún los toma)</option><option value="1-7">1–7 días</option><option value="8-14">8–14 días</option><option value="15+">≥15 días</option></select></div>
-              <div class="fg"><label class="fl">¿Reflujo gastroesofágico?</label><select class="fc" id="ne-reflujo"><option>No</option><option>Ocasional</option><option>Frecuente</option><option>Continuo</option></select></div>
-              <div class="fg"><label class="fl">¿Usa AINEs?</label><select class="fc" id="ne-aines"><option>No</option><option>Sí, ocasional</option><option>Sí, continuo</option></select></div>
-              <div class="fg"><label class="fl">¿Antibióticos últimas 4–6 semanas?</label><select class="fc" id="ne-antibio"><option>No</option><option>Sí</option></select></div>
-              <div class="fg"><label class="fl">¿Endoscopía previa?</label><select class="fc" id="ne-endos"><option>No</option><option>Sí</option></select></div>
-              <div class="fg"><label class="fl">¿Paciente sintomático?</label><select class="fc" id="ne-sintom"><option>No</option><option>Sí — dispepsia</option><option>Sí — dolor epigástrico</option><option>Sí — otro</option></select></div>
+              <div class="fg"><label class="fl" title="El paciente ya se ha realizado un GastroPanel anteriormente." style="cursor:help;">¿Examen previo? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="El paciente ya se ha realizado un GastroPanel anteriormente.">?</span></label><select class="fc" id="ne-previo"><option>No</option><option>Sí</option></select></div>
+              <div class="fg"><label class="fl" title="Tratamiento antibiótico previo para eliminar la bacteria Helicobacter pylori del estómago." style="cursor:help;">¿Tratamiento erradicación H. pylori? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Tratamiento antibiótico previo para eliminar la bacteria Helicobacter pylori del estómago.">?</span></label><select class="fc" id="ne-errad"><option>No</option><option>Sí</option></select></div>
+              <div class="fg"><label class="fl" title="Los IBP (omeprazol, pantoprazol) y antiácidos pueden alterar los resultados del examen. Es importante saberlo." style="cursor:help;">¿Usa IBP / antiácidos? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Los IBP (omeprazol, pantoprazol) y antiácidos pueden alterar los resultados del examen. Es importante saberlo.">?</span></label><select class="fc" id="ne-ibp" onchange="checkIBP()"><option value="no">No</option><option value="si">Sí</option></select></div>
+              <div class="fg"><label class="fl" title="Para obtener resultados confiables, se recomienda suspender los IBP al menos 10-14 días antes del examen." style="cursor:help;">¿Días sin IBP/antiácidos? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Para obtener resultados confiables, se recomienda suspender los IBP al menos 10-14 días antes del examen.">?</span></label><select class="fc" id="ne-dias-ibp" onchange="checkIBP()"><option value="0">0 días (aún los toma)</option><option value="1-7">1–7 días</option><option value="8-14">8–14 días</option><option value="15+">≥15 días</option></select></div>
+              <div class="fg"><label class="fl" title="Sensación de que el contenido del estómago sube hacia la garganta o la boca." style="cursor:help;">¿Reflujo gastroesofágico? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Sensación de que el contenido del estómago sube hacia la garganta o la boca.">?</span></label><select class="fc" id="ne-reflujo"><option>No</option><option>Ocasional</option><option>Frecuente</option><option>Continuo</option></select></div>
+              <div class="fg"><label class="fl" title="Anti-inflamatorios no esteroidales: ibuprofeno, aspirina, naproxeno, diclofenaco, etc." style="cursor:help;">¿Usa AINEs? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Anti-inflamatorios no esteroidales: ibuprofeno, aspirina, naproxeno, diclofenaco, etc.">?</span></label><select class="fc" id="ne-aines"><option>No</option><option>Sí, ocasional</option><option>Sí, continuo</option></select></div>
+              <div class="fg"><label class="fl" title="Algunos antibióticos pueden afectar la bacteria H. pylori y alterar los resultados." style="cursor:help;">¿Antibióticos últimas 4–6 semanas? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Algunos antibióticos pueden afectar la bacteria H. pylori y alterar los resultados.">?</span></label><select class="fc" id="ne-antibio"><option>No</option><option>Sí</option></select></div>
+              <div class="fg"><label class="fl" title="Examen con cámara del estómago realizado previamente por un gastroenterólogo." style="cursor:help;">¿Endoscopía previa? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="Examen con cámara del estómago realizado previamente por un gastroenterólogo.">?</span></label><select class="fc" id="ne-endos"><option>No</option><option>Sí</option></select></div>
+              <div class="fg"><label class="fl" title="El paciente presenta síntomas digestivos activos como dolor, náuseas o dispepsia." style="cursor:help;">¿Paciente sintomático? <span style="font-size:10px;color:#94A3B8;background:#F1F5F9;border-radius:50%;padding:0 4px;font-weight:700;" title="El paciente presenta síntomas digestivos activos como dolor, náuseas o dispepsia.">?</span></label><select class="fc" id="ne-sintom"><option>No</option><option>Sí — dispepsia</option><option>Sí — dolor epigástrico</option><option>Sí — otro</option></select></div>
             </div>
             <div class="ibp-warning" id="ibp-warning">⚠️ <strong>Advertencia clínica:</strong> IBP reciente puede elevar artificialmente Gastrina-17 y enmascarar atrofia del antro. Considera reprogramar con washout ≥2 semanas.</div>
             <hr class="divider">
@@ -988,13 +1165,14 @@ tbody tr.urgent:hover{background:#FEE2E2;}
           <div class="card-header"><div><div class="card-title">Pacientes Pendientes de Seguimiento</div><div class="card-sub">Los 🔴 aparecen primero — derivación urgente a especialista</div></div><button class="btn-help" onclick="openHelp('roles')">❓ Ayuda</button></div>
           <div class="card-body" style="padding-bottom:0;">
             <div class="filter-bar">
-              <div class="fg"><label class="fl">CESFAM</label><select class="fc" id="filtCesfam" onchange="filtrarSeguimiento()"><option value="">Todos</option><option>C.S.F. Panquehue</option><option>C.S.F. Dr. Segismundo Iturra</option><option>C.S.F. Recoleta</option><option>C.S.F. San Ramón</option></select></div>
-              <div class="fg"><label class="fl">Clasificación</label><select class="fc" id="filtDiag" onchange="filtrarSeguimiento()"><option value="">Todas</option><option value="medico">🟡 Médico general</option><option value="especialista">🔴 Especialista</option></select></div>
+              <div class="fg"><label class="fl">🔍 Buscar por nombre/RUT</label><input class="fc" id="filtNombre" placeholder="Nombre o RUT..." oninput="filtrarSeguimiento()"></div>
+              <div class="fg"><label class="fl">CESFAM</label><select class="fc" id="filtCesfam" onchange="filtrarSeguimiento()"><option value="">Todos</option><option>C.S.F. Panquehue</option><option>C.S.F. Dr. Segismundo Iturra</option><option>C.S.F. Recoleta</option><option>C.S.F. Agustín Cruz Melo</option><option>C.S.F. Recoleta</option><option>C.S.F. Lucas Sierra</option><option>C.S.F. Quinta Bella</option><option>C.S.F. Valdivieso</option><option>C.S.F. Dr. Juan Petrinovic</option><option>C.S.F. Alberto Bachelet</option><option>C.S.F. José Symon Ojeda</option><option>C.S.F. San Ramón</option></select></div>
+              <div class="fg"><label class="fl">Clasificación</label><select class="fc" id="filtDiag" onchange="filtrarSeguimiento()"><option value="">Todas</option><option value="medico">🟠 Médico general</option><option value="especialista">🔴 Referir especialista</option></select></div>
               <button class="btn btn-primary btn-sm" onclick="filtrarSeguimiento()" style="width:auto;margin-top:14px;">Filtrar</button>
             </div>
           </div>
           <div class="table-wrap" style="border-radius:0;border-left:none;border-right:none;border-bottom:none;">
-            <table><thead><tr><th>RUT</th><th>Paciente</th><th>Diagnóstico</th><th>Riesgo</th><th>CESFAM</th><th>PDF</th><th>Acción</th></tr></thead>
+            <table><thead><tr><th>RUT</th><th>Paciente</th><th>Diagnóstico</th><th>Riesgo</th><th style="text-align:center;">⏱️ Días</th><th>CESFAM</th><th>PDF</th><th>Acción</th></tr></thead>
             <tbody id="seguimientoTable"></tbody></table>
           </div>
         </div>
@@ -1007,55 +1185,464 @@ tbody tr.urgent:hover{background:#FEE2E2;}
       <!-- ── REPORTES ── -->
       <div id="view-reportes" class="view">
         <div id="demo-reportes" class="demo-panel hidden">
-          <div class="demo-panel-head"><span style="font-size:18px;">📈</span><div><div class="demo-panel-title">Demo: Reportes</div><div class="demo-panel-sub">Visualización de gestión por CESFAM</div></div></div>
+          <div class="demo-panel-head"><span style="font-size:18px;">📈</span><div><div class="demo-panel-title">Demo: Reportes</div><div class="demo-panel-sub">Reportes personalizados según tu rol</div></div></div>
           <div class="demo-panel-body">
             <div class="demo-cards">
-              <div class="demo-card red"><div class="demo-card-label">🔴 Más crítico</div><div class="demo-card-name">C.S.F. Panquehue</div><div class="demo-card-desc">31 pendientes totales. 19 requieren especialista. El más urgente del sistema.</div><div class="demo-card-meta">12 médico general + 19 especialista</div><button class="demo-load-btn red-btn" onclick="document.getElementById('filtCesfam') && (document.getElementById('filtCesfam').value='C.S.F. Panquehue')">Ver detalle →</button></div>
-              <div class="demo-card yellow"><div class="demo-card-label">🟡 Moderado</div><div class="demo-card-name">C.S.F. Recoleta</div><div class="demo-card-desc">19 pendientes. Mix equilibrado de derivaciones médicas y especialistas.</div><div class="demo-card-meta">10 médico general + 9 especialista</div><button class="demo-load-btn yellow-btn">Ver detalle →</button></div>
-              <div class="demo-card green"><div class="demo-card-label">🟢 Mejor gestionado</div><div class="demo-card-name">C.S.F. Colina -1</div><div class="demo-card-desc">4 pendientes totales. El mejor gestionado del sistema.</div><div class="demo-card-meta">3 médico general + 1 especialista</div><button class="demo-load-btn green-btn">Ver detalle →</button></div>
+              <div class="demo-card red"><div class="demo-card-label">🔴 Más crítico</div><div class="demo-card-name">C.S.F. Panquehue</div><div class="demo-card-desc">31 pendientes totales. 19 requieren especialista.</div><div class="demo-card-meta">12 médico general + 19 especialista</div></div>
+              <div class="demo-card yellow"><div class="demo-card-label">🟠 Moderado</div><div class="demo-card-name">C.S.F. Recoleta</div><div class="demo-card-desc">19 pendientes. Mix equilibrado de derivaciones.</div><div class="demo-card-meta">10 médico general + 9 especialista</div></div>
+              <div class="demo-card green"><div class="demo-card-label">🟢 Mejor gestionado</div><div class="demo-card-name">C.S.F. Colina -1</div><div class="demo-card-desc">4 pendientes totales. El mejor gestionado.</div><div class="demo-card-meta">3 médico general + 1 especialista</div></div>
             </div>
           </div>
         </div>
+
+        <!-- ══ FILTRO TEMPORAL COMPARTIDO ══ -->
+        <div class="reporte-filter-bar" id="reporte-filter-bar">
+          <span class="filter-label">📅 Período:</span>
+          <button class="filter-period-btn active" id="fpb-mes" onclick="setReportePeriod('mes')">Este mes</button>
+          <button class="filter-period-btn" id="fpb-3m" onclick="setReportePeriod('3m')">3 meses</button>
+          <button class="filter-period-btn" id="fpb-6m" onclick="setReportePeriod('6m')">6 meses</button>
+          <button class="filter-period-btn" id="fpb-año" onclick="setReportePeriod('año')">Este año</button>
+          <button class="filter-period-btn" id="fpb-todo" onclick="setReportePeriod('todo')">Todo</button>
+          <div class="filter-separator"></div>
+          <span class="filter-label">Personalizado:</span>
+          <input type="date" class="fc" id="rp-desde" style="padding:5px 8px;font-size:11px;width:130px;">
+          <span style="font-size:11px;color:#64748B;">al</span>
+          <input type="date" class="fc" id="rp-hasta" style="padding:5px 8px;font-size:11px;width:130px;">
+          <button class="btn btn-primary btn-sm" style="font-size:11px;padding:5px 12px;" onclick="aplicarFiltroPersonalizado()">Aplicar</button>
+          <span id="reporte-filter-info" style="margin-left:auto;font-size:11px;color:#0369A1;font-weight:700;"></span>
+        </div>
+
+        <!-- ══════════════════════════════════════════════
+             REPORTE ROL: SECRETARIA / TÉCNICO
+             Foco: Productividad administrativa
+        ══════════════════════════════════════════════ -->
+        <div id="rep-secretaria" class="hidden">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">📋 Reporte Administrativo</div><div class="card-sub">Gestión de exámenes y registros del período</div></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-excel btn-sm" onclick="abrirExportModal('resultados')">📥 Exportar Excel</button>
+                <button class="btn btn-primary btn-sm" onclick="abrirImportModal()">📤 Importar Excel</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- KPIs administrativos -->
+              <div class="charts-grid-3" style="gap:12px;margin-bottom:18px;">
+                <div class="stat-card" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #BFDBFE;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#1D4ED8;" id="sec-total-exam">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#1E40AF;margin-top:4px;">Exámenes registrados</div>
+                  <div style="font-size:10px;color:#93C5FD;margin-top:2px;">en el período</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:1px solid #FED7AA;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#C2410C;" id="sec-sin-resultado">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#9A3412;margin-top:4px;">Sin resultado Lab</div>
+                  <div style="font-size:10px;color:#FDBA74;margin-top:2px;">aguardando procesamiento</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #BBF7D0;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#15803D;" id="sec-total-pac">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#166534;margin-top:4px;">Pacientes registrados</div>
+                  <div style="font-size:10px;color:#86EFAC;margin-top:2px;">en el sistema</div>
+                </div>
+              </div>
+              <!-- Tabla por CESFAM: productividad -->
+              <div style="font-size:13px;font-weight:800;color:#334155;margin-bottom:8px;">Exámenes por CESFAM</div>
+              <div class="table-wrap">
+                <table><thead><tr><th>CESFAM</th><th>Exámenes</th><th>Con resultado</th><th>Sin resultado</th><th>% completado</th></tr></thead>
+                <tbody id="sec-tabla-cesfam"></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════
+             REPORTE ROL: LABORATORIO
+             Foco: Operatividad y tiempos de procesamiento
+        ══════════════════════════════════════════════ -->
+        <div id="rep-laboratorio" class="hidden">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">🔬 Reporte Operativo de Laboratorio</div><div class="card-sub">Muestras procesadas y tiempos de respuesta</div></div>
+            </div>
+            <div class="card-body">
+              <!-- KPIs de lab -->
+              <div class="charts-grid-3" style="gap:12px;margin-bottom:18px;">
+                <div class="stat-card" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border:1px solid #DDD6FE;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#6D28D9;" id="lab-procesadas">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#5B21B6;margin-top:4px;">Muestras procesadas</div>
+                  <div style="font-size:10px;color:#C4B5FD;margin-top:2px;">en el período</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:1px solid #FED7AA;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#C2410C;" id="lab-pendientes">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#9A3412;margin-top:4px;">Pendientes de procesar</div>
+                  <div style="font-size:10px;color:#FDBA74;margin-top:2px;">sin resultado ingresado</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #BBF7D0;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#15803D;" id="lab-con-pdf">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#166534;margin-top:4px;">Con informe PDF</div>
+                  <div style="font-size:10px;color:#86EFAC;margin-top:2px;">disponibles para paciente</div>
+                </div>
+              </div>
+              <!-- Distribución de resultados ingresados -->
+              <div class="charts-grid-3" style="margin-bottom:18px;">
+                <div class="chart-card">
+                  <div class="chart-card-title">Distribución Diagnóstica</div>
+                  <div class="chart-card-sub">De los resultados ingresados</div>
+                  <div class="chart-canvas-wrap donut"><canvas id="chart-lab-donut"></canvas></div>
+                  <div class="chart-legend" id="legend-lab-donut" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;"></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Prevalencia H. pylori</div>
+                  <div class="chart-card-sub">En muestras procesadas</div>
+                  <div class="chart-canvas-wrap donut"><canvas id="chart-lab-hp"></canvas></div>
+                  <div class="chart-legend" id="legend-lab-hp" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;"></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Volumen mensual</div>
+                  <div class="chart-card-sub">Muestras procesadas por mes</div>
+                  <div class="chart-canvas-wrap line"><canvas id="chart-lab-line"></canvas></div>
+                </div>
+              </div>
+              <!-- Lista de pendientes -->
+              <div style="font-size:13px;font-weight:800;color:#334155;margin-bottom:8px;">⏳ Exámenes pendientes de procesamiento</div>
+              <div class="table-wrap">
+                <table><thead><tr><th>ID Examen</th><th>CESFAM</th><th>Fecha muestra</th><th>Días en espera</th></tr></thead>
+                <tbody id="lab-tabla-pendientes"></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════
+             REPORTE ROL: ENFERMERA
+             Foco: Seguimiento de pacientes
+        ══════════════════════════════════════════════ -->
+        <div id="rep-enfermera" class="hidden">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">👩‍⚕️ Reporte de Seguimiento de Pacientes</div><div class="card-sub">Estado de seguimiento y alertas por CESFAM</div></div>
+              <button class="btn btn-excel btn-sm" onclick="abrirExportModal('seguimientos')">📊 Exportar seguimientos</button>
+            </div>
+            <div class="card-body">
+              <!-- KPIs enfermera -->
+              <div class="charts-grid-3" style="gap:12px;margin-bottom:18px;">
+                <div class="stat-card" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #BBF7D0;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#15803D;" id="enf-con-seg">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#166534;margin-top:4px;">Con seguimiento</div>
+                  <div style="font-size:10px;color:#86EFAC;margin-top:2px;">acción registrada</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:1px solid #FED7AA;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#C2410C;" id="enf-sin-seg">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#9A3412;margin-top:4px;">Sin seguimiento</div>
+                  <div style="font-size:10px;color:#FDBA74;margin-top:2px;">requieren atención médica</div>
+                </div>
+                <div class="stat-card" style="background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border:1px solid #FECACA;border-radius:12px;padding:16px;text-align:center;">
+                  <div style="font-size:28px;font-weight:900;color:#DC2626;" id="enf-criticos">—</div>
+                  <div style="font-size:12px;font-weight:700;color:#B91C1C;margin-top:4px;">Urgentes &gt;90 días</div>
+                  <div style="font-size:10px;color:#FCA5A5;margin-top:2px;">sin seguimiento registrado</div>
+                </div>
+              </div>
+              <!-- Gráfico seguimiento por CESFAM -->
+              <div class="chart-card mb12">
+                <div class="chart-card-title">Estado de seguimiento por CESFAM</div>
+                <div class="chart-card-sub">
+                  <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16A34A;margin-right:4px;vertical-align:middle;"></span>Con seguimiento
+                  <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#DC2626;margin-right:4px;vertical-align:middle;margin-left:8px;"></span>Sin seguimiento
+                </div>
+                <div class="chart-canvas-wrap bar" style="height:240px;"><canvas id="chart-enf-stacked"></canvas></div>
+              </div>
+              <!-- Tabla de pacientes sin seguimiento -->
+              <div style="font-size:13px;font-weight:800;color:#334155;margin-bottom:8px;">Pacientes sin seguimiento registrado</div>
+              <div class="table-wrap">
+                <table><thead><tr><th>Paciente</th><th>CESFAM</th><th>Diagnóstico</th><th style="text-align:center;">⏱️ Días</th></tr></thead>
+                <tbody id="enf-tabla-pendientes"></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════
+             REPORTE ROL: MÉDICO
+             Foco: Epidemiología clínica completa
+        ══════════════════════════════════════════════ -->
+        <div id="rep-medico" class="hidden">
+          <div class="card">
+            <div class="card-header">
+              <div><div class="card-title">🏥 Reporte Clínico-Epidemiológico</div><div class="card-sub">Distribución diagnóstica y gestión de seguimientos por CESFAM</div></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-excel btn-sm" onclick="abrirExportModal('seguimientos')">📊 Exportar Seguimientos</button>
+                <button class="btn btn-excel btn-sm" onclick="abrirExportModal('resultados')">🔬 Exportar Resultados</button>
+                <button class="btn btn-primary btn-sm" onclick="abrirImportModal()">📥 Importar Excel</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row mb12 wrap">
+                <span class="badge bg-yellow">🟠 Deriv. médico general</span>
+                <span class="badge bg-red" style="margin-left:6px;">🔴 Referir especialista</span>
+                <span class="text-xs text-muted" style="margin-left:auto;">Al: <strong id="reporteDate"></strong></span>
+              </div>
+              <!-- Gráficos principales -->
+              <div class="charts-grid-3" style="margin-bottom:18px;">
+                <div class="chart-card">
+                  <div class="chart-card-title">Distribución Diagnóstica</div>
+                  <div class="chart-card-sub">Resultado de todos los exámenes realizados</div>
+                  <div class="chart-canvas-wrap donut"><canvas id="chart-rep-donut"></canvas></div>
+                  <div class="chart-legend" id="legend-rep-donut" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;padding:0 10px;"></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Prevalencia H. pylori</div>
+                  <div class="chart-card-sub">Positivo vs Negativo</div>
+                  <div class="chart-canvas-wrap donut"><canvas id="chart-rep-hp"></canvas></div>
+                  <div class="chart-legend" id="legend-rep-hp" style="display:flex;flex-wrap:wrap;justify-content:center;margin-top:8px;"></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Tendencia Mensual</div>
+                  <div class="chart-card-sub">Exámenes por mes</div>
+                  <div class="chart-canvas-wrap line"><canvas id="chart-rep-line"></canvas></div>
+                </div>
+              </div>
+              <!-- Barras apiladas CESFAM -->
+              <div class="chart-card mb12">
+                <div class="chart-card-title">Pendientes por CESFAM — Barras Apiladas</div>
+                <div class="chart-card-sub">
+                  <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#D97706;margin-right:4px;vertical-align:middle;"></span>Médico general +
+                  <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#DC2626;margin-right:4px;vertical-align:middle;margin-left:6px;"></span>Referir especialista
+                </div>
+                <div class="chart-canvas-wrap bar" style="height:280px;"><canvas id="chart-rep-stacked"></canvas></div>
+              </div>
+              <div id="reporteChart" class="mb12" style="display:none;"></div>
+              <!-- Gráficos adicionales médico -->
+              <div class="charts-grid-3" style="margin-top:14px;margin-bottom:14px;">
+                <div class="chart-card">
+                  <div class="chart-card-title">Cobertura por tramo etario</div>
+                  <div class="chart-card-sub">Pacientes examinados por edad</div>
+                  <div class="chart-canvas-wrap bar" style="height:200px;"><canvas id="chart-rep-etario"></canvas></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Tasa H. pylori por CESFAM</div>
+                  <div class="chart-card-sub">% HP positivo por centro</div>
+                  <div class="chart-canvas-wrap bar" style="height:200px;"><canvas id="chart-rep-hp-cesfam"></canvas></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-card-title">Semáforo de gestión</div>
+                  <div class="chart-card-sub">Estado de seguimientos por CESFAM</div>
+                  <div id="semaforo-rep" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;padding:8px;max-height:200px;overflow-y:auto;"></div>
+                </div>
+              </div>
+              <!-- Tabla resumen -->
+              <div class="table-wrap">
+                <table><thead><tr><th>CESFAM</th><th style="color:#D97706;">● Médico</th><th style="color:#DC2626;">● Especialista</th><th>Total</th><th>Estado</th></tr></thead>
+                <tbody id="reporteTable"></tbody>
+              </table></div>
+            </div>
+          </div>
+          <!-- Auditoría -->
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header" style="cursor:pointer;" onclick="document.getElementById('audit-section').classList.toggle('hidden');renderAuditLog();">
+              <div><div class="card-title">📋 Historial de Auditoría</div><div class="card-sub">Registro de acciones del sistema (últimas 50)</div></div>
+              <span style="font-size:12px;color:var(--g400);">▼ Expandir</span>
+            </div>
+            <div id="audit-section" class="card-body hidden">
+              <div class="table-wrap">
+                <table><thead><tr><th>Fecha/Hora</th><th>Rol</th><th>Acción</th><th>Detalle</th></tr></thead>
+                <tbody id="audit-log-body"></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ══ GASTROCALC ══ -->
+      <div id="view-gastrocalc" class="view">
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Reporte de Gestión de Seguimientos</div><div class="card-sub">Pacientes sin registro de seguimiento médico por CESFAM</div></div><button class="btn-help" onclick="openHelp('tecnica')" title="Ayuda">❓ Ayuda</button>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-excel btn-sm" onclick="abrirExportModal('seguimientos')">📊 Exportar Seguimientos</button>
-              <button class="btn btn-excel btn-sm" onclick="abrirExportModal('resultados')">🔬 Exportar Resultados</button>
-              <button class="btn btn-primary btn-sm" style="background:var(--primary);" onclick="abrirImportModal()">📥 Importar Excel</button>
+          <div class="card-header">
+            <div>
+              <div class="card-title">🧮 GastroCalc® — Calculadora Clínica</div>
+              <div class="card-sub">Herramientas de apoyo clínico para gastroenterología</div>
             </div>
           </div>
           <div class="card-body">
-            <div class="row mb12 wrap"><span class="badge bg-yellow">🟡 Deriv. médico general</span><span class="badge bg-red" style="margin-left:6px;">🔴 Referir especialista</span><span class="text-xs text-muted" style="margin-left:auto;">Al: <strong id="reporteDate"></strong></span></div>
-            <!-- Fila de gráficos -->
-            <div class="charts-grid-3" style="margin-bottom:18px;">
-              <div class="chart-card">
-                <div class="chart-card-title">Distribución Diagnóstica</div>
-                <div class="chart-card-sub">Todos los exámenes</div>
-                <div class="chart-canvas-wrap donut"><canvas id="chart-rep-donut"></canvas></div>
-              </div>
-              <div class="chart-card">
-                <div class="chart-card-title">Prevalencia H. pylori</div>
-                <div class="chart-card-sub">Positivo vs Negativo</div>
-                <div class="chart-canvas-wrap donut"><canvas id="chart-rep-hp"></canvas></div>
-              </div>
-              <div class="chart-card">
-                <div class="chart-card-title">Tendencia Mensual</div>
-                <div class="chart-card-sub">Exámenes por mes</div>
-                <div class="chart-canvas-wrap line"><canvas id="chart-rep-line"></canvas></div>
-              </div>
+            <!-- Tabs -->
+            <div class="gc-tabs">
+              <div class="gc-tab active" onclick="gcTab('olga')">📊 Score OLGA/OLGIM</div>
+              <div class="gc-tab" onclick="gcTab('hp')">🦠 Erradicación H. pylori</div>
+              <div class="gc-tab" onclick="gcTab('riesgo')">⚠️ Riesgo oncológico</div>
+              <div class="gc-tab" onclick="gcTab('ibp')">💊 IBP y GastroPanel</div>
+              <div class="gc-tab" onclick="gcTab('interpretador')">🔬 Interpretador serológico</div>
             </div>
-            <!-- Gráfico de barras apiladas CESFAM -->
-            <div class="chart-card mb12">
-              <div class="chart-card-title">Pendientes por CESFAM — Barras Apiladas</div>
-              <div class="chart-card-sub">🟡 Médico general + 🔴 Especialista</div>
-              <div class="chart-canvas-wrap bar" style="height:280px;"><canvas id="chart-rep-stacked"></canvas></div>
+
+            <!-- ── TAB 1: OLGA ── -->
+            <div id="gc-olga" class="gc-panel active">
+              <div class="info-box" style="margin-bottom:14px;">
+                💡 El score OLGA (Operative Link for Gastritis Assessment) estratifica el riesgo de cáncer gástrico basándose en el grado y topografía de la atrofia.
+              </div>
+              <div class="gc-input-grid">
+                <div class="fg"><label class="fl">Atrofia de Cuerpo (histología)</label>
+                  <select class="fc" id="gc-corpus">
+                    <option value="0">0 — Sin atrofia</option>
+                    <option value="1">1 — Atrofia leve (&lt;30%)</option>
+                    <option value="2">2 — Atrofia moderada (30-60%)</option>
+                    <option value="3">3 — Atrofia severa (&gt;60%)</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Atrofia de Antro (histología)</label>
+                  <select class="fc" id="gc-antro">
+                    <option value="0">0 — Sin atrofia</option>
+                    <option value="1">1 — Atrofia leve (&lt;30%)</option>
+                    <option value="2">2 — Atrofia moderada (30-60%)</option>
+                    <option value="3">3 — Atrofia severa (&gt;60%)</option>
+                  </select></div>
+                <div class="fg"><label class="fl">H. pylori</label>
+                  <select class="fc" id="gc-hp-status">
+                    <option value="neg">Negativo</option>
+                    <option value="pos">Positivo</option>
+                    <option value="post">Post-erradicación</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Metaplasia intestinal</label>
+                  <select class="fc" id="gc-meta">
+                    <option value="0">Sin metaplasia</option>
+                    <option value="1">Metaplasia incompleta</option>
+                    <option value="2">Metaplasia completa</option>
+                  </select></div>
+              </div>
+              <button class="btn btn-primary" onclick="calcOLGA()">📊 Calcular Score OLGA</button>
+              <div id="gc-olga-result"></div>
             </div>
-            <div id="reporteChart" class="mb12" style="display:none;"></div>
-            <div class="table-wrap"><table><thead><tr><th>CESFAM</th><th>🟡 Médico</th><th>🔴 Especialista</th><th>Total</th><th>Estado</th></tr></thead><tbody id="reporteTable"></tbody></table></div>
+
+            <!-- ── TAB 2: HP ERRADICACIÓN ── -->
+            <div id="gc-hp" class="gc-panel">
+              <div class="info-box" style="margin-bottom:14px;">
+                💡 Calcula el esquema de erradicación de <em>H. pylori</em> según las guías chilenas y la resistencia antibiótica local estimada.
+              </div>
+              <div class="gc-input-grid">
+                <div class="fg"><label class="fl">Tratamiento previo de erradicación</label>
+                  <select class="fc" id="gc-hp-prev">
+                    <option value="ninguno">Ninguno (primera línea)</option>
+                    <option value="claritro">Falló claritromicina</option>
+                    <option value="metro">Falló metronidazol</option>
+                    <option value="ambos">Falló claritro + metro</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Alergia a penicilina</label>
+                  <select class="fc" id="gc-hp-alergia">
+                    <option value="no">No</option>
+                    <option value="si">Sí</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Disponibilidad de Bismuto</label>
+                  <select class="fc" id="gc-hp-bismuto">
+                    <option value="si">Disponible</option>
+                    <option value="no">No disponible</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Contexto</label>
+                  <select class="fc" id="gc-hp-contexto">
+                    <option value="cesfam">CESFAM (formulario básico)</option>
+                    <option value="hospital">Hospital / Especialidad</option>
+                  </select></div>
+              </div>
+              <button class="btn btn-primary" onclick="calcErradicacion()">💊 Calcular Esquema</button>
+              <div id="gc-hp-result"></div>
+            </div>
+
+            <!-- ── TAB 3: RIESGO ONCOLÓGICO ── -->
+            <div id="gc-riesgo" class="gc-panel">
+              <div class="info-box" style="margin-bottom:14px;">
+                💡 Calculadora de riesgo de cáncer gástrico basada en factores clínicos, serológicos y familiares.
+              </div>
+              <div class="gc-input-grid">
+                <div class="fg"><label class="fl">Edad</label>
+                  <input class="fc" id="gc-r-edad" type="number" min="18" max="100" placeholder="años"></div>
+                <div class="fg"><label class="fl">Sexo</label>
+                  <select class="fc" id="gc-r-sexo">
+                    <option value="m">Masculino</option>
+                    <option value="f">Femenino</option>
+                  </select></div>
+                <div class="fg"><label class="fl">H. pylori</label>
+                  <select class="fc" id="gc-r-hp">
+                    <option value="neg">Negativo</option>
+                    <option value="pos">Positivo (no tratado)</option>
+                    <option value="erad">Post-erradicación exitosa</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Antecedente familiar</label>
+                  <select class="fc" id="gc-r-fam">
+                    <option value="no">Sin antecedentes</option>
+                    <option value="lejano">Familiar lejano</option>
+                    <option value="directo">Familiar directo (1° grado)</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Resultado GastroPanel</label>
+                  <select class="fc" id="gc-r-gp">
+                    <option value="normal">Normal</option>
+                    <option value="medico">Derivación médico</option>
+                    <option value="especialista">Referir especialista</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Hábito tabáquico</label>
+                  <select class="fc" id="gc-r-tabaco">
+                    <option value="no">No fumador</option>
+                    <option value="ex">Ex-fumador</option>
+                    <option value="si">Fumador activo</option>
+                  </select></div>
+              </div>
+              <button class="btn btn-primary" onclick="calcRiesgoOnco()">⚠️ Calcular Riesgo</button>
+              <div id="gc-riesgo-result"></div>
+            </div>
+
+            <!-- ── TAB 4: IBP y GASTROPANEL ── -->
+            <div id="gc-ibp" class="gc-panel">
+              <div class="info-box" style="margin-bottom:14px;">
+                💡 Los IBP (inhibidores de la bomba de protones) afectan la secreción gástrica y pueden alterar los resultados del GastroPanel. Esta calculadora evalúa el impacto.
+              </div>
+              <div class="gc-input-grid">
+                <div class="fg"><label class="fl">IBP utilizado</label>
+                  <select class="fc" id="gc-ibp-tipo">
+                    <option value="omeprazol">Omeprazol</option>
+                    <option value="pantoprazol">Pantoprazol</option>
+                    <option value="esomeprazol">Esomeprazol</option>
+                    <option value="lansoprazol">Lansoprazol</option>
+                    <option value="rabeprazol">Rabeprazol</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Dosis diaria</label>
+                  <select class="fc" id="gc-ibp-dosis">
+                    <option value="std">Estándar (20-40 mg/día)</option>
+                    <option value="alta">Alta (>40 mg/día)</option>
+                    <option value="doble">Doble (2 veces al día)</option>
+                  </select></div>
+                <div class="fg"><label class="fl">Días de suspensión</label>
+                  <input class="fc" id="gc-ibp-dias" type="number" min="0" max="60" placeholder="días sin IBP"></div>
+                <div class="fg"><label class="fl">Valor G17 obtenido</label>
+                  <input class="fc" id="gc-ibp-g17" type="number" step="0.1" min="0" placeholder="pmol/L"></div>
+              </div>
+              <button class="btn btn-primary" onclick="calcIBP()">💊 Evaluar impacto IBP</button>
+              <div id="gc-ibp-result"></div>
+            </div>
+
+            <!-- ── TAB 5: INTERPRETADOR SEROLÓGICO ── -->
+            <div id="gc-interpretador" class="gc-panel">
+              <div class="info-box" style="margin-bottom:14px;">
+                💡 Ingresa los valores serológicos y obtén la interpretación clínica completa con mapa de Sídney, score OLGA y recomendaciones.
+              </div>
+              <div class="gc-input-grid">
+                <div class="fg"><label class="fl">Pepsinógeno I (PGI)</label>
+                  <input class="fc" id="gc-s-pgi" type="number" step="0.1" placeholder="µg/L (ref: 30-160)"></div>
+                <div class="fg"><label class="fl">Pepsinógeno II (PGII)</label>
+                  <input class="fc" id="gc-s-pgii" type="number" step="0.1" placeholder="µg/L (ref: 3-15)"></div>
+                <div class="fg"><label class="fl">Ratio PGI/PGII</label>
+                  <input class="fc" id="gc-s-ratio" type="number" step="0.1" placeholder="(ref: >3)"></div>
+                <div class="fg"><label class="fl">Gastrina-17 (G17)</label>
+                  <input class="fc" id="gc-s-g17" type="number" step="0.1" placeholder="pmol/L (ref: 1-7)"></div>
+                <div class="fg"><label class="fl">Anti-H. pylori (IgG)</label>
+                  <input class="fc" id="gc-s-hp" type="number" step="0.1" placeholder="EIU (ref: <30)"></div>
+                <div class="fg"><label class="fl">Auto-calcular ratio</label>
+                  <button class="btn btn-gray btn-sm" style="margin-top:20px;" onclick="
+                    const p=parseFloat(document.getElementById('gc-s-pgi').value);
+                    const pp=parseFloat(document.getElementById('gc-s-pgii').value);
+                    if(!isNaN(p)&&!isNaN(pp)&&pp>0) document.getElementById('gc-s-ratio').value=(p/pp).toFixed(1);
+                  ">🔄 Calcular ratio</button></div>
+              </div>
+              <button class="btn btn-primary" onclick="calcInterpretador()">🔬 Interpretar</button>
+              <div id="gc-interp-result"></div>
+            </div>
+
           </div>
         </div>
       </div>
-
     </div>
     <footer class="gb-footer">
       <span>GastroPanel<sup>®</sup> · GEBRAX Diagnóstico &amp; Prevención</span>
@@ -1468,7 +2055,8 @@ const ROLES_CFG={
     nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:false},
          {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:false},
          {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:false},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true,badge:'6'},
-         {id:'reportes',icon:'📈',lbl:'Reportes',on:true}]},
+         {id:'reportes',icon:'📈',lbl:'Reportes',on:true},
+         {id:'gastrocalc',icon:'🧮',lbl:'GastroCalc',on:true}]},
   paciente:{nombre:'Portal Paciente',rol:'Acceso con identificador',initials:'P',
     nav:[{id:'dashboard',icon:'🔍',lbl:'Mis Resultados',on:true}]}
 };
@@ -1601,14 +2189,13 @@ function doLogin(demo){
   const pass  = document.getElementById('loginPass').value;
   // En modo demo se omite la validación
   if(!demoMode){
-    if(!email){ alert('Ingresa tu email institucional.'); return; }
+    if(!email){ al && (al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa tu email institucional.</div>`,al.classList.remove('hidden')); return; }
     if(!isDominioValido(email)){
       const hint = document.getElementById('login-email-hint');
       if(hint){ hint.textContent='⚠️ Solo se aceptan emails institucionales'; hint.className='email-hint err'; }
-      alert('Solo se aceptan emails institucionales (ej: usuario@cesfam.cl).');
       return;
     }
-    if(!pass){ alert('Ingresa tu contraseña.'); return; }
+    if(!pass){ al && (al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa tu contraseña.</div>`,al.classList.remove('hidden')); return; }
   }
   // Entrar a la app (demoMode ya está seteado por activarDemo o false)
   document.getElementById('login-screen').style.display='none';
@@ -1653,6 +2240,15 @@ function doLogout(){
 
   // ── Cerrar panel de ayuda si estaba abierto ──
   closeHelp();
+
+  // ── Limpiar datos de sesión (PATIENTS y notificaciones) ──
+  if(!demoMode){
+    // Solo limpiar si NO estamos en demo (el demo mantiene sus datos entre roles)
+    PATIENTS.length = 0;
+  }
+  NOTIFICACIONES.length = 0;
+  found_id_portal = null;
+  renderNotifPanel();
 
   // ── Resetear estado de la app ──
   document.getElementById('app').classList.remove('active');
@@ -1796,11 +2392,13 @@ function setupRole(role){
 }
 
 /* ═══ NAVIGATE ═══ */
-const TITLES={'dashboard':'Dashboard','nuevo-paciente':'Registro de Paciente','buscar-paciente':'Búsqueda de Paciente','nuevo-examen':'Nuevo Examen','ingreso-resultados':'Ingreso de Resultados','seguimiento':'Seguimiento','reportes':'Reportes'};
+const TITLES={'dashboard':'Dashboard','nuevo-paciente':'Registro de Paciente','buscar-paciente':'Búsqueda de Paciente','nuevo-examen':'Nuevo Examen','ingreso-resultados':'Ingreso de Resultados','seguimiento':'Seguimiento','reportes':'Reportes','gastrocalc':'GastroCalc® — Calculadora Clínica'};
 function navTo(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const t=document.getElementById('view-'+id);
   if(t) t.classList.add('active');
+  // Scroll al top al cambiar de módulo
+  const mc=document.querySelector('.main-content');if(mc)mc.scrollTop=0;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===id));
   document.getElementById('pageTitle').textContent=TITLES[id]||id;
   const bcEl = document.getElementById('pageBc');
@@ -1832,6 +2430,8 @@ function navTo(id){
     setTimeout(()=>buildEpiDashboard(), 180);
   }
   if(id==='reportes') setTimeout(()=>buildChartsReportes(), 100);
+  if(id==='seguimiento') { populateCesfamSelects(); buildSeguimiento(); }
+  if(id==='buscar-paciente') populateCesfamSelects();
 }
 
 /* ═══ BUILD DEMO PANELS ═══ */
@@ -2036,41 +2636,145 @@ function checkIBP(){
 
 /* ═══ REGISTRAR PACIENTE ═══ */
 function registrarPaciente(){
+  // Limpiar errores previos
+  ['np-nombre','np-apP','np-rut','np-nac','np-sexo'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.classList.remove('field-error','field-ok'); }
+    const errMsg = document.getElementById(id+'-err');
+    if(errMsg) errMsg.remove();
+  });
+
   const nombre=document.getElementById('np-nombre').value.trim();
   const apP=document.getElementById('np-apP').value.trim();
   const rut=document.getElementById('np-rut').value.trim();
   const nac=document.getElementById('np-nac').value;
   const sexo=document.getElementById('np-sexo').value;
   const al=document.getElementById('np-alert');
-  if(!nombre||!apP||!rut||!nac||!sexo){al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Completa los campos obligatorios (*).</div>`;al.classList.remove('hidden');return;}
+
+  // Validación campo a campo con resaltado visual
+  const requiredFields = [
+    {id:'np-nombre', val:nombre, msg:'El nombre es obligatorio'},
+    {id:'np-apP',    val:apP,    msg:'El apellido paterno es obligatorio'},
+    {id:'np-rut',    val:rut,    msg:'El RUT es obligatorio'},
+    {id:'np-nac',    val:nac,    msg:'La fecha de nacimiento es obligatoria'},
+    {id:'np-sexo',   val:sexo,   msg:'Selecciona el sexo'},
+  ];
+  let hasErrors = false;
+  requiredFields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if(!f.val){
+      hasErrors = true;
+      if(el){
+        el.classList.add('field-error');
+        // Agregar mensaje de error debajo del campo
+        const errDiv = document.createElement('div');
+        errDiv.id = f.id+'-err';
+        errDiv.className = 'field-error-msg';
+        errDiv.innerHTML = '⚠️ '+f.msg;
+        el.parentNode.appendChild(errDiv);
+        // Al corregir, quitar el error
+        el.addEventListener('input', function fix(){
+          el.classList.remove('field-error');
+          el.classList.add('field-ok');
+          const em = document.getElementById(f.id+'-err');
+          if(em) em.remove();
+          el.removeEventListener('input',fix);
+        }, {once:true});
+      }
+    } else {
+      if(el) { el.classList.remove('field-error'); el.classList.add('field-ok'); }
+    }
+  });
+
+  if(hasErrors){
+    al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Por favor completa los campos marcados en rojo (*).</div>`;
+    al.classList.remove('hidden');
+    // Scroll al primer error
+    const firstErr = document.querySelector('.field-error');
+    if(firstErr) firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   const clean=rut.replace(/[.\-\s]/g,'').toLowerCase();
   if(PATIENTS.find(p=>p.rut.replace(/[.\-\s]/g,'').toLowerCase()===clean)){
     al.innerHTML=`<div class="alert alert-danger"><span class="alert-icon">🚫</span>RUT ya registrado en el sistema.</div>`;al.classList.remove('hidden');return;
   }
-  const apM=document.getElementById('np-apM').value;
   const cancer=document.getElementById('np-cancer').value;
   const edad=parseInt(document.getElementById('np-edad').value)||0;
-  PATIENTS.push({id:PATIENTS.length+1,nombre,apP,apM,rut,nac,nacStr:rut,edad,sexo,
+  const apM = document.getElementById('np-apM').value.trim();
+  const nacStr = nac ? new Date(nac).toLocaleDateString('es-CL',{day:'numeric',month:'long',year:'numeric'}) : '';
+  PATIENTS.push({id:Date.now(),nombre,apP,apM,rut,nac,nacStr,edad,sexo,
     tel:document.getElementById('np-tel').value,email:document.getElementById('np-email').value,cancer,resultados:[]});
-  al.innerHTML=`<div class="alert alert-success"><span class="alert-icon">✅</span>Paciente <strong>${nombre} ${apP} ${apM}</strong> registrado exitosamente.${cancer==='directo'?' <strong>⚠️ Riesgo oncológico alto registrado.</strong>':''}</div>`;
-  al.classList.remove('hidden');
-  ['np-nombre','np-apP','np-apM','np-rut','np-tel','np-email'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('np-nac').value='';document.getElementById('np-sexo').value='';
-  document.getElementById('np-edad').value='';document.getElementById('np-cancer').value='no';
+  // ✅ Registro exitoso
+  // Limpiar campos y marcar todos ok
+  ['np-nombre','np-apP','np-rut','np-tel','np-email'].forEach(id=>{
+    const el=document.getElementById(id); if(el){el.value='';el.classList.remove('field-ok');}
+  });
+  ['np-apM','np-nac','np-sexo','np-cancer'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.value=id==='np-cancer'?'no':'';el.classList.remove('field-ok');}
+  });
+  document.getElementById('np-edad').value='';
   updateAllStats();
+  auditLog('Paciente registrado', `${nombre} ${apP} — RUT: ${rut}`);
+  agregarNotificacion('exito',
+    '👤 Paciente registrado',
+    `${nombre} ${apP} — listo para asignar examen`,
+    null
+  );
+
+  // Confirmación rica con opciones de acción
+  const riskBadge = cancer==='directo'
+    ? '<span style="background:#FEE2E2;color:#DC2626;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px;">⚠️ Riesgo oncológico alto</span>'
+    : cancer==='lejano'
+    ? '<span style="background:#FEF9C3;color:#92400E;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px;">🟡 Antecedente familiar lejano</span>'
+    : '';
+
+  al.innerHTML=`<div style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #86EFAC;border-radius:14px;padding:18px 20px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <span style="font-size:32px;">🎉</span>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:#166534;">Paciente registrado exitosamente</div>
+        <div style="font-size:13px;color:#16A34A;margin-top:2px;"><strong>${nombre} ${apP} ${apM}</strong>${riskBadge}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="
+        const lastPat=PATIENTS[PATIENTS.length-1];
+        selectedPatient=lastPat;
+        navTo('buscar-paciente');
+        setTimeout(()=>showPatient(lastPat.id),100);
+      ">👤 Ver ficha del paciente</button>
+      <button class="btn btn-primary btn-sm" onclick="
+        const lastPat=PATIENTS[PATIENTS.length-1];
+        selectedPatient=lastPat;
+        navTo('nuevo-examen');
+      ">🧪 Registrar examen ahora</button>
+      <button class="btn btn-gray btn-sm" onclick="
+        document.getElementById('np-alert').classList.add('hidden');
+      ">➕ Registrar otro paciente</button>
+    </div>
+  </div>`;
+  al.classList.remove('hidden');
 }
 
 /* ═══ BUSCAR PACIENTE ═══ */
 function buscarPaciente(){
   const q=document.getElementById('searchQuery').value.trim().toLowerCase();
+  const cesfamFilt=(document.getElementById('searchCesfam')?.value||'').trim();
   const cont=document.getElementById('searchResult');
-  if(!q){alert('Ingresa un RUT o nombre.');return;}
+  if(!q && !cesfamFilt){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa un RUT, nombre o selecciona un CESFAM para buscar.</div>`;return;}
   const cleanQ=q.replace(/[.\-\s]/g,'');
-  const results=PATIENTS.filter(p=>{
-    const rutClean=p.rut.replace(/[.\-\s]/g,'').toLowerCase();
-    const fullName=(p.nombre+' '+p.apP+' '+p.apM).toLowerCase();
-    return rutClean.includes(cleanQ)||fullName.includes(q)||p.nombre.toLowerCase().includes(q)||p.apP.toLowerCase().includes(q);
-  });
+  let results = q
+    ? PATIENTS.filter(p=>{
+        const rutClean=p.rut.replace(/[.\-\s]/g,'').toLowerCase();
+        const fullName=(p.nombre+' '+p.apP+' '+p.apM).toLowerCase();
+        return rutClean.includes(cleanQ)||fullName.includes(q)||p.nombre.toLowerCase().includes(q)||p.apP.toLowerCase().includes(q);
+      })
+    : [...PATIENTS];
+  // Filtro adicional por CESFAM
+  if(cesfamFilt){
+    results = results.filter(p => p.resultados.some(r => r.cesfam === cesfamFilt));
+  }
   if(!results.length){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>No se encontraron pacientes para "<strong>${q}</strong>".</div>`;return;}
   if(results.length>1){
     cont.innerHTML=`<div class="alert alert-info"><span class="alert-icon">🔍</span><strong>${results.length} pacientes</strong> encontrados. Selecciona uno:</div>`+
@@ -2087,6 +2791,7 @@ function buscarPaciente(){
 function showPatient(patId){
   const pat=PATIENTS.find(p=>p.id===patId);if(!pat)return;
   selectedPatient=pat;
+  auditLog('Ficha consultada', `${pat.nombre} ${pat.apP} — RUT: ${pat.rut}`);
   const canSeeResults=(currentRole==='enfermera'||currentRole==='medico');
   const hr=isHighRisk(pat);
   let alerts='';
@@ -2114,6 +2819,10 @@ function showPatient(patId){
             <div style="font-size:15px;font-weight:800;color:${cls==='normal'?'var(--success)':cls==='abnormal'?'var(--danger)':'var(--warning)'};">${r[k]}</div>
             <div style="font-size:9px;color:var(--g400);">${ref.unit}</div></div>`;}).join('')}
         </div>
+        <!-- Mapa de Sídney + OLGA + Interpretación -->
+        ${r.pgi ? renderMapaSidney(r) : ''}
+        ${r.pgi ? renderScoreOLGA(r) : ''}
+        ${r.pgi ? renderInterpretacion(r) : ''}
         <!-- Radar serológico por examen -->
         <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center;margin-top:10px;">
           <div class="chart-canvas-wrap radar" style="height:150px;"><canvas id="chart-radar-${r.id}"></canvas></div>
@@ -2133,6 +2842,7 @@ function showPatient(patId){
         <div><div class="pat-name">${pat.nombre} ${pat.apP} ${pat.apM}</div>
           <div class="pat-rut">RUT: ${pat.rut}</div>
           ${hr?`<div class="pat-risk">🔴 Alto riesgo oncológico</div>`:''}
+          ${(()=>{ const d=calcDiasDesdeUltimoExamen(pat); return d?`<div style="margin-top:4px;font-size:11px;"><span style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);padding:2px 8px;border-radius:10px;font-weight:700;">📅 Último examen: ${d.texto}</span></div>`:''; })()}
         </div>
       </div>
       <div class="pat-details">
@@ -2143,6 +2853,7 @@ function showPatient(patId){
         <div class="det-item" style="grid-column:1/-1"><div class="det-lbl">Correo</div><div class="det-val">${pat.email}</div></div>
       </div>
       ${resultsHtml}
+      ${pat.resultados.length > 1 ? renderComparativaExamenes(pat) : ''}
       <div class="pat-actions">
         <button class="btn btn-primary btn-sm" onclick="goNuevoExamen()">🧪 Nuevo Examen</button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()">🖨️ Imprimir</button>
@@ -2164,6 +2875,13 @@ function ingresarExamen(){
   const cesfam=document.getElementById('ne-cesfam').value;
   const consentimiento=document.getElementById('ne-consentimiento');
   const al=document.getElementById('ne-alert');
+  // Guard: verificar paciente seleccionado
+  if(!selectedPatient){
+    al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>
+      Primero selecciona un paciente desde <strong>Buscar Paciente</strong>.</div>`;
+    al.classList.remove('hidden');
+    return;
+  }
   if(!cesfam){al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Selecciona el CESFAM.</div>`;al.classList.remove('hidden');return;}
   if(consentimiento && !consentimiento.checked){
     const box=document.getElementById('consent-box');
@@ -2173,21 +2891,69 @@ function ingresarExamen(){
     box?.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
-  const code=randomId();
-  al.innerHTML=`<div class="success-banner"><div class="sb-icon">🎉</div><h3>¡Examen registrado!</h3><p>Identificador único para consulta del resultado:</p>
-    <div class="id-display"><div class="id-code">${code}</div><div class="id-url">www.gastropanel.cl/miresultado</div></div>
-    <div class="row" style="justify-content:center;flex-wrap:wrap;">
-      <button class="btn btn-success btn-sm" onclick="alert('Imprimiendo...')">🖨️ Imprimir</button>
-      <button class="btn btn-gray btn-sm" onclick="navTo('buscar-paciente')">← Volver</button>
-    </div></div>`;
+  // Verificar que hay paciente seleccionado
+  if(!selectedPatient){
+    al.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Primero busca y selecciona un paciente desde <strong>Buscar Paciente</strong>.</div>`;
+    al.classList.remove('hidden');
+    return;
+  }
+
+  const code = randomId();
+  const hoy  = new Date().toLocaleDateString('es-CL');
+
+  // Recoger datos del formulario
+  const examData = {
+    id:       code,
+    fecha_m:  hoy,
+    fecha_r:  null,
+    diag:     null,
+    texto:    null,
+    cesfam,
+    seg_tipo: null, seg_fecha: null, doctor: null,
+    tienePDF: false,
+    pgi: null, pgii: null, ratio: null, g17: null, hp: null,
+    ibpUso:   document.getElementById('ne-ibp')?.value || 'no',
+    diasSinIBP: document.getElementById('ne-dias-ibp')?.value || '15+',
+    antHP:    document.getElementById('ne-errad')?.value || 'no',
+    reflujo:  document.getElementById('ne-reflujo')?.value || 'no',
+    aine:     document.getElementById('ne-aines')?.value || 'no',
+    antibio:  document.getElementById('ne-antibio')?.value || 'no',
+    endosco:  document.getElementById('ne-endos')?.value || 'no',
+    sintomat: document.getElementById('ne-sintom')?.value || 'no',
+  };
+
+  // ✅ GUARDAR en el paciente seleccionado
+  selectedPatient.resultados.push(examData);
+  updateAllStats();
+
+  al.innerHTML=`<div class="success-banner">
+    <div class="sb-icon">🎉</div>
+    <h3>¡Examen registrado exitosamente!</h3>
+    <p>Paciente: <strong>${selectedPatient.nombre} ${selectedPatient.apP}</strong></p>
+    <p>Identificador único para consulta del resultado:</p>
+    ${mostrarQRExamen(code)}
+    <div class="text-xs text-muted mt8" style="margin-top:8px;">Muestra el QR al paciente o entrega el código verbal.</div>
+    <div class="row" style="justify-content:center;flex-wrap:wrap;margin-top:12px;gap:8px;">
+      <button class="btn btn-success btn-sm" onclick="window.print()" title="Imprime el QR y el código para entregar al paciente">🖨️ Imprimir QR + Código</button>
+      <button class="btn btn-primary btn-sm" onclick="navTo('buscar-paciente')">👤 Volver al paciente</button>
+      <button class="btn btn-gray btn-sm" onclick="selectedPatient=null;navTo('nuevo-examen');document.getElementById('ne-alert').classList.add('hidden');">➕ Nuevo examen</button>
+    </div>
+  </div>`;
   al.classList.remove('hidden');
+
+  // Notificación
+  agregarNotificacion('exito',
+    '🧪 Examen registrado',
+    `${selectedPatient.nombre} ${selectedPatient.apP} — ID: ${code}`,
+    null
+  );
 }
 
 /* ═══ BUSCAR TEST ═══ */
 function buscarTest(){
   const id=document.getElementById('labTestId').value.trim().toUpperCase();
   const cont=document.getElementById('labResult');
-  if(!id){alert('Ingresa el identificador');return;}
+  if(!id){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa el identificador de tu examen.</div>`;return;}
   let found=null,foundPat=null;
   PATIENTS.forEach(p=>p.resultados.forEach(r=>{if(r.id===id){found=r;foundPat=p;}}));
   if(!found){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>No se encontró test con ID <strong>${id}</strong>.</div>`;return;}
@@ -2269,7 +3035,7 @@ function updateAutoSuggest(){
 }
 function guardarResultados(id){
   const final=document.getElementById('ld-final').value;
-  if(!final){alert('Selecciona la clasificación final.');return;}
+  if(!final){showExportFeedback('⚠️ Selecciona la clasificación final del diagnóstico.'); return;}
 
   // Guardar PDF en memoria si fue subido
   const pdfObj = PDF_STORE[id];
@@ -2301,10 +3067,32 @@ function guardarResultados(id){
         <button class="btn btn-outline btn-sm" onclick="document.getElementById('labTestId').value='';document.getElementById('labResult').innerHTML='';">+ Otro resultado</button>
       </div>
     </div>`;
+
+  // Buscar el paciente para la notificación
+  let nomPac = '';
+  PATIENTS.forEach(p => p.resultados.forEach(r => { if(r.id===id) nomPac = p.nombre+' '+p.apP; }));
+  agregarNotificacion('resultado',
+    '🔬 Resultado ingresado',
+    `${nomPac} — ID: ${id} — ${final==='especialista'?'🔴 Referir especialista':final==='medico'?'🟡 Derivar médico':'🟢 Normal'}`,
+    ()=>navTo('seguimiento')
+  );
+  updateAllStats();
 }
 
 /* ═══ SEGUIMIENTO ═══ */
 function buildSeguimiento(){
+  // Verificar si hay pacientes con >90 días sin seguimiento
+  const hoy = Date.now();
+  PATIENTS.forEach(p => {
+    p.resultados.forEach(r => {
+      if(!r.seg_tipo && (r.diag==='especialista'||r.diag==='medico') && r.fecha_r){
+        let fecha;
+        if(r.fecha_r.includes('-')){ fecha = new Date(r.fecha_r); }
+        else { const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11}; const pts=r.fecha_r.split(' '); fecha=new Date(parseInt(pts[2]),mMap[pts[1]],parseInt(pts[0])); }
+        r._diasSinSeg = Math.floor((hoy - fecha.getTime()) / 86400000);
+      }
+    });
+  });
   const pending=PATIENTS.filter(p=>p.resultados.some(r=>!r.seg_tipo&&(r.diag==='especialista'||r.diag==='medico')));
   pending.sort((a,b)=>{
     const aD=a.resultados.find(r=>!r.seg_tipo&&(r.diag==='especialista'||r.diag==='medico'));
@@ -2317,9 +3105,15 @@ function buildSeguimiento(){
 function filtrarSeguimiento(){
   const cesfam=document.getElementById('filtCesfam').value;
   const diag=document.getElementById('filtDiag').value;
+  const nombre=(document.getElementById('filtNombre')?.value||'').trim().toLowerCase();
   let pending=PATIENTS.filter(p=>p.resultados.some(r=>!r.seg_tipo&&(r.diag==='especialista'||r.diag==='medico')));
   if(diag)pending=pending.filter(p=>p.resultados.some(r=>!r.seg_tipo&&r.diag===diag));
   if(cesfam)pending=pending.filter(p=>p.resultados.some(r=>r.cesfam===cesfam));
+  if(nombre)pending=pending.filter(p=>{
+    const fn=(p.nombre+' '+p.apP+' '+p.apM).toLowerCase();
+    const rut=p.rut.replace(/[\.\-\s]/g,'').toLowerCase();
+    return fn.includes(nombre)||rut.includes(nombre.replace(/[\.\-\s]/g,''));
+  });
   pending.sort((a,b)=>{
     const aD=a.resultados.find(r=>!r.seg_tipo&&(r.diag==='especialista'||r.diag==='medico'));
     const bD=b.resultados.find(r=>!r.seg_tipo&&(r.diag==='especialista'||r.diag==='medico'));
@@ -2330,14 +3124,32 @@ function filtrarSeguimiento(){
 }
 function renderSeguimientoTable(pending){
   const tbody=document.getElementById('seguimientoTable');if(!tbody)return;
+  if(!pending.length){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;color:#94A3B8;">✅ Sin pacientes pendientes de seguimiento</td></tr>';
+    return;
+  }
   tbody.innerHTML=pending.map(p=>{
     const r=p.resultados.find(x=>!x.seg_tipo&&(x.diag==='especialista'||x.diag==='medico'));
+    if(!r) return '';  // Guard: skip si no hay resultado pendiente
     const dc=diagConfig(r.diag);
     return`<tr class="${r.diag==='especialista'?'urgent':''}" onclick="showSegDetalle(${p.id})">
       <td style="font-family:'Courier New',monospace;font-size:11px;">${p.rut}</td>
       <td><strong>${p.nombre} ${p.apP}</strong><br><span class="text-xs text-muted">${p.edad} años · ${p.sexo}</span></td>
       <td><span class="diag"><span class="dot ${dc.dotClass}"></span>${dc.short}</span></td>
       <td>${isHighRisk(p)?`<span class="badge bg-red">🔴 Alto riesgo</span>`:`<span class="badge bg-gray">Normal</span>`}</td>
+      <td style="text-align:center;">${(()=>{
+    const fr=r.fecha_r||r.fecha_m;
+    const label=r.fecha_r?'':'(muestra)';
+    if(!fr) return '<span style="color:#94A3B8">—</span>';
+    const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+    let d;
+    if(fr.includes('-')){d=new Date(fr);}
+    else{const pts=fr.split(' ');d=new Date(parseInt(pts[2]),mMap[pts[1]]||0,parseInt(pts[0])||1);}
+    const dias=Math.floor((Date.now()-d.getTime())/86400000);
+    if(isNaN(dias)||dias<0) return '<span style="color:#94A3B8">—</span>';
+    const color=dias>90?'#DC2626':dias>30?'#D97706':'#16A34A';
+    return `<div style="font-weight:800;color:${color};font-size:13px;">${dias}d</div><div style="font-size:9px;color:#94A3B8;">${label}</div>`;
+})()}</td>
       <td class="text-xs">${r.cesfam||'—'}</td>
       <td>${(()=>{ const rr=p.resultados.find(x=>!x.seg_tipo&&(x.diag==='especialista'||x.diag==='medico')); const hasP=rr&&PDF_STORE[rr.id]&&PDF_STORE[rr.id].blob; return hasP?`<button class="pdf-btn" onclick="event.stopPropagation();descargarPDF('${rr.id}')">📄 PDF</button>`:`<span class="pdf-status-badge pdf-status-missing">Sin PDF</span>`; })()}</td>
       <td><button class="btn btn-primary btn-xs" onclick="event.stopPropagation();showSegDetalle(${p.id})">📝 Registrar</button></td>
@@ -2359,6 +3171,9 @@ function showSegDetalle(patId){
       <div><div class="det-lbl">CESFAM</div><div class="det-val">${r.cesfam}</div></div>
     </div>
     <div class="alert ${r.diag==='especialista'?'alert-danger':'alert-warning'}"><span class="alert-icon">${r.diag==='especialista'?'🔴':'🟡'}</span><strong>${r.texto}</strong></div>
+    ${r.pgi ? renderMapaSidney(r) : ''}
+    ${r.pgi ? renderScoreOLGA(r) : ''}
+    ${r.pgi ? renderInterpretacion(r) : ''}
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:14px;">
       ${Object.entries(REFS).map(([k,ref])=>{const cls=classifyValue(k,r[k]);
         return`<div style="text-align:center;background:var(--g50);border-radius:5px;padding:6px;border:1.5px solid ${cls==='normal'?'var(--success-border)':cls==='abnormal'?'var(--danger-border)':'var(--warning-border)'}">
@@ -2376,7 +3191,7 @@ function showSegDetalle(patId){
           <option>Realizar seguimiento anual</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Observaciones</label><textarea class="fc" rows="3" placeholder="Notas del médico..."></textarea></div>
+      <div class="fg"><label class="fl">Observaciones</label><textarea class="fc" id="seg-notas-ta" rows="3" placeholder="Notas del médico..."></textarea></div>
     </div>
     <div class="row mt8">
       <button class="btn btn-primary" style="width:auto;" onclick="guardarSeguimiento(${patId},'${r.id}')">💾 Guardar</button>
@@ -2388,14 +3203,27 @@ function showSegDetalle(patId){
 }
 function guardarSeguimiento(patId,resultId){
   const tipo=document.getElementById('seg-tipo-sel').value;
-  if(!tipo){alert('Selecciona el tipo de seguimiento.');return;}
+  if(!tipo){showExportFeedback('⚠️ Selecciona el tipo de seguimiento antes de guardar.'); return;}
+  // Leer notas del textarea (el textarea no tiene id, lo buscamos por contexto)
+  const notasTa = document.getElementById('seg-notas-ta') || document.querySelector('#seg-det-body textarea');
+  const notas = notasTa ? notasTa.value.trim() : '';
   const p=PATIENTS.find(x=>x.id===patId);
   const r=p.resultados.find(x=>x.id===resultId);
-  r.seg_tipo=tipo;r.seg_fecha=new Date().toLocaleDateString('es-CL');r.doctor='Dra. Sandra Olivares';
+  r.seg_tipo=tipo;
+  r.seg_fecha=new Date().toLocaleDateString('es-CL');
+  auditLog('Seguimiento registrado', `Paciente ID ${patId} — ${tipo}`);
+  r.doctor = ROLES_CFG[currentRole]?.nombre ? `Dr./Dra. ${ROLES_CFG[currentRole].nombre}` : 'Profesional de Salud';
+  r.seg_notas=notas;
   document.getElementById('seg-det-body').innerHTML=`<div class="success-banner"><div class="sb-icon">✅</div><h3>Seguimiento registrado</h3>
-    <p>Paciente: <strong>${p.nombre} ${p.apP}</strong><br>Acción: <strong>${tipo}</strong></p>
+    <p>Paciente: <strong>${p.nombre} ${p.apP}</strong><br>Acción: <strong>${tipo}</strong>${notas?`<br><span style="font-size:11px;color:#64748B;">Nota: ${notas}</span>`:''}
+    </p>
     <button class="btn btn-outline btn-sm" onclick="document.getElementById('seg-detalle').classList.add('hidden');buildSeguimiento();buildDemoPanels();">← Volver a lista</button></div>`;
   buildSeguimiento();buildDemoPanels();
+  agregarNotificacion('seguimiento',
+    '📋 Seguimiento registrado',
+    `${p.nombre} ${p.apP} — ${tipo}`,
+    null
+  );
 }
 
 /* ═══ MÉDICO DASHBOARD ═══ */
@@ -2404,6 +3232,9 @@ function buildMedicoDashboard(){
   setTimeout(() => buildChartsmedico(), 80);
   // Módulo epidemiológico
   setTimeout(() => buildEpiDashboard(), 160);
+  // Stats personales y semáforo
+  setTimeout(() => { buildStatsPersonalesMedico(); buildSemaforoGestion(); }, 240);
+  // Stats personales y semáforo se renderizan via setTimeout arriba
   const tbody=document.getElementById('dashPendingTable');if(!tbody)return;
   const pending=PATIENTS.filter(p=>p.resultados.some(r=>!r.seg_tipo&&r.diag==='especialista'));
   tbody.innerHTML=pending.map(p=>`<tr class="urgent" onclick="navTo('seguimiento')">
@@ -2415,15 +3246,238 @@ function buildMedicoDashboard(){
 
 /* ═══ REPORTES ═══ */
 function buildReportes(){
+  // ── Mostrar solo el panel del rol activo ──
+  ['rep-secretaria','rep-laboratorio','rep-enfermera','rep-medico'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('hidden');
+  });
+
+  const panelId = {
+    secretaria  : 'rep-secretaria',
+    laboratorio : 'rep-laboratorio',
+    enfermera   : 'rep-enfermera',
+    medico      : 'rep-medico',
+  }[currentRole] || 'rep-medico';
+
+  const panel = document.getElementById(panelId);
+  if(panel) panel.classList.remove('hidden');
+
+  // ── Actualizar fecha ──
+  const rdEl = document.getElementById('reporteDate');
+  if(rdEl) rdEl.textContent = new Date().toLocaleDateString('es-CL');
+
+  // ── Construir contenido según rol ──
+  if(currentRole === 'secretaria')   buildRepSecretaria();
+  else if(currentRole === 'laboratorio') buildRepLaboratorio();
+  else if(currentRole === 'enfermera')   buildRepEnfermera();
+  else                                    buildRepMedico();
+}
+
+/* ─── SECRETARIA: productividad administrativa ─── */
+function buildRepSecretaria(){
+  const fp = getPacientesFiltrados();
+  const allR = fp.flatMap(p=>p.resultados);
+  const conResultado = allR.filter(r=>r.diag !== null);
+  const sinResultado = allR.filter(r=>r.diag === null);
+
+  const el = id => document.getElementById(id);
+  if(el('sec-total-exam'))  el('sec-total-exam').textContent  = allR.length;
+  if(el('sec-sin-resultado'))el('sec-sin-resultado').textContent = sinResultado.length;
+  if(el('sec-total-pac'))   el('sec-total-pac').textContent   = fp.length;
+
+  // Tabla por CESFAM
+  const tbody = el('sec-tabla-cesfam');
+  if(!tbody) return;
+  const map = {};
+  allR.forEach(r=>{
+    const cf = r.cesfam||'Sin CESFAM';
+    if(!map[cf]) map[cf]={total:0,con:0,sin:0};
+    map[cf].total++;
+    if(r.diag) map[cf].con++; else map[cf].sin++;
+  });
+  if(!Object.keys(map).length){
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:#94A3B8;">Sin datos en el período</td></tr>';
+    return;
+  }
+  tbody.innerHTML = Object.entries(map)
+    .sort((a,b)=>b[1].total-a[1].total)
+    .map(([cf,d])=>{
+      const pct = d.total ? Math.round(d.con/d.total*100) : 0;
+      const barColor = pct===100?'#16A34A':pct>60?'#D97706':'#DC2626';
+      return `<tr>
+        <td><strong>${cf}</strong></td>
+        <td style="text-align:center;">${d.total}</td>
+        <td style="text-align:center;color:#16A34A;font-weight:700;">${d.con}</td>
+        <td style="text-align:center;color:#DC2626;font-weight:700;">${d.sin}</td>
+        <td><div style="background:#F1F5F9;border-radius:20px;height:8px;overflow:hidden;">
+          <div style="background:${barColor};height:100%;width:${pct}%;border-radius:20px;"></div>
+        </div><span style="font-size:10px;color:#64748B;">${pct}%</span></td>
+      </tr>`;
+    }).join('');
+}
+
+/* ─── LABORATORIO: operatividad ─── */
+function buildRepLaboratorio(){
+  const fp = getPacientesFiltrados();
+  const allR = fp.flatMap(p=>p.resultados);
+  const procesadas = allR.filter(r=>r.diag!==null);
+  const pendientes = allR.filter(r=>r.diag===null);
+  const conPDF     = allR.filter(r=>r.tienePDF);
+
+  const el = id=>document.getElementById(id);
+  if(el('lab-procesadas')) el('lab-procesadas').textContent = procesadas.length;
+  if(el('lab-pendientes')) el('lab-pendientes').textContent = pendientes.length;
+  if(el('lab-con-pdf'))    el('lab-con-pdf').textContent    = conPDF.length;
+
+  // Donut diagnóstico
+  const normal  = procesadas.filter(r=>r.diag==='normal').length;
+  const medico  = procesadas.filter(r=>r.diag==='medico').length;
+  const espec   = procesadas.filter(r=>r.diag==='especialista').length;
+  if(procesadas.length){
+    buildChartDonut('chart-lab-donut',[normal,medico,espec],
+      ['Estructura normal','Deriv. médico','Referir especialista'],
+      [C_GREEN,C_YELLOW,C_RED]);
+    const hpPos = procesadas.filter(r=>parseFloat(r.hp)>30).length;
+    const hpNeg = procesadas.length - hpPos;
+    buildChartDonut('chart-lab-hp',[hpPos,hpNeg],
+      ['HP Positivo','HP Negativo'],[C_RED,C_GREEN]);
+  }
+
+  // Línea de volumen mensual
+  buildChartLine('chart-lab-line');
+
+  // Tabla pendientes
+  const tbody = el('lab-tabla-pendientes');
+  if(!tbody) return;
+  if(!pendientes.length){
+    tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:#16A34A;font-weight:700;">✅ Sin pendientes — todos procesados</td></tr>';
+    return;
+  }
+  const hoy = Date.now();
+  const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+  tbody.innerHTML = pendientes.slice(0,15).map(r=>{
+    let dias='—';
+    if(r.fecha_m){
+      let d;
+      if(r.fecha_m.includes('-')){ d=new Date(r.fecha_m); }
+      else{ const pts=r.fecha_m.split(' '); d=new Date(parseInt(pts[2]),mMap[pts[1]]||0,parseInt(pts[0])||1); }
+      const n=Math.floor((hoy-d.getTime())/86400000);
+      if(!isNaN(n)) dias=`<span style="font-weight:700;color:${n>7?'#DC2626':n>3?'#D97706':'#16A34A'}">${n}d</span>`;
+    }
+    return `<tr>
+      <td><code style="font-size:11px;background:#F1F5F9;padding:2px 6px;border-radius:4px;">${r.id}</code></td>
+      <td style="font-size:11px;">${r.cesfam||'—'}</td>
+      <td style="font-size:11px;">${r.fecha_m||'—'}</td>
+      <td style="text-align:center;">${dias}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ─── ENFERMERA: seguimiento ─── */
+function buildRepEnfermera(){
+  const fp = getPacientesFiltrados();
+  const allR = fp.flatMap(p=>p.resultados).filter(r=>r.diag&&r.diag!=='normal');
+  const conSeg = allR.filter(r=>r.seg_tipo).length;
+  const sinSeg = allR.filter(r=>!r.seg_tipo).length;
+
+  const hoy = Date.now();
+  const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+  const calcDias = fecha=>{
+    if(!fecha) return 999;
+    let d;
+    if(fecha.includes('-')){ d=new Date(fecha); }
+    else{ const pts=fecha.split(' '); d=new Date(parseInt(pts[2]),mMap[pts[1]]||0,parseInt(pts[0])||1); }
+    return isNaN(d.getTime())?999:Math.floor((hoy-d.getTime())/86400000);
+  };
+  const criticos = allR.filter(r=>!r.seg_tipo && calcDias(r.fecha_r)>90).length;
+
+  const el=id=>document.getElementById(id);
+  if(el('enf-con-seg'))  el('enf-con-seg').textContent  = conSeg;
+  if(el('enf-sin-seg'))  el('enf-sin-seg').textContent  = sinSeg;
+  if(el('enf-criticos')) el('enf-criticos').textContent = criticos;
+
+  // Gráfico barras por CESFAM (con seguimiento vs sin seguimiento)
+  const cfMap={};
+  allR.forEach(r=>{
+    const cf=r.cesfam||'Sin CESFAM';
+    if(!cfMap[cf]) cfMap[cf]={con:0,sin:0};
+    if(r.seg_tipo) cfMap[cf].con++; else cfMap[cf].sin++;
+  });
+  const labels=Object.keys(cfMap).slice(0,8);
+  const dataCon=labels.map(cf=>cfMap[cf].con);
+  const dataSin=labels.map(cf=>cfMap[cf].sin);
+
+  destroyChart('chart-enf-stacked');
+  const canvas=el('chart-enf-stacked');
+  if(canvas && labels.length){
+    CHART_INSTANCES['chart-enf-stacked']=new Chart(canvas,{
+      type:'bar',
+      data:{labels,datasets:[
+        {label:'Con seguimiento',data:dataCon,backgroundColor:C_GREEN,borderRadius:4},
+        {label:'Sin seguimiento',data:dataSin,backgroundColor:C_RED,borderRadius:4},
+      ]},
+      options:{...CHART_DEFAULTS,scales:{x:{stacked:false},y:{stacked:false,beginAtZero:true}},
+        plugins:{legend:{display:true,position:'top',labels:{font:{size:11},boxWidth:10}}}}
+    });
+  }
+
+  // Tabla pacientes sin seguimiento
+  const tbody=el('enf-tabla-pendientes');
+  if(!tbody) return;
+  const pendientes = fp.filter(p=>p.resultados.some(r=>r.diag&&r.diag!=='normal'&&!r.seg_tipo));
+  if(!pendientes.length){
+    tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:#16A34A;font-weight:700;">✅ Todos los pacientes tienen seguimiento registrado</td></tr>';
+    return;
+  }
+  tbody.innerHTML = pendientes.slice(0,20).map(p=>{
+    const r=p.resultados.find(x=>x.diag&&x.diag!=='normal'&&!x.seg_tipo);
+    if(!r) return '';
+    const dias=calcDias(r.fecha_r);
+    const dColor=dias>90?'#DC2626':dias>30?'#D97706':'#16A34A';
+    const urgBadge=dias>90?'<span style="font-size:9px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;border-radius:10px;padding:1px 6px;font-weight:700;">URGENTE</span>':'';
+    const dc=diagConfig(r.diag);
+    return `<tr>
+      <td style="${dias>90?'background:#FFF5F5;':''}">
+      <strong>${p.nombre} ${p.apP}</strong>${urgBadge}<br><span style="font-size:10px;color:#94A3B8;">${p.rut}</span></td>
+      <td style="font-size:11px;">${r.cesfam||'—'}</td>
+      <td><span class="diag"><span class="dot ${dc.dotClass}"></span>${dc.short}</span></td>
+      <td style="text-align:center;"><span style="font-weight:800;color:${dColor};">${dias<999?dias+'d':'—'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ─── MÉDICO: epidemiología completa ─── */
+function buildRepMedico(){
   setTimeout(() => buildChartsReportes(), 80);
+  setTimeout(() => {
+    buildChartEtario('chart-rep-etario');
+    buildChartHPCesfam('chart-rep-hp-cesfam');
+    // Semáforo en reporte
+    const semRep = document.getElementById('semaforo-rep');
+    if(semRep) {
+      const cfMap = {};
+      PATIENTS.forEach(p => p.resultados.forEach(r => {
+        const cf = r.cesfam || 'Sin CESFAM';
+        if(!cfMap[cf]) cfMap[cf] = {sinSeg:0,espec:0};
+        if(!r.seg_tipo && r.diag==='medico')       cfMap[cf].sinSeg++;
+        if(!r.seg_tipo && r.diag==='especialista')  cfMap[cf].espec++;
+      }));
+      semRep.innerHTML = Object.entries(cfMap).map(([cf,d]) => {
+        const ico = d.espec>2?'🔴':d.sinSeg>0?'🟠':'🟢';
+        const nomC = cf.replace('Centro de Salud Familiar ','').replace('C.S.F. Dr. ','');
+        return `<div style="text-align:center;padding:6px 4px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;">
+          <div style="font-size:16px;">${ico}</div>
+          <div style="font-size:8px;color:#334155;font-weight:700;line-height:1.2;margin-top:2px;">${nomC.substring(0,15)}</div>
+        </div>`;
+      }).join('');
+    }
+  }, 200);
   const rtbody=document.getElementById('reporteTable');
   if(!rtbody) return;
-
-  // Calcular desde PATIENTS reales si hay datos
-  if(PATIENTS.length > 0){
-    // Agrupar por CESFAM desde datos reales
+  const filtPats = getPacientesFiltrados();
+  if(filtPats.length > 0){
     const cesfamReal = {};
-    PATIENTS.forEach(p => p.resultados.forEach(r => {
+    filtPats.forEach(p => p.resultados.forEach(r => {
       const cf = r.cesfam || 'Sin CESFAM';
       if(!cesfamReal[cf]) cesfamReal[cf] = {y:0, r:0};
       if(!r.seg_tipo){
@@ -2431,27 +3485,26 @@ function buildReportes(){
         if(r.diag==='especialista') cesfamReal[cf].r++;
       }
     }));
-    const entries = Object.entries(cesfamReal).filter(([,d])=>d.y+d.r>0);
-    if(entries.length > 0){
-      rtbody.innerHTML = entries
-        .sort((a,b)=>(b[1].y+b[1].r)-(a[1].y+a[1].r))
-        .map(([name,d])=>{
-          const t=d.y+d.r,n=t>20?'bg-red':t>10?'bg-yellow':'bg-green',e=t>20?'Crítico':t>10?'Moderado':'Bajo';
-          return`<tr><td>${name}</td><td><span class="badge bg-yellow">${d.y}</span></td><td><span class="badge bg-red">${d.r}</span></td><td><strong>${t}</strong></td><td><span class="badge ${n}">${e}</span></td></tr>`;
-        }).join('');
-      return;
-    }
+    const entries = Object.entries(cesfamReal).sort((a,b)=>(b[1].y+b[1].r)-(a[1].y+a[1].r));
+    rtbody.innerHTML = entries.map(([cf, d]) => {
+      const total = d.y + d.r;
+      const estado = d.r > 3 ? `<span class="badge bg-red">🔴 Crítico</span>` :
+                     d.r > 0 ? `<span class="badge bg-yellow">🟠 Atención</span>` :
+                     `<span class="badge bg-green">🟢 OK</span>`;
+      return `<tr><td><strong>${cf}</strong></td><td style="text-align:center;color:#D97706;font-weight:700;">${d.y}</td>
+        <td style="text-align:center;color:#DC2626;font-weight:700;">${d.r}</td>
+        <td style="text-align:center;font-weight:700;">${total}</td><td>${estado}</td></tr>`;
+    }).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#94A3B8;">Sin pendientes en el período</td></tr>';
+  } else {
+    rtbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:#94A3B8;">Sin datos. Activa el modo demo para ver un ejemplo.</td></tr>';
   }
-
-  // Sin datos reales → mostrar tabla vacía (no datos hardcodeados)
-  rtbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--g400);">
-    Sin datos de seguimiento pendientes.</td></tr>`;
 }
+
 
 /* ═══ PACIENTE ═══ */
 function searchByIdentifier(){
   const id=document.getElementById('patIdentifier').value.trim().toUpperCase();
-  const cont=document.getElementById('patResult');if(!id){alert('Ingresa el identificador');return;}
+  const cont=document.getElementById('patResult');if(!id){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa el identificador de tu examen.</div>`;return;}
   let found=null,foundPat=null;
   PATIENTS.forEach(p=>p.resultados.forEach(r=>{if(r.id===id){found=r;foundPat=p;}}));
   if(!found){cont.innerHTML=`<div class="alert alert-warning"><span class="alert-icon">⚠️</span>No se encontraron resultados para <strong>${id}</strong>.</div>`;return;}
@@ -2485,15 +3538,38 @@ function searchByIdentifier(){
       <div class="result-item mt8"><span class="diag"><span class="dot ${dc.dotClass}"></span><strong>${found.texto}</strong></span>
         <div class="text-sm text-muted mt8">Tu médico ya tiene acceso a estos resultados.</div>
       </div>
+      ${found.pgi ? renderMapaSidney(found) : ''}
+      ${found.pgi ? renderInterpretacion(found) : ''}
+      ${tienePDF ? `
       <div class="row mt14 wrap">
-        <button class="btn btn-primary btn-sm" id="portal-dl-btn"
-          onclick="descargarPDFPortal(found_id_portal)"
-          style="${tienePDF ? '' : 'background:var(--g400);cursor:default;'}">
-          ${tienePDF ? '📥 Descargar informe PDF' : '⏳ Informe en preparación'}
+        <button class="btn btn-primary btn-sm" id="portal-dl-btn" onclick="descargarPDFPortal(found_id_portal)">
+          📥 Descargar informe PDF
         </button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()">🖨️ Imprimir</button>
-        ${tienePDF ? '' : '<div class="text-xs text-muted" style="width:100%;margin-top:4px;">El informe PDF será subido por el laboratorio. Consulta en unos días.</div>'}
-      </div>
+      </div>` : `
+      <div style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #FED7AA;
+           border-radius:12px;padding:16px 18px;margin-top:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-size:28px;">⏳</span>
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#9A3412;">Informe en preparación</div>
+            <div style="font-size:12px;color:#C2410C;margin-top:2px;">Tu resultado ya está registrado en el sistema</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#92400E;line-height:1.6;">
+          El laboratorio está procesando tu informe PDF. Este documento quedará disponible aquí en los próximos 
+          <strong>1-3 días hábiles</strong>. Puedes volver a consultar con el mismo identificador cuando quieras.<br><br>
+          Si tienes urgencia, contacta a tu centro de salud:<br>
+          📞 <strong>+56 2 3223 8787</strong> · gastropanel@gebrax.com
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" onclick="window.print()">🖨️ Imprimir resultado</button>
+          <button class="btn btn-ghost btn-sm" style="font-size:11px;" 
+            onclick="document.getElementById('patIdentifier').value='';document.getElementById('patResult').innerHTML='';">
+            🔄 Nueva consulta
+          </button>
+        </div>
+      </div>`}
     </div>
   </div>`;
 }
@@ -2507,7 +3583,7 @@ function searchByIdentifier(){
 /* ── Hoja 1: Gestión de Seguimientos por CESFAM ── */
 function exportarExcelSeguimientos(){
   if(typeof XLSX === 'undefined'){
-    alert('Cargando SheetJS... intenta en un momento.'); return;
+    showExportFeedback('⏳ Cargando librería Excel... intenta en un momento.'); return;
   }
   const wb = XLSX.utils.book_new();
 
@@ -2608,7 +3684,7 @@ function exportarExcelSeguimientos(){
 /* ── Hoja: Resultados serológicos anonimizados ── */
 function exportarExcelResultados(){
   if(typeof XLSX === 'undefined'){
-    alert('Cargando SheetJS... intenta en un momento.'); return;
+    showExportFeedback('⏳ Cargando librería Excel... intenta en un momento.'); return;
   }
   const wb = XLSX.utils.book_new();
 
@@ -2826,9 +3902,7 @@ function descargarPDF(testId){
   showExportFeedback('📥 Abriendo: ' + pdf.name);
 }
 
-/* ── Descarga desde portal paciente (usa found_id_portal) ── */
-let found_id_portal = null;  // se asigna en searchByIdentifier
-
+/* ── Descarga desde portal paciente ── */
 function descargarPDFPortal(testId){
   const pdf = PDF_STORE[testId];
   if(!pdf || !pdf.url){
@@ -2913,22 +3987,60 @@ function buildChartDonut(canvasId, data, labels, colors){
   destroyChart(canvasId);
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
+
+  // Si todos los datos son 0, mostrar mensaje
+  if(data.every(v => !v || v === 0)){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '12px Segoe UI, Arial';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    // Limpiar leyenda
+    const legendId = canvasId.replace('chart-', 'legend-');
+    const legendEl = document.getElementById(legendId);
+    if(legendEl) legendEl.innerHTML = '';
+    return;
+  }
+
+  // Llenar leyenda HTML si existe (control total del color)
+  const legendId = canvasId.replace('chart-', 'legend-');
+  const legendEl = document.getElementById(legendId);
+  if(legendEl){
+    const total = data.reduce((a,b)=>a+b,0)||1;
+    const descriptions = {
+      'Estructura normal': 'Sin acción requerida',
+      'Deriv. médico': 'Requiere evaluación médica',
+      'Referir especialista': 'Requiere endoscopía/biopsia',
+      'HP Positivo': 'Anticuerpos anti-HP > 30 EIU',
+      'HP Negativo': 'Anticuerpos anti-HP ≤ 30 EIU',
+    };
+    legendEl.innerHTML = labels.map((lbl,i) => {
+      const desc = descriptions[lbl] || '';
+      return `<span style="display:inline-flex;align-items:center;gap:5px;margin:4px 10px 0 0;font-size:11px;color:#475569;" title="${desc}">
+        <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${colors[i]};flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
+        <span><strong style="color:#334155;">${lbl}</strong>${desc ? `<span style="color:#94A3B8;font-size:10px;"> — ${desc}</span>` : ''}</span>
+      </span>`;
+    }).join('');
+  }
+
   CHART_INSTANCES[canvasId] = new Chart(canvas, {
     type: 'doughnut',
     data: {
       labels,
-      datasets:[{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff',
-                  hoverOffset: 8 }]
+      datasets:[{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 8 }]
     },
     options:{
       ...CHART_DEFAULTS,
-      cutout: '62%',
+      cutout: '65%',
       plugins:{
-        legend:{ display:true, position:'bottom',
-          labels:{ font:{family:"'Segoe UI',Arial",size:11}, boxWidth:10, padding:12 }},
+        legend:{ display: false },  // Usamos leyenda HTML manual
         tooltip:{
           callbacks:{
-            label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.raw/ctx.dataset.data.reduce((a,b)=>a+b,0)*100).toFixed(1)}%)`
+            label: ctx => {
+              const total = ctx.dataset.data.reduce((a,b)=>a+b,0)||1;
+              return ` ${ctx.label}: ${ctx.raw} (${(ctx.raw/total*100).toFixed(1)}%)`;
+            }
           }
         }
       }
@@ -2980,9 +4092,9 @@ function buildChartHBar(canvasId){
     data:{
       labels,
       datasets:[
-        { label:'🟡 Médico general', data: chartData.map(c=>c.y||0),
+        { label:'Médico general', data: chartData.map(c=>c.y||0),
           backgroundColor: C_YELLOW, borderRadius: 4 },
-        { label:'🔴 Especialista',   data: chartData.map(c=>c.r||0),
+        { label:'Referir especialista',   data: chartData.map(c=>c.r||0),
           backgroundColor: C_RED,    borderRadius: 4 }
       ]
     },
@@ -3047,9 +4159,9 @@ function buildChartStacked(canvasId){
     data:{
       labels,
       datasets:[
-        { label:'🟡 Médico general', data: chartData.map(c=>c.y||0),
+        { label:'Médico general', data: chartData.map(c=>c.y||0),
           backgroundColor: C_YELLOW, borderRadius:3 },
-        { label:'🔴 Especialista',   data: chartData.map(c=>c.r||0),
+        { label:'Referir especialista',   data: chartData.map(c=>c.r||0),
           backgroundColor: C_RED,    borderRadius:3 }
       ]
     },
@@ -3248,7 +4360,8 @@ function buildChartsmedico(){
 
 /* ── Construir todos los gráficos de reportes ── */
 function buildChartsReportes(){
-  const allR = PATIENTS.flatMap(p=>p.resultados);
+  const filteredPats = (typeof getPacientesFiltrados === 'function') ? getPacientesFiltrados() : PATIENTS;
+  const allR = filteredPats.flatMap(p=>p.resultados);
 
   if(allR.length === 0){
     // Sin datos: limpiar canvas y mostrar mensaje
@@ -3275,7 +4388,7 @@ function buildChartsReportes(){
   const espec  = allR.filter(r=>r.diag==='especialista').length;
   buildChartDonut('chart-rep-donut',
     [normal, medico, espec],
-    ['Normal','Médico','Especialista'],
+    ['Estructura normal','Deriv. médico','Referir especialista'],
     [C_GREEN, C_YELLOW, C_RED]
   );
   const hpPos = allR.filter(r=>r.hp>30).length;
@@ -3445,85 +4558,7 @@ function buildChartEdadSexo(canvasId){
 }
 
 /* ── Gráfico: Prevalencia H. pylori por CESFAM ── */
-function buildChartHPCesfam(canvasId){
-  destroyChart(canvasId);
-  const canvas = document.getElementById(canvasId);
-  if(!canvas) return;
 
-  // Sin datos: mostrar canvas vacío
-  if(PATIENTS.length === 0){
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.font = '13px Segoe UI, Arial';
-    ctx.fillStyle = '#94A3B8';
-    ctx.textAlign = 'center';
-    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
-    return;
-  }
-
-  // Calcular desde PATIENTS reales únicamente
-  const cesfamMap = {};
-  PATIENTS.forEach(p => p.resultados.forEach(r => {
-    const cf = r.cesfam ? r.cesfam.replace('C.S.F. ','').replace('Centro de Salud Familiar ','') : 'Sin CESFAM';
-    if(!cesfamMap[cf]) cesfamMap[cf] = { total:0, pos:0 };
-    cesfamMap[cf].total++;
-    if(r.hp > 30) cesfamMap[cf].pos++;
-  }));
-
-  if(Object.keys(cesfamMap).length === 0){
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.font = '13px Segoe UI, Arial';
-    ctx.fillStyle = '#94A3B8';
-    ctx.textAlign = 'center';
-    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
-    return;
-  }
-
-  const labels = Object.keys(cesfamMap);
-  const prevalencias = labels.map(k => {
-    const d = cesfamMap[k];
-    return d.total > 0 ? +(d.pos / d.total * 100).toFixed(1) : 0;
-  });
-
-  // Color por nivel: >60% rojo, >40% amarillo, resto verde
-  const colors = prevalencias.map(v =>
-    v > 60 ? C_RED : v > 40 ? C_YELLOW : C_GREEN
-  );
-
-  CHART_INSTANCES[canvasId] = new Chart(canvas, {
-    type: 'bar',
-    data:{
-      labels,
-      datasets:[{
-        label:'Prevalencia HP (%)',
-        data: prevalencias,
-        backgroundColor: colors,
-        borderRadius: 4
-      }]
-    },
-    options:{
-      ...CHART_DEFAULTS,
-      indexAxis: 'y',
-      scales:{
-        x:{
-          grid:{color:'rgba(0,0,0,.05)'},
-          ticks:{font:{size:9}, callback: v => v+'%'},
-          max: 100
-        },
-        y:{ grid:{display:false}, ticks:{font:{size:9}} }
-      },
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            label: ctx => ` ${ctx.raw}% prevalencia HP`
-          }
-        }
-      }
-    }
-  });
-}
 
 /* ── Gráfico: Tiempo hasta seguimiento por diagnóstico ── */
 function buildChartTiempoSeguimiento(canvasId){
@@ -4035,9 +5070,15 @@ function updateAllStats(){
   const msgMed = document.getElementById('msg-medico');
   if(msgMed){
     if(total === 0){
-      msgMed.innerHTML = 'Bienvenida Sandra. No hay pacientes pendientes de seguimiento.';
+      const nomMed = ROLES_CFG[currentRole]?.nombre?.split(' ')[0] || 'Dr./Dra.';
+      msgMed.innerHTML = `Bienvenido/a <strong>${nomMed}</strong>. No hay pacientes registrados aún.`;
+    } else if(pendEsp === 0 && pendMed === 0){
+      const nomMed2 = ROLES_CFG[currentRole]?.nombre?.split(' ')[0] || 'Dr./Dra.';
+      msgMed.innerHTML = `✅ <strong>${nomMed2}</strong>, todos los pacientes tienen seguimiento registrado.`;
     } else {
-      msgMed.innerHTML = `<strong>${pendEsp+pendMed} pacientes</strong> pendientes de seguimiento. <strong>${pendEsp} requieren derivación urgente 🔴</strong>.`;
+      const urgMsg = pendEsp > 0 ? `<span style="color:#DC2626;font-weight:800;">⚠️ ${pendEsp} requieren especialista urgente</span>` : '';
+      const medMsg = pendMed > 0 ? `${pendMed} para médico general 🟡` : '';
+      msgMed.innerHTML = [urgMsg, medMsg].filter(Boolean).join(' · ');
     }
   }
   el('stat-med-esp',    pendEsp);
@@ -4478,13 +5519,1279 @@ function ejecutarImport(){
   setTimeout(()=>closeImportModal(), 2500);
 }
 
+
+/* ═══════════════════════════════════════════
+   FILTRO TEMPORAL DE REPORTES
+   ═══════════════════════════════════════════ */
+
+let REPORTE_DESDE = null;  // null = sin límite
+let REPORTE_HASTA = null;  // null = hoy
+
+function initReporteFiltro(){
+  // Default: este mes
+  const hoy = new Date();
+  const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  REPORTE_DESDE = primerDia;
+  REPORTE_HASTA = hoy;
+  const d = document.getElementById('rp-desde');
+  const h = document.getElementById('rp-hasta');
+  if(d) d.value = primerDia.toISOString().split('T')[0];
+  if(h) h.value = hoy.toISOString().split('T')[0];
+  actualizarInfoFiltro();
+}
+
+function setReportePeriod(periodo){
+  const hoy = new Date();
+  let desde = null;
+
+  // Desactivar todos los botones
+  ['mes','3m','6m','año','todo'].forEach(p => {
+    const btn = document.getElementById('fpb-'+p);
+    if(btn) btn.classList.remove('active');
+  });
+  const activeBtn = document.getElementById('fpb-'+periodo);
+  if(activeBtn) activeBtn.classList.add('active');
+
+  if(periodo === 'mes'){
+    desde = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  } else if(periodo === '3m'){
+    desde = new Date(hoy); desde.setMonth(hoy.getMonth()-3);
+  } else if(periodo === '6m'){
+    desde = new Date(hoy); desde.setMonth(hoy.getMonth()-6);
+  } else if(periodo === 'año'){
+    desde = new Date(hoy.getFullYear(), 0, 1);
+  } else if(periodo === 'todo'){
+    desde = null;
+  }
+
+  REPORTE_DESDE = desde;
+  REPORTE_HASTA = hoy;
+
+  const d = document.getElementById('rp-desde');
+  const h = document.getElementById('rp-hasta');
+  if(d) d.value = desde ? desde.toISOString().split('T')[0] : '';
+  if(h) h.value = hoy.toISOString().split('T')[0];
+
+  actualizarInfoFiltro();
+  buildReportes();
+  setTimeout(() => buildChartsReportes(), 80);
+}
+
+function aplicarFiltroPersonalizado(){
+  // Desactivar botones período predefinido
+  ['mes','3m','6m','año','todo'].forEach(p => {
+    const btn = document.getElementById('fpb-'+p);
+    if(btn) btn.classList.remove('active');
+  });
+
+  const dVal = document.getElementById('rp-desde')?.value;
+  const hVal = document.getElementById('rp-hasta')?.value;
+  REPORTE_DESDE = dVal ? new Date(dVal) : null;
+  REPORTE_HASTA = hVal ? new Date(hVal) : new Date();
+  REPORTE_HASTA.setHours(23,59,59);
+
+  actualizarInfoFiltro();
+  buildReportes();
+  setTimeout(() => buildChartsReportes(), 80);
+}
+
+function actualizarInfoFiltro(){
+  const info = document.getElementById('reporte-filter-info');
+  if(!info) return;
+  if(!REPORTE_DESDE){
+    info.textContent = 'Mostrando todos los datos';
+  } else {
+    const n = getPacientesFiltrados().length;
+    const opts = {day:'numeric',month:'short',year:'numeric'};
+    const d = REPORTE_DESDE.toLocaleDateString('es-CL', opts);
+    const h = REPORTE_HASTA ? REPORTE_HASTA.toLocaleDateString('es-CL', opts) : 'hoy';
+    info.textContent = `${n} resultados · ${d} – ${h}`;
+  }
+}
+
+/* Filtrar PATIENTS según el rango temporal activo */
+function getPacientesFiltrados(){
+  if(!REPORTE_DESDE && !REPORTE_HASTA) return PATIENTS;
+  return PATIENTS.map(p => {
+    const resultadosFiltrados = p.resultados.filter(r => {
+      if(!r.fecha_r) return true;
+      let fecha;
+      if(r.fecha_r.includes('-')){
+        fecha = new Date(r.fecha_r);
+      } else {
+        const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+        const pts = r.fecha_r.split(' ');
+        fecha = new Date(parseInt(pts[2]), mMap[pts[1]], parseInt(pts[0]));
+      }
+      if(isNaN(fecha.getTime())) return true;
+      if(REPORTE_DESDE && fecha < REPORTE_DESDE) return false;
+      if(REPORTE_HASTA && fecha > REPORTE_HASTA) return false;
+      return true;
+    });
+    return {...p, resultados: resultadosFiltrados};
+  }).filter(p => p.resultados.length > 0);
+}
+
+
+/* ═══════════════════════════════════════════
+   SISTEMA DE NOTIFICACIONES
+   ═══════════════════════════════════════════ */
+
+let NOTIFICACIONES = [];
+let found_id_portal = null;  // Array de notificaciones
+
+function agregarNotificacion(tipo, titulo, subtitulo, accion){
+  const n = {
+    id: Date.now(),
+    tipo,   // 'resultado', 'urgente', 'seguimiento', 'info'
+    titulo,
+    subtitulo: subtitulo || '',
+    accion: accion || null,
+    leida: false,
+    time: new Date().toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'})
+  };
+  NOTIFICACIONES.unshift(n);
+  renderNotifPanel();
+  // Flash del badge
+  const dot = document.getElementById('notif-dot');
+  if(dot){ dot.style.display='block'; dot.style.animation='pulse 1s ease 3'; }
+}
+
+const NOTIF_ICONS = {
+  resultado  : '🔬',
+  urgente    : '🚨',
+  seguimiento: '📋',
+  info       : 'ℹ️',
+  exito      : '✅'
+};
+
+function renderNotifPanel(){
+  const list = document.getElementById('notif-list');
+  const dot  = document.getElementById('notif-dot');
+  if(!list) return;
+
+  const noLeidas = NOTIFICACIONES.filter(n=>!n.leida).length;
+  if(dot) dot.style.display = noLeidas > 0 ? 'block' : 'none';
+
+  if(NOTIFICACIONES.length === 0){
+    list.innerHTML = '<div class="notif-empty">Sin notificaciones nuevas</div>';
+    return;
+  }
+
+  list.innerHTML = NOTIFICACIONES.slice(0, 20).map(n => `
+    <div class="notif-item ${n.leida?'':'unread'}" onclick="clickNotif(${n.id})">
+      ${n.leida ? '' : ''/* unread dot via CSS ::before */}
+      <div class="notif-item-icon">${NOTIF_ICONS[n.tipo]||'📌'}</div>
+      <div class="notif-item-body">
+        <div class="notif-item-title">${n.titulo}</div>
+        ${n.subtitulo ? `<div class="notif-item-sub">${n.subtitulo}</div>` : ''}
+        <div class="notif-item-time">${n.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+function clickNotif(id){
+  const n = NOTIFICACIONES.find(x=>x.id===id);
+  if(!n) return;
+  n.leida = true;
+  renderNotifPanel();
+  if(n.accion) n.accion();
+  document.getElementById('notif-panel')?.classList.add('hidden');
+}
+
+function marcarTodasLeidas(){
+  NOTIFICACIONES.forEach(n=>n.leida=true);
+  renderNotifPanel();
+}
+
+function toggleNotifPanel(){
+  const panel = document.getElementById('notif-panel');
+  if(!panel) return;
+  panel.classList.toggle('hidden');
+  // Cerrar al hacer clic fuera
+  if(!panel.classList.contains('hidden')){
+    setTimeout(()=>{
+      document.addEventListener('click', function closeNotif(e){
+        if(!document.getElementById('notif-wrap')?.contains(e.target)){
+          panel.classList.add('hidden');
+          document.removeEventListener('click', closeNotif);
+        }
+      });
+    }, 50);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   FEATURE 1 — INTERPRETACIÓN AUTOMÁTICA PATRÓN SEROLÓGICO
+   Basada en algoritmo GastroPanel® / guías europeas
+   ═══════════════════════════════════════════════════ */
+
+function buildInterpretacionClinica(r) {
+  const pgi   = parseFloat(r.pgi);
+  const pgii  = parseFloat(r.pgii);
+  const ratio = parseFloat(r.ratio);
+  const g17   = parseFloat(r.g17);
+  const hp    = parseFloat(r.hp);
+  const hpPos = !isNaN(hp) && hp > 30;
+
+  if([pgi,ratio,g17].some(isNaN)) return null;
+
+  // Determinar estado de cada segmento
+  const atrofiaCorpus = pgi < 30 || ratio < 3;
+  const atrofiaAntro  = g17 < 1 && !hpPos;
+  const corpusNormal  = pgi >= 30 && ratio >= 3;
+  const antroNormal   = g17 >= 1 || hpPos;
+
+  // Construir interpretación
+  let patron = '';
+  let nivel  = 'normal'; // normal | leve | moderado | severo
+  let recomendacion = '';
+  let intervalo = null;
+
+  if(!atrofiaCorpus && !atrofiaAntro && !hpPos){
+    patron = 'Mucosa gástrica con estructura serológica normal. Sin evidencia de atrofia ni infección activa por <em>H. pylori</em>.';
+    nivel  = 'normal';
+    recomendacion = 'No se requiere acción inmediata. Control según criterio clínico.';
+    intervalo = 5;
+
+  } else if(hpPos && !atrofiaCorpus && !atrofiaAntro){
+    patron = 'Infección activa por <em>H. pylori</em> sin atrofia gástrica asociada (gastritis superficial).';
+    nivel  = 'leve';
+    recomendacion = 'Erradicación de <em>H. pylori</em>. Control serológico post-tratamiento a los 6-12 meses.';
+    intervalo = 1;
+
+  } else if(atrofiaCorpus && !atrofiaAntro){
+    patron = `Atrofia gástrica del <strong>cuerpo</strong> (corpus). PGI: ${pgi} µg/L, ratio PGI/PGII: ${ratio}. ${hpPos?'Con infección activa por <em>H. pylori</em>.':'Sin infección HP activa detectada.'}`;
+    nivel  = hpPos ? 'moderado' : 'leve';
+    recomendacion = hpPos
+      ? 'Erradicación de <em>H. pylori</em> prioritaria. Derivación a gastroenterología para estadificación OLGA.'
+      : 'Derivación a gastroenterología. Considerar endoscopía para estadificación histológica (OLGA).';
+    intervalo = 3;
+
+  } else if(!atrofiaCorpus && atrofiaAntro){
+    patron = `Atrofia gástrica del <strong>antro</strong>. G17: ${g17} pmol/L (bajo en ausencia de HP). Cuerpo gástrico conservado.`;
+    nivel  = 'leve';
+    recomendacion = 'Control serológico en 3 años. Considerar endoscopía según evolución clínica.';
+    intervalo = 3;
+
+  } else if(atrofiaCorpus && atrofiaAntro){
+    patron = `<strong>Pangastritis atrófica</strong> — atrofia de cuerpo y antro. PGI: ${pgi} µg/L, ratio: ${ratio}, G17: ${g17} pmol/L. ${hpPos?'<em>H. pylori</em> positivo.':''}`;
+    nivel  = 'severo';
+    recomendacion = '⚠️ Derivación urgente a gastroenterología. Endoscopía con biopsia y estadificación OLGA/OLGIM obligatoria. Alto riesgo de cáncer gástrico.';
+    intervalo = 1;
+
+  } else {
+    patron = 'Patrón serológico mixto. Requiere correlación clínica e histológica.';
+    nivel  = 'moderado';
+    recomendacion = 'Derivación a gastroenterología para evaluación completa.';
+    intervalo = 2;
+  }
+
+  return { patron, nivel, recomendacion, intervalo, hpPos, atrofiaCorpus, atrofiaAntro };
+}
+
+const NIVEL_CONFIG = {
+  normal   : { color:'#16A34A', bg:'#F0FDF4', border:'#BBF7D0', icon:'✅', label:'Normal' },
+  leve     : { color:'#D97706', bg:'#FFF7ED', border:'#FED7AA', icon:'⚠️', label:'Atención' },
+  moderado : { color:'#EA580C', bg:'#FFF7ED', border:'#FDBA74', icon:'🟠', label:'Moderado' },
+  severo   : { color:'#DC2626', bg:'#FEF2F2', border:'#FECACA', icon:'🔴', label:'Severo' },
+};
+
+function renderInterpretacion(r) {
+  const interp = buildInterpretacionClinica(r);
+  if(!interp) return '';
+  const cfg = NIVEL_CONFIG[interp.nivel];
+  return `
+    <div style="background:${cfg.bg};border:1.5px solid ${cfg.border};border-radius:12px;padding:14px 16px;margin-top:12px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:18px;">${cfg.icon}</span>
+        <span style="font-size:12px;font-weight:800;color:${cfg.color};">INTERPRETACIÓN CLÍNICA — ${cfg.label}</span>
+      </div>
+      <p style="font-size:12px;color:#334155;line-height:1.6;margin:0 0 8px 0;">${interp.patron}</p>
+      <div style="background:rgba(255,255,255,.7);border-radius:8px;padding:8px 12px;font-size:11px;color:#475569;">
+        <strong>Recomendación:</strong> ${interp.recomendacion}
+      </div>
+      ${interp.intervalo ? `<div style="margin-top:8px;font-size:10px;color:#94A3B8;">
+        📅 Intervalo sugerido de control: <strong style="color:${cfg.color};">${interp.intervalo === 1 ? '12 meses' : interp.intervalo + ' años'}</strong>
+        (según guías europeas de atrofia gástrica)
+      </div>` : ''}
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   FEATURE 2 — CALCULADORA RIESGO OLGA
+   Operativo Link Gastritis Assessment
+   ═══════════════════════════════════════════════════ */
+
+function calcScoreOLGA(r) {
+  // Score simplificado basado en marcadores serológicos
+  // (el OLGA real requiere histología, este es el surrogate serológico)
+  const pgi   = parseFloat(r.pgi);
+  const ratio = parseFloat(r.ratio);
+  const g17   = parseFloat(r.g17);
+  const hp    = parseFloat(r.hp);
+  const hpPos = !isNaN(hp) && hp > 30;
+
+  if([pgi,ratio,g17].some(isNaN)) return null;
+
+  const atrofiaCorpusGrave = pgi < 25 && ratio < 2;
+  const atrofiaCorpusLeve  = pgi < 30 || ratio < 3;
+  const atrofiaAntroGrave  = g17 < 0.5 && !hpPos;
+  const atrofiaAntroLeve   = g17 < 1 && !hpPos;
+
+  let stage = 0;
+  if(atrofiaCorpusGrave && atrofiaAntroGrave) stage = 4;
+  else if(atrofiaCorpusGrave || (atrofiaCorpusLeve && atrofiaAntroLeve)) stage = 3;
+  else if(atrofiaCorpusLeve || atrofiaAntroLeve) stage = 2;
+  else if(hpPos) stage = 1;
+  else stage = 0;
+
+  const configs = [
+    { label:'OLGA 0', desc:'Sin atrofia', riesgo:'Muy bajo', color:'#16A34A', pct:5,  endoscopia:false },
+    { label:'OLGA I', desc:'Atrofia mínima',   riesgo:'Bajo',      color:'#65A30D', pct:20, endoscopia:false },
+    { label:'OLGA II',desc:'Atrofia leve',     riesgo:'Moderado',  color:'#D97706', pct:45, endoscopia:true  },
+    { label:'OLGA III',desc:'Atrofia moderada',riesgo:'Alto',      color:'#EA580C', pct:70, endoscopia:true  },
+    { label:'OLGA IV', desc:'Atrofia grave',   riesgo:'Muy alto',  color:'#DC2626', pct:95, endoscopia:true  },
+  ];
+
+  return { stage, ...configs[stage] };
+}
+
+function renderScoreOLGA(r) {
+  const score = calcScoreOLGA(r);
+  if(!score) return '';
+
+  const bars = [0,1,2,3,4].map(i => {
+    const active = i <= score.stage;
+    const colors = ['#16A34A','#65A30D','#D97706','#EA580C','#DC2626'];
+    return `<div style="flex:1;height:8px;border-radius:4px;background:${active?colors[i]:'#E2E8F0'};transition:.3s;"></div>`;
+  }).join('');
+
+  return `
+    <div style="background:linear-gradient(135deg,#F8FAFC,#F1F5F9);border:1.5px solid #E2E8F0;border-radius:12px;padding:14px 16px;margin-top:10px;">
+      <div style="font-size:11px;font-weight:800;color:#64748B;margin-bottom:10px;letter-spacing:.5px;">SCORE DE RIESGO OLGA (SEROLÓGICO)</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="font-size:26px;font-weight:900;color:${score.color};">${score.label}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:${score.color};">${score.desc}</div>
+          <div style="font-size:11px;color:#64748B;">Riesgo de cáncer gástrico: <strong>${score.riesgo}</strong></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:3px;margin-bottom:8px;">${bars}</div>
+      <div style="font-size:10px;color:#94A3B8;margin-bottom:8px;">Estadio ${score.stage} de 4 — Score serológico surrogate</div>
+      ${score.endoscopia
+        ? `<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:7px 10px;font-size:11px;color:#B91C1C;">
+            🔭 <strong>Endoscopía indicada</strong> — Se recomienda estudio endoscópico con biopsia para estadificación histológica definitiva.
+           </div>`
+        : `<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:7px 10px;font-size:11px;color:#166534;">
+            ✅ <strong>Endoscopía no urgente</strong> — Control serológico según intervalo recomendado.
+           </div>`}
+      <div style="margin-top:8px;font-size:9px;color:#CBD5E1;">
+        ⚠️ Este score es un surrogate serológico del OLGA histológico. La estadificación definitiva requiere biopsia endoscópica.
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   FEATURE 3 — MAPA DE SÍDNEY VISUAL (SVG)
+   ═══════════════════════════════════════════════════ */
+
+function renderMapaSidney(r) {
+  const pgi   = parseFloat(r.pgi);
+  const ratio = parseFloat(r.ratio);
+  const g17   = parseFloat(r.g17);
+  const hp    = parseFloat(r.hp);
+
+  if([pgi,ratio,g17].some(isNaN)) return '';
+
+  const hpPos        = !isNaN(hp) && hp > 30;
+  const atrofiaCorpus = pgi < 30 || ratio < 3;
+  const atrofiaAntro  = g17 < 1 && !hpPos;
+
+  const colorCorpus = atrofiaCorpus ? '#DC2626' : '#16A34A';
+  const colorAntro  = atrofiaAntro  ? '#DC2626' : '#16A34A';
+  const colorFundus = atrofiaCorpus ? '#EA580C' : '#22C55E';
+  const opCorpus    = atrofiaCorpus ? 0.85 : 0.5;
+  const opAntro     = atrofiaAntro  ? 0.85 : 0.5;
+
+  const labelCorpus = atrofiaCorpus ? 'Atrofia' : 'Normal';
+  const labelAntro  = atrofiaAntro  ? 'Atrofia' : 'Normal';
+
+  return `
+    <div style="background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:12px;padding:14px 16px;margin-top:10px;">
+      <div style="font-size:11px;font-weight:800;color:#64748B;margin-bottom:10px;letter-spacing:.5px;">MAPA DE SÍDNEY — DISTRIBUCIÓN TOPOGRÁFICA</div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <svg width="130" height="160" viewBox="0 0 130 160" style="flex-shrink:0;">
+          <!-- Estómago outline -->
+          <path d="M65,8 C90,8 115,25 118,55 C122,85 115,115 100,135 C88,150 42,152 30,135 C15,115 8,85 12,55 C15,25 40,8 65,8 Z"
+                fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+          <!-- Fondo/Fundus -->
+          <ellipse cx="52" cy="30" rx="22" ry="16"
+                   fill="${colorFundus}" opacity="0.4" />
+          <text x="52" y="34" text-anchor="middle" font-size="8" fill="#fff" font-weight="800">Fondo</text>
+          <!-- Corpus / Cuerpo -->
+          <path d="M20,55 C20,45 30,38 48,38 C66,38 108,42 112,60 C115,75 108,95 95,105 C80,110 30,110 20,95 Z"
+                fill="${colorCorpus}" opacity="${opCorpus}"/>
+          <text x="65" y="78" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">Cuerpo</text>
+          <text x="65" y="90" text-anchor="middle" font-size="8" fill="#fff" opacity="0.9">${labelCorpus}</text>
+          <!-- Antro -->
+          <path d="M28,108 C28,98 40,105 65,108 C90,111 103,105 103,115 C103,130 88,145 65,148 C42,148 28,133 28,118 Z"
+                fill="${colorAntro}" opacity="${opAntro}"/>
+          <text x="65" y="128" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">Antro</text>
+          <text x="65" y="140" text-anchor="middle" font-size="8" fill="#fff" opacity="0.9">${labelAntro}</text>
+          <!-- HP indicator -->
+          ${hpPos ? `<circle cx="108" cy="25" r="10" fill="#DC2626" opacity="0.9"/>
+            <text x="108" y="29" text-anchor="middle" font-size="7" fill="#fff" font-weight="800">HP+</text>` :
+            `<circle cx="108" cy="25" r="10" fill="#16A34A" opacity="0.9"/>
+            <text x="108" y="29" text-anchor="middle" font-size="7" fill="#fff" font-weight="800">HP-</text>`}
+          <!-- Esófago -->
+          <rect x="58" y="0" width="14" height="12" rx="4" fill="#94A3B8" opacity="0.6"/>
+          <text x="65" y="9" text-anchor="middle" font-size="6" fill="#fff">EGE</text>
+        </svg>
+        <div style="flex:1;min-width:120px;">
+          <div style="font-size:11px;color:#334155;margin-bottom:6px;font-weight:700;">Hallazgos topográficos:</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
+              <span style="width:10px;height:10px;border-radius:50%;background:${colorCorpus};flex-shrink:0;"></span>
+              <span><strong>Cuerpo:</strong> ${atrofiaCorpus ? '<span style="color:#DC2626;">Atrofia detectada</span>' : '<span style="color:#16A34A;">Estructura normal</span>'}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
+              <span style="width:10px;height:10px;border-radius:50%;background:${colorAntro};flex-shrink:0;"></span>
+              <span><strong>Antro:</strong> ${atrofiaAntro ? '<span style="color:#DC2626;">Atrofia detectada</span>' : '<span style="color:#16A34A;">Estructura normal</span>'}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
+              <span style="width:10px;height:10px;border-radius:50%;background:${hpPos?'#DC2626':'#16A34A'};flex-shrink:0;"></span>
+              <span><strong>H. pylori:</strong> ${hpPos ? '<span style="color:#DC2626;">Positivo (>30 EIU)</span>' : '<span style="color:#16A34A;">Negativo (≤30 EIU)</span>'}</span>
+            </div>
+            ${atrofiaCorpus && atrofiaAntro
+              ? `<div style="margin-top:6px;background:#FEF2F2;border-radius:6px;padding:5px 8px;font-size:10px;color:#B91C1C;"><strong>⚠️ Pangastritis atrófica</strong></div>`
+              : atrofiaCorpus
+              ? `<div style="margin-top:6px;background:#FFF7ED;border-radius:6px;padding:5px 8px;font-size:10px;color:#C2410C;"><strong>Atrofia de cuerpo gástrico</strong></div>`
+              : atrofiaAntro
+              ? `<div style="margin-top:6px;background:#FFF7ED;border-radius:6px;padding:5px 8px;font-size:10px;color:#C2410C;"><strong>Atrofia de antro gástrico</strong></div>`
+              : `<div style="margin-top:6px;background:#F0FDF4;border-radius:6px;padding:5px 8px;font-size:10px;color:#166534;"><strong>✅ Sin atrofia detectada</strong></div>`}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   FEATURE 10 — DÍAS DESDE ÚLTIMO EXAMEN
+   ═══════════════════════════════════════════════════ */
+
+function calcDiasDesdeUltimoExamen(pat) {
+  if(!pat.resultados || !pat.resultados.length) return null;
+  const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+  const fechas = pat.resultados
+    .map(r => {
+      if(!r.fecha_m) return null;
+      if(r.fecha_m.includes('-')) return new Date(r.fecha_m);
+      const pts = r.fecha_m.split(' ');
+      return new Date(parseInt(pts[2]), mMap[pts[1]]||0, parseInt(pts[0])||1);
+    })
+    .filter(d => d && !isNaN(d.getTime()));
+
+  if(!fechas.length) return null;
+  const ultima = new Date(Math.max(...fechas.map(d=>d.getTime())));
+  const dias = Math.floor((Date.now() - ultima.getTime()) / 86400000);
+  const meses = Math.floor(dias / 30);
+  const años  = Math.floor(dias / 365);
+
+  let texto, color;
+  if(años >= 3)        { texto = `hace ${años} años`; color = '#DC2626'; }
+  else if(años >= 1)   { texto = `hace ${años} año${años>1?'s':''} ${meses%12 > 0 ? `${meses%12} mes${meses%12>1?'es':''}` : ''}`; color = '#D97706'; }
+  else if(meses >= 6)  { texto = `hace ${meses} meses`; color = '#D97706'; }
+  else if(meses >= 1)  { texto = `hace ${meses} mes${meses>1?'es':''}`; color = '#16A34A'; }
+  else                 { texto = `hace ${dias} días`; color = '#16A34A'; }
+
+  return { dias, meses, años, texto, color, fecha: ultima.toLocaleDateString('es-CL') };
+}
+
+
+
+/* ═══ FEATURE 5 — COMPARATIVA TEMPORAL ═══ */
+function renderComparativaExamenes(pat) {
+  const resultados = pat.resultados.filter(r => r.pgi && r.fecha_m);
+  if(resultados.length < 2) return '';
+
+  const sorted = [...resultados].sort((a,b) => {
+    const mMap={Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
+    const toDate = f => { if(!f) return 0; if(f.includes('-')) return new Date(f).getTime(); const pts=f.split(' '); return new Date(parseInt(pts[2]),mMap[pts[1]]||0,parseInt(pts[0])||1).getTime(); };
+    return toDate(a.fecha_m) - toDate(b.fecha_m);
+  });
+
+  const fields = [
+    { key:'pgi',   label:'PGI',        unit:'µg/L',  ref:'30–160' },
+    { key:'pgii',  label:'PGII',       unit:'µg/L',  ref:'3–15'   },
+    { key:'ratio', label:'PGI/PGII',   unit:'',      ref:'>3'     },
+    { key:'g17',   label:'Gastrina-17',unit:'pmol/L',ref:'1–7'    },
+    { key:'hp',    label:'Anti-HP',    unit:'EIU',   ref:'<30'    },
+  ];
+
+  const trend = (a, b, key) => {
+    const va = parseFloat(a[key]);
+    const vb = parseFloat(b[key]);
+    if(isNaN(va) || isNaN(vb)) return '';
+    const d = vb - va;
+    if(Math.abs(d) < 0.5) return '<span style="color:#94A3B8;">→</span>';
+    return d > 0
+      ? '<span style="color:#16A34A;font-weight:800;">↑</span>'
+      : '<span style="color:#DC2626;font-weight:800;">↓</span>';
+  };
+
+  const headers = sorted.map(r => `<th style="text-align:center;font-size:10px;padding:6px 8px;">${r.fecha_m||'—'}</th>`).join('');
+  const trendHeader = sorted.length > 1 ? '<th style="text-align:center;font-size:10px;">Tendencia</th>' : '';
+
+  const rows = fields.map(f => {
+    const vals = sorted.map(r => {
+      const v = parseFloat(r[f.key]);
+      const cls = classifyValue(f.key, r[f.key]);
+      const color = cls==='normal'?'#16A34A':cls==='abnormal'?'#DC2626':'#D97706';
+      return `<td style="text-align:center;font-size:12px;font-weight:700;color:${color};padding:5px 8px;">${isNaN(v)?'—':v.toFixed(1)}</td>`;
+    }).join('');
+    const lastTrend = sorted.length > 1 ? `<td style="text-align:center;">${trend(sorted[sorted.length-2], sorted[sorted.length-1], f.key)}</td>` : '';
+    return `<tr><td style="font-size:11px;font-weight:700;color:#475569;padding:5px 8px;white-space:nowrap;">${f.label}<span style="font-size:9px;color:#94A3B8;"> ${f.unit}</span></td>${vals}${lastTrend}</tr>`;
+  }).join('');
+
+  return `
+    <div style="margin-top:14px;border-top:1px solid #F1F5F9;padding-top:14px;">
+      <div style="font-size:12px;font-weight:800;color:#334155;margin-bottom:8px;">📈 Comparativa temporal (${sorted.length} exámenes)</div>
+      <div class="table-wrap" style="font-size:12px;">
+        <table style="width:100%;">
+          <thead><tr style="background:#F8FAFC;">
+            <th style="font-size:10px;padding:6px 8px;text-align:left;">Marcador</th>
+            ${headers}
+            ${trendHeader}
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div style="font-size:9px;color:#94A3B8;margin-top:4px;">↑ aumento · ↓ descenso respecto al examen anterior</div>
+    </div>`;
+}
+
+
+/* ═══ FEATURE 6 — COBERTURA POR TRAMO ETARIO ═══ */
+function buildChartEtario(canvasId) {
+  destroyChart(canvasId);
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const tramos = [
+    {label:'40-49',min:40,max:49},
+    {label:'50-59',min:50,max:59},
+    {label:'60-69',min:60,max:69},
+    {label:'70-79',min:70,max:79},
+    {label:'80+',  min:80,max:120},
+  ];
+  const data = tramos.map(t =>
+    PATIENTS.filter(p => p.edad >= t.min && p.edad <= t.max && p.resultados.length > 0).length
+  );
+  if(data.every(v=>v===0)){ canvas.parentNode.innerHTML='<div style="text-align:center;padding:30px;color:#94A3B8;font-size:12px;">Sin datos demográficos</div>'; return; }
+  CHART_INSTANCES[canvasId] = new Chart(canvas,{
+    type:'bar',
+    data:{ labels:tramos.map(t=>t.label), datasets:[{
+      label:'Examinados',
+      data,
+      backgroundColor:[C_BLUE,C_BLUE2,'#60A5FA','#93C5FD','#BFDBFE'],
+      borderRadius:6,
+    }]},
+    options:{...CHART_DEFAULTS,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw} pacientes examinados`}}},
+      scales:{x:{title:{display:true,text:'Tramo etario (años)',font:{size:10}}},
+               y:{beginAtZero:true,ticks:{stepSize:1}}}}
+  });
+}
+
+/* ═══ FEATURE 7 — TASA HP POR CESFAM ═══ */
+function buildChartHPCesfam(canvasId) {
+  destroyChart(canvasId);
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  if(PATIENTS.length === 0){
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font='12px Segoe UI,Arial'; ctx.fillStyle='#94A3B8'; ctx.textAlign='center';
+    ctx.fillText('Sin datos disponibles', canvas.width/2, canvas.height/2);
+    return;
+  }
+  const cfMap = {};
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    if(!r.cesfam || !r.hp) return;
+    if(!cfMap[r.cesfam]) cfMap[r.cesfam] = {pos:0,total:0};
+    cfMap[r.cesfam].total++;
+    if(parseFloat(r.hp) > 30) cfMap[r.cesfam].pos++;
+  }));
+  const labels = Object.keys(cfMap).slice(0,8);
+  const tasas  = labels.map(cf => cfMap[cf].total ? Math.round(cfMap[cf].pos/cfMap[cf].total*100) : 0);
+  if(!labels.length){ canvas.parentNode.innerHTML='<div style="text-align:center;padding:30px;color:#94A3B8;font-size:12px;">Sin datos de HP por CESFAM</div>'; return; }
+  CHART_INSTANCES[canvasId] = new Chart(canvas,{
+    type:'bar',
+    data:{ labels, datasets:[{
+      label:'% HP Positivo',
+      data:tasas,
+      backgroundColor: tasas.map(v => v > 50 ? C_RED : v > 30 ? C_YELLOW : C_GREEN),
+      borderRadius:6,
+    }]},
+    options:{...CHART_DEFAULTS,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw}% HP positivo (${cfMap[labels[ctx.dataIndex]].pos}/${cfMap[labels[ctx.dataIndex]].total})`}}},
+      scales:{x:{ticks:{font:{size:9}}},
+               y:{beginAtZero:true,max:100,title:{display:true,text:'% HP Positivo',font:{size:10}}}}}
+  });
+}
+
+/* ═══ FEATURE 8 — SEMÁFORO DE GESTIÓN ═══ */
+function buildSemaforoGestion() {
+  const el = document.getElementById('semaforo-grid');
+  if(!el) return;
+  if(!PATIENTS.length){ el.innerHTML='<div style="text-align:center;padding:20px;color:#94A3B8;font-size:12px;">Activa el modo demo para ver el semáforo</div>'; return; }
+
+  const cfMap = {};
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    const cf = r.cesfam || 'Sin CESFAM';
+    if(!cfMap[cf]) cfMap[cf] = {total:0,sinSeg:0,espec:0};
+    cfMap[cf].total++;
+    if(!r.seg_tipo && (r.diag==='medico'||r.diag==='especialista')) cfMap[cf].sinSeg++;
+    if(!r.seg_tipo && r.diag==='especialista') cfMap[cf].espec++;
+  }));
+
+  const items = Object.entries(cfMap).sort((a,b)=>(b[1].espec+b[1].sinSeg)-(a[1].espec+a[1].sinSeg));
+
+  el.innerHTML = items.map(([cf, d]) => {
+    const pctSinSeg = d.total ? d.sinSeg/d.total : 0;
+    let semaforo, bg, border, msg;
+    if(d.espec > 3 || pctSinSeg > 0.5){
+      semaforo='🔴'; bg='#FEF2F2'; border='#FECACA'; msg='Crítico';
+    } else if(d.espec > 0 || pctSinSeg > 0.2){
+      semaforo='🟠'; bg='#FFF7ED'; border='#FED7AA'; msg='Atención';
+    } else {
+      semaforo='🟢'; bg='#F0FDF4'; border='#BBF7D0'; msg='Al día';
+    }
+    const nomCorto = cf.replace('Centro de Salud Familiar ','C.S.F. ').replace('C.S.F. Dr. ','Dr. ');
+    return `<div style="background:${bg};border:1.5px solid ${border};border-radius:10px;padding:10px 12px;cursor:pointer;" onclick="navTo('seguimiento')" title="Ver seguimientos de ${cf}">
+      <div style="font-size:20px;text-align:center;margin-bottom:4px;">${semaforo}</div>
+      <div style="font-size:10px;font-weight:800;color:#334155;text-align:center;line-height:1.3;">${nomCorto}</div>
+      <div style="font-size:9px;color:#64748B;text-align:center;margin-top:2px;">${d.sinSeg} pendientes</div>
+      <div style="font-size:9px;font-weight:700;color:${msg==='Crítico'?'#DC2626':msg==='Atención'?'#D97706':'#16A34A'};text-align:center;">${msg}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══ FEATURE 9 — STATS PERSONALES MÉDICO ═══ */
+function buildStatsPersonalesMedico() {
+  const el = document.getElementById('med-stats-personales');
+  if(!el) return;
+
+  const hoy = new Date();
+  const primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+
+  // Contar seguimientos del mes actual
+  let segMes = 0, segTotal = 0, pendUrgentes = 0;
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    if(r.seg_tipo) {
+      segTotal++;
+      if(r.seg_fecha){
+        const partes = r.seg_fecha.split('/');
+        if(partes.length === 3){
+          const d = new Date(parseInt(partes[2]), parseInt(partes[1])-1, parseInt(partes[0]));
+          if(d >= primerDiaMes) segMes++;
+        }
+      }
+    }
+    if(!r.seg_tipo && r.diag==='especialista') pendUrgentes++;
+  }));
+
+  el.innerHTML = `
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:100px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #BFDBFE;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:#1D4ED8;">${segMes}</div>
+        <div style="font-size:10px;font-weight:700;color:#1E40AF;margin-top:2px;">Seguimientos este mes</div>
+      </div>
+      <div style="flex:1;min-width:100px;background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #BBF7D0;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:#15803D;">${segTotal}</div>
+        <div style="font-size:10px;font-weight:700;color:#166534;margin-top:2px;">Total registrados</div>
+      </div>
+      <div style="flex:1;min-width:100px;background:${pendUrgentes>0?'linear-gradient(135deg,#FEF2F2,#FEE2E2)':'linear-gradient(135deg,#F0FDF4,#DCFCE7)'};border:1px solid ${pendUrgentes>0?'#FECACA':'#BBF7D0'};border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:${pendUrgentes>0?'#DC2626':'#15803D'};">${pendUrgentes}</div>
+        <div style="font-size:10px;font-weight:700;color:${pendUrgentes>0?'#B91C1C':'#166534'};margin-top:2px;">Urgentes pendientes 🔴</div>
+      </div>
+    </div>
+  `;
+}
+
+
+/* ═══ FEATURE 11 — MODO OSCURO ═══ */
+function toggleDarkMode(){
+  document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('dark-btn');
+  if(btn) btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+  localStorage.setItem('gp-dark', document.body.classList.contains('dark-mode') ? '1' : '0');
+}
+function initDarkMode(){
+  if(localStorage.getItem('gp-dark') === '1'){
+    document.body.classList.add('dark-mode');
+    const btn = document.getElementById('dark-btn');
+    if(btn) btn.textContent = '☀️';
+  }
+}
+
+
+/* ═══ FEATURE 12 — BÚSQUEDA GLOBAL ═══ */
+function globalSearch(q){
+  const results = document.getElementById('global-results');
+  if(!results) return;
+  q = q.trim().toLowerCase();
+  if(!q || q.length < 2){ results.classList.add('hidden'); return; }
+
+  const matches = PATIENTS.filter(p => {
+    const name = (p.nombre+' '+p.apP+' '+p.apM).toLowerCase();
+    const rut  = p.rut.replace(/[\.\-\s]/g,'').toLowerCase();
+    const qClean = q.replace(/[\.\-\s]/g,'');
+    return name.includes(q) || rut.includes(qClean);
+  }).slice(0,6);
+
+  // También buscar por ID de examen
+  const examMatches = [];
+  PATIENTS.forEach(p => p.resultados.forEach(r => {
+    if(r.id && r.id.toLowerCase().includes(q)){
+      examMatches.push({pat:p, exam:r});
+    }
+  }));
+
+  if(!matches.length && !examMatches.length){
+    results.innerHTML = '<div class="global-result-item"><div class="gr-sub">Sin resultados para "'+q+'"</div></div>';
+    results.classList.remove('hidden');
+    return;
+  }
+
+  const patHtml = matches.map(p => {
+    const hr = isHighRisk(p);
+    return `<div class="global-result-item" onclick="closeGlobalSearch();showPatient(${p.id});navTo('buscar-paciente');setTimeout(()=>showPatient(${p.id}),80);">
+      <div class="gr-title">${p.nombre} ${p.apP} ${hr?'🔴':''}
+        ${p.resultados.length?`<span style="font-size:9px;color:#94A3B8;margin-left:4px;">${p.resultados.length} exámen${p.resultados.length>1?'es':''}</span>`:''}
+      </div>
+      <div class="gr-sub">RUT: ${p.rut} · ${p.edad} años · ${p.sexo}</div>
+    </div>`;
+  }).join('');
+
+  const examHtml = examMatches.slice(0,3).map(({pat,exam}) =>
+    `<div class="global-result-item" onclick="closeGlobalSearch();document.getElementById('labTestId').value='${exam.id}';navTo('ingreso-resultados');setTimeout(buscarTest,100);">
+      <div class="gr-title">🔬 Examen ${exam.id}</div>
+      <div class="gr-sub">${pat.nombre} ${pat.apP} · ${exam.fecha_m||'Sin fecha'}</div>
+    </div>`
+  ).join('');
+
+  results.innerHTML = (patHtml||'') + (examHtml ? '<div style="padding:6px 14px;font-size:9px;font-weight:800;color:#94A3B8;border-top:1px solid #F1F5F9;">EXÁMENES</div>'+examHtml : '');
+  results.classList.remove('hidden');
+}
+
+function closeGlobalSearch(){
+  const results = document.getElementById('global-results');
+  const input   = document.getElementById('global-search-input');
+  if(results) results.classList.add('hidden');
+  if(input)   input.value = '';
+}
+
+
+/* ═══ FEATURE 13 — ONBOARDING ═══ */
+let _obStep = 0;
+const OB_STEPS = [
+  { icon:'👋', title:'¡Bienvenido a GastroPanel®!', sub:'El sistema de gestión de exámenes serológicos para tamizaje gástrico en CESFAM. En 3 pasos te mostramos lo esencial.' },
+  { icon:'🔍', title:'Búsqueda rápida', sub:'Usa el campo de búsqueda en la parte superior para encontrar cualquier paciente o examen al instante, desde cualquier módulo.' },
+  { icon:'📊', title:'Activa el Modo Demo', sub:'Para ver la app con datos reales, activa el Modo Demo desde el panel de la izquierda. Incluye 40 pacientes con resultados clínicos variados.' },
+];
+const OB_STEPS_ROL = {
+  secretaria  : [
+    { icon:'📋', title:'Tu rol: Secretaria/Técnico', sub:'Registras nuevos pacientes y asignas exámenes. El flujo es: Registro → Búsqueda → Nuevo Examen → entregar identificador al paciente.' },
+    { icon:'🆔', title:'Identificador único', sub:'Al registrar un examen se genera un código único que entregas al paciente para que consulte su resultado en línea.' },
+    { icon:'📊', title:'Tu reporte', sub:'En Reportes verás estadísticas administrativas: exámenes registrados, completados y pendientes por CESFAM.' },
+  ],
+  laboratorio : [
+    { icon:'🔬', title:'Tu rol: Laboratorio', sub:'Recibes muestras, ingresas los resultados serológicos (PGI, PGII, G17, HP) y subes el informe PDF.' },
+    { icon:'🔢', title:'Clasificación automática', sub:'Al ingresar los valores, el sistema clasifica automáticamente el diagnóstico y genera la interpretación clínica.' },
+    { icon:'📄', title:'Subir PDF', sub:'Adjunta el informe PDF generado por el analizador. El paciente podrá descargarlo con su identificador.' },
+  ],
+  enfermera   : [
+    { icon:'👩‍⚕️', title:'Tu rol: Enfermera', sub:'Buscas pacientes por RUT, ves su historial completo de GastroPanel y puedes imprimir fichas clínicas.' },
+    { icon:'📅', title:'Historial y comparativa', sub:'Si el paciente tiene múltiples exámenes, verás la comparativa temporal de marcadores serológicos y la evolución.' },
+    { icon:'⚠️', title:'Alertas de riesgo', sub:'Los pacientes con alto riesgo oncológico están marcados con 🔴. Identifícalos fácilmente para priorizar su atención.' },
+  ],
+  medico      : [
+    { icon:'🏥', title:'Tu rol: Médico', sub:'Tienes acceso completo: dashboard clínico, módulo de seguimiento, reportes epidemiológicos y score OLGA.' },
+    { icon:'🗺️', title:'Mapa de Sídney + OLGA', sub:'En cada resultado verás el mapa topográfico del estómago y el score de riesgo OLGA serológico con recomendación clínica.' },
+    { icon:'🚦', title:'Semáforo de gestión', sub:'Tu dashboard muestra un semáforo por CESFAM (🔴🟠🟢) para identificar de un vistazo qué centros necesitan atención urgente.' },
+  ],
+};
+
+function showOnboarding(role){
+  const key = 'gp-onboarded-'+role;
+  if(localStorage.getItem(key)) return;
+  _obStep = 0;
+  const steps = OB_STEPS_ROL[role] || OB_STEPS;
+  renderOnboardingStep(steps, 0);
+  document.getElementById('onboarding-overlay')?.classList.remove('hidden');
+  window._obSteps = steps;
+}
+
+function renderOnboardingStep(steps, idx){
+  const s = steps[idx];
+  // Actualizar todos los steps
+  for(let i=0;i<3;i++){
+    const el = document.getElementById('ob-step-'+i);
+    if(el) el.classList.toggle('active', i===0);
+  }
+  // Actualizar contenido del step 0
+  const step0 = document.getElementById('ob-step-0');
+  if(step0){
+    step0.innerHTML = `<div class="ob-icon">${s.icon}</div><div class="ob-title">${s.title}</div><div class="ob-sub">${s.sub}</div>`;
+  }
+  // Dots
+  for(let i=0;i<3;i++){
+    const dot = document.getElementById('ob-dot-'+i);
+    if(dot) dot.classList.toggle('active', i===idx);
+  }
+  // Botón
+  const btn = document.getElementById('ob-next-btn');
+  if(btn) btn.textContent = idx < steps.length-1 ? 'Siguiente →' : '¡Empezar! 🚀';
+}
+
+function onboardingNext(){
+  const steps = window._obSteps || OB_STEPS;
+  _obStep++;
+  if(_obStep >= steps.length){
+    closeOnboarding();
+    return;
+  }
+  renderOnboardingStep(steps, _obStep);
+}
+
+function closeOnboarding(){
+  document.getElementById('onboarding-overlay')?.classList.add('hidden');
+  localStorage.setItem('gp-onboarded-'+currentRole, '1');
+}
+
+
+/* ═══ FEATURE 14 — QR PORTAL PACIENTE ═══ */
+function generateQR(text, size=120) {
+  // QR generado con API pública de Google Charts (sin dependencia externa)
+  const url = `https://chart.googleapis.com/chart?chs=${size}x${size}&cht=qr&chl=${encodeURIComponent(text)}&choe=UTF-8`;
+  return `<img src="${url}" alt="QR Code" width="${size}" height="${size}" 
+    style="border-radius:8px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.12);"
+    onerror="this.style.display='none'">`;
+}
+
+function mostrarQRExamen(code) {
+  const url = `https://www.gastropanel.cl/miresultado?id=${code}`;
+  return `
+    <div style="display:flex;align-items:center;gap:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:14px;">
+      <div style="flex-shrink:0;">
+        ${generateQR(url, 100)}
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#166534;margin-bottom:4px;">📱 QR para el paciente</div>
+        <div style="font-size:10px;color:#16A34A;margin-bottom:6px;">El paciente puede escanear este código para ver sus resultados</div>
+        <div style="font-family:'Courier New',monospace;font-size:16px;font-weight:900;color:#0F172A;letter-spacing:3px;">${code}</div>
+        <div style="font-size:9px;color:#94A3B8;margin-top:2px;">www.gastropanel.cl/miresultado</div>
+      </div>
+    </div>`;
+}
+
+
+/* ═══ FEATURE 15 — HISTORIAL DE AUDITORÍA ═══ */
+let AUDIT_LOG = [];
+
+function auditLog(accion, detalle=''){
+  AUDIT_LOG.push({
+    ts: new Date().toLocaleString('es-CL'),
+    role: currentRole || '—',
+    accion,
+    detalle,
+  });
+  if(AUDIT_LOG.length > 200) AUDIT_LOG.shift(); // Mantener máx 200 entradas
+}
+
+function renderAuditLog(){
+  const el = document.getElementById('audit-log-body');
+  if(!el) return;
+  if(!AUDIT_LOG.length){
+    el.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:#94A3B8;">Sin actividad registrada aún</td></tr>';
+    return;
+  }
+  el.innerHTML = [...AUDIT_LOG].reverse().slice(0,50).map(e =>
+    `<tr>
+      <td style="font-size:10px;color:#94A3B8;white-space:nowrap;">${e.ts}</td>
+      <td><span class="badge bg-gray" style="font-size:9px;">${e.role}</span></td>
+      <td style="font-size:11px;font-weight:600;color:#334155;">${e.accion}</td>
+      <td style="font-size:10px;color:#64748B;">${e.detalle}</td>
+    </tr>`
+  ).join('');
+}
+
+
+/* ═══════════════════════════════════════════════════
+   GASTROCALC — LÓGICA CLÍNICA COMPLETA
+   ═══════════════════════════════════════════════════ */
+
+/* ── Tabs ── */
+function gcTab(id){
+  // Buscar tabs por data-tab o por texto — robusto ante reordenamientos
+  document.querySelectorAll('.gc-tab').forEach(t=>{
+    const tabId = t.dataset.tab || t.getAttribute('onclick')?.match(/gcTab\('(\w+)'\)/)?.[1];
+    t.classList.toggle('active', tabId===id);
+  });
+  document.querySelectorAll('.gc-panel').forEach(p=>p.classList.remove('active'));
+  const panel = document.getElementById('gc-'+id);
+  if(panel) panel.classList.add('active');
+}
+
+/* ── Score OLGA ── */
+function calcOLGA(){
+  const corpus = parseInt(document.getElementById('gc-corpus').value)||0;
+  const antro  = parseInt(document.getElementById('gc-antro').value)||0;
+  const hpSt   = document.getElementById('gc-hp-status').value;
+  const meta    = parseInt(document.getElementById('gc-meta').value)||0;
+
+  // Tabla OLGA (corpus × antro)
+  const olgaTable = [
+    [0,1,2,2],
+    [1,1,2,3],
+    [2,2,3,4],
+    [2,3,4,4],
+  ];
+  const stage = olgaTable[Math.min(corpus,3)][Math.min(antro,3)];
+
+  const configs = [
+    { label:'OLGA 0', riesgo:'Muy bajo', color:'#16A34A', bg:'#F0FDF4', border:'#BBF7D0', pct:5,
+      rec:'Sin atrofia significativa. Control clínico habitual. No requiere vigilancia endoscópica de rutina.' },
+    { label:'OLGA I', riesgo:'Bajo', color:'#65A30D', bg:'#F7FEE7', border:'#D9F99D', pct:20,
+      rec:'Atrofia mínima. Control serológico o endoscópico en 3-5 años. Erradicar H. pylori si positivo.' },
+    { label:'OLGA II', riesgo:'Moderado', color:'#D97706', bg:'#FFF7ED', border:'#FED7AA', pct:45,
+      rec:'Vigilancia endoscópica cada 3 años. Erradicación obligatoria de H. pylori. Suplementación B12 si atrofia cuerpo.' },
+    { label:'OLGA III', riesgo:'Alto', color:'#EA580C', bg:'#FFF7ED', border:'#FDBA74', pct:70,
+      rec:'Vigilancia endoscópica anual. Derivación a gastroenterólogo. Biopsias de Sídney en cada endoscopía.' },
+    { label:'OLGA IV', riesgo:'Muy alto', color:'#DC2626', bg:'#FEF2F2', border:'#FECACA', pct:100,
+      rec:'⚠️ ALTO RIESGO. Vigilancia endoscópica cada 6-12 meses. Considerar seguimiento intensivo. Alta probabilidad de lesiones premalignas.' },
+  ];
+
+  const cfg = configs[stage];
+  const hpNote = hpSt==='pos' ? '⚠️ H. pylori activo — erradicación prioritaria antes de re-estadificar.' :
+                 hpSt==='post'? '✅ Post-erradicación — re-estadificar en 6-12 meses.' : '';
+  const metaNote = meta>0 ? `<div style="margin-top:6px;padding:6px 10px;background:#FFF7ED;border-radius:6px;font-size:11px;color:#C2410C;">⚠️ Metaplasia intestinal ${meta===1?'incompleta':'completa'} detectada — factor de riesgo adicional independiente del OLGA.</div>` : '';
+
+  const barW = cfg.pct;
+  document.getElementById('gc-olga-result').innerHTML = `
+    <div class="gc-result-box" style="background:linear-gradient(135deg,${cfg.bg},#fff);border-color:${cfg.border};">
+      <div class="gc-result-title">RESULTADO SCORE OLGA</div>
+      <div class="gc-score-big" style="color:${cfg.color};">${cfg.label}</div>
+      <div class="gc-score-label" style="color:${cfg.color};">Riesgo ${cfg.riesgo}</div>
+      <div class="gc-score-bar-wrap">
+        <div class="gc-score-bar" style="width:${barW}%;background:linear-gradient(90deg,#16A34A,${cfg.color});"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <span class="gc-badge" style="background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.border};">
+          Corpus: Grado ${corpus}
+        </span>
+        <span class="gc-badge" style="background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.border};">
+          Antro: Grado ${antro}
+        </span>
+        ${stage>=2?'<span class="gc-badge" style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;">Vigilancia indicada</span>':''}
+      </div>
+      <div class="gc-rec-box">
+        <strong>Recomendación:</strong> ${cfg.rec}
+        ${hpNote ? '<br><br>'+hpNote : ''}
+      </div>
+      ${metaNote}
+      <div style="font-size:9px;color:#94A3B8;margin-top:8px;">
+        Ref: Rugge M, et al. OLGA staging for gastritis: a tutorial. Dig Liver Dis. 2011.
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-gray btn-sm" onclick="gcImprimir('gc-olga-result')" style="font-size:11px;">🖨️ Imprimir resultado</button>
+      </div>
+    </div>`;
+
+  auditLog('GastroCalc OLGA', `Corpus:${corpus} Antro:${antro} → ${cfg.label}`);
+}
+
+/* ── Erradicación H. pylori ── */
+function calcErradicacion(){
+  const prev     = document.getElementById('gc-hp-prev').value;
+  const alergia  = document.getElementById('gc-hp-alergia').value;
+  const bismuto  = document.getElementById('gc-hp-bismuto').value;
+  const contexto = document.getElementById('gc-hp-contexto').value;
+
+  let esquema, duracion, nota = '';
+
+  if(prev==='ninguno'){
+    if(alergia==='no' && bismuto==='si'){
+      esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia cuádruple con bismuto (PBMT)</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h — antes de comidas</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Subsalicilato/citrato de bismuto</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">120 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/6h — con comidas</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Metronidazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/8h — con comidas</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Tetraciclina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/6h — con comidas</td></tr></tbody></table>';
+      duracion = '14 días';
+      nota = 'Terapia de primera línea preferida en Chile por alta resistencia a claritromicina (>20%).';
+    } else if(alergia==='no'){
+      esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia triple estándar</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Amoxicilina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">1 g</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Claritromicina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr></tbody></table>';
+      duracion = '14 días';
+      nota = '⚠️ Eficacia reducida si resistencia local a claritromicina >15%.';
+    } else {
+      esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia triple (sin penicilina)</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Claritromicina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Metronidazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/8h</td></tr></tbody></table>';
+      duracion = '14 días';
+      nota = '⚠️ Esquema alternativo en alérgicos a penicilina. Menor eficacia.';
+    }
+  } else if(prev==='claritro'){
+    if(alergia==='no'){
+      esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia con levofloxacino (segunda línea)</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Amoxicilina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">1 g</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Levofloxacino</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/24h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Bismuto (si disponible)</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">120 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/6h</td></tr></tbody></table>';
+      duracion = '14 días';
+    } else {
+      esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia con rifabutina</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Bismuto</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">120 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/6h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Rifabutina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">150 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr></tbody></table>';
+      duracion = '10-14 días';
+      nota = 'Reservar rifabutina para tercera línea si es posible.';
+    }
+  } else if(prev==='metro'){
+    esquema = '<div style="font-size:13px;font-weight:800;color:#0F172A;margin-bottom:8px;">💊 Terapia triple con claritromicina</div><table style="width:100%;border-collapse:collapse;background:#F8FAFC;border-radius:8px;overflow:hidden;"><thead><tr style="background:#E2E8F0;"><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Medicamento</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Dosis adulto</th><th style="padding:6px 10px;font-size:11px;color:#475569;text-align:left;">Frecuencia</th></tr></thead><tbody><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Omeprazol</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">20 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Amoxicilina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">1 g</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr><tr><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;font-weight:700;color:#334155;white-space:nowrap;">Claritromicina</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#475569;">500 mg</td><td style="padding:5px 10px;border-bottom:1px solid #E2E8F0;color:#64748B;font-size:11px;white-space:nowrap;">c/12h</td></tr></tbody></table>';
+    duracion = '14 días';
+    nota = 'Si falló metronidazol previamente, usar claritromicina como tercer componente.';
+  } else {
+    esquema = '<strong>Terapia de rescate — Derivar a especialidad</strong><br>⚠️ Fallas múltiples: requiere endoscopía con cultivo para resistencias. IBP dosis alta + bismuto + 2 antibióticos según antibiograma.';
+    duracion = '14 días';
+    nota = 'Derivar urgente a gastroenterólogo para cultivo con antibiograma.';
+  }
+
+  const urgencia = prev==='ambos' ? '#FEF2F2' : '#F0FDF4';
+  const urgBorder = prev==='ambos' ? '#FECACA' : '#BBF7D0';
+  document.getElementById('gc-hp-result').innerHTML = `
+    <div class="gc-result-box" style="background:linear-gradient(135deg,${urgencia},#fff);border-color:${urgBorder};">
+      <div class="gc-result-title">ESQUEMA DE ERRADICACIÓN RECOMENDADO</div>
+      <div style="font-size:13px;color:#334155;line-height:1.8;margin-bottom:10px;">${esquema}</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <span class="gc-badge" style="background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;">⏱️ Duración: ${duracion}</span>
+        <span class="gc-badge" style="background:#F0FDF4;color:#166534;border:1px solid #BBF7D0;">📍 ${contexto==='cesfam'?'CESFAM':'Hospital/Especialidad'}</span>
+      </div>
+      ${nota ? `<div class="gc-rec-box"><strong>Nota:</strong> ${nota}</div>` : ''}
+      <div style="font-size:9px;color:#94A3B8;margin-top:8px;">
+        Ref: Guías latinoamericanas de manejo de H. pylori 2023 · MINSAL Chile.
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-gray btn-sm" onclick="gcImprimir('gc-hp-result')" style="font-size:11px;">🖨️ Imprimir esquema</button>
+      </div>
+    </div>`;
+
+  auditLog('GastroCalc HP', `Previo:${prev} Alergia:${alergia} → ${duracion}`);
+}
+
+/* ── Riesgo oncológico ── */
+function calcRiesgoOnco(){
+  const edad   = parseInt(document.getElementById('gc-r-edad').value)||0;
+  const sexo   = document.getElementById('gc-r-sexo').value;
+  const hp     = document.getElementById('gc-r-hp').value;
+  const fam    = document.getElementById('gc-r-fam').value;
+  const gp     = document.getElementById('gc-r-gp').value;
+  const tabaco = document.getElementById('gc-r-tabaco').value;
+
+  if(!edad){ document.getElementById('gc-riesgo-result').innerHTML='<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa la edad del paciente.</div>'; return; }
+
+  // Score de riesgo relativo (modelo simplificado)
+  let score = 0;
+  if(edad>=60) score+=3; else if(edad>=50) score+=2; else if(edad>=40) score+=1;
+  if(sexo==='m') score+=1;
+  if(hp==='pos') score+=3; else if(hp==='erad') score+=1;
+  if(fam==='directo') score+=4; else if(fam==='lejano') score+=2;
+  if(gp==='especialista') score+=4; else if(gp==='medico') score+=2;
+  if(tabaco==='si') score+=2; else if(tabaco==='ex') score+=1;
+
+  let nivel, color, bg, border, pct, recomendacion;
+  if(score<=5)       { nivel='Muy bajo'; color='#16A34A'; bg='#F0FDF4'; border='#BBF7D0'; pct=Math.round(score/26*100);  recomendacion='Control habitual. GastroPanel cada 5 años si edad >40.'; }
+  else if(score<=10) { nivel='Bajo';     color='#65A30D'; bg='#F7FEE7'; border='#D9F99D'; pct=Math.round(score/26*100);  recomendacion='GastroPanel anual. Erradicar H. pylori si positivo. Endoscopía si síntomas.'; }
+  else if(score<=15) { nivel='Moderado'; color='#D97706'; bg='#FFF7ED'; border='#FED7AA'; pct=Math.round(score/26*100);  recomendacion='Derivar a gastroenterología. Endoscopía diagnóstica. Vigilancia endoscópica cada 2-3 años.'; }
+  else if(score<=20) { nivel='Alto';     color='#EA580C'; bg='#FFF7ED'; border='#FDBA74'; pct=Math.round(score/26*100);  recomendacion='Derivación urgente a gastroenterología. Endoscopía con biopsias de Sídney. Vigilancia anual.'; }
+  else               { nivel='Muy alto'; color='#DC2626'; bg='#FEF2F2'; border='#FECACA'; pct=Math.round(score/26*100);  recomendacion='⚠️ Riesgo muy elevado. Endoscopía urgente. Programa de vigilancia intensiva. Considerar consulta oncológica.'; }
+
+  const factores = [];
+  if(edad>=60) factores.push('Edad ≥60 años');
+  if(sexo==='m') factores.push('Sexo masculino');
+  if(hp==='pos') factores.push('H. pylori activo');
+  if(fam==='directo') factores.push('Familiar directo con CG');
+  if(gp==='especialista') factores.push('GastroPanel: Referir especialista');
+  if(tabaco==='si') factores.push('Fumador activo');
+
+  document.getElementById('gc-riesgo-result').innerHTML = `
+    <div class="gc-result-box" style="background:linear-gradient(135deg,${bg},#fff);border-color:${border};">
+      <div class="gc-result-title">EVALUACIÓN DE RIESGO DE CÁNCER GÁSTRICO</div>
+      <div class="gc-score-big" style="color:${color};">${score} pts</div>
+      <div class="gc-score-label" style="color:${color};">Riesgo ${nivel}</div>
+      <div class="gc-score-bar-wrap">
+        <div class="gc-score-bar" style="width:${pct}%;background:linear-gradient(90deg,#16A34A,${color});"></div>
+      </div>
+      ${factores.length ? `<div style="margin-bottom:10px;">${factores.map(f=>`<span class="gc-badge" style="background:${bg};color:${color};border:1px solid ${border};margin:2px;">${f}</span>`).join('')}</div>` : ''}
+      <div class="gc-rec-box"><strong>Recomendación:</strong> ${recomendacion}</div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button class="btn btn-gray btn-sm" onclick="gcImprimir('gc-riesgo-result')" style="font-size:11px;">🖨️ Imprimir evaluación</button>
+      </div>
+      <div style="font-size:9px;color:#94A3B8;margin-top:8px;">
+        Score calculado: ${score}/26 pts · Modelo de riesgo clínico-serológico adaptado (no reemplaza juicio clínico).
+      </div>
+    </div>`;
+
+  auditLog('GastroCalc Riesgo', `Score:${score} → ${nivel}`);
+}
+
+/* ── Impacto IBP ── */
+function calcIBP(){
+  const dias  = parseInt(document.getElementById('gc-ibp-dias').value)||0;
+  const dosis = document.getElementById('gc-ibp-dosis').value;
+  const tipo  = document.getElementById('gc-ibp-tipo').value;
+  const g17   = parseFloat(document.getElementById('gc-ibp-g17').value);
+
+  // Los IBP elevan la G17 por hipoclorhidria
+  const factorDosis = dosis==='alta'?1.5:dosis==='doble'?2.0:1.0;
+  const diasMinimos = tipo==='rabeprazol'?5:tipo==='lansoprazol'?7:10;
+  const suficiente = dias >= diasMinimos;
+
+  let impacto, color, bg, border;
+  if(dias===0){
+    impacto='⚠️ IBP ACTIVO: Resultados muy afectados. G17 puede estar falsamente elevada. PGI relativamente conservado. Los resultados NO son interpretables con confianza.';
+    color='#DC2626'; bg='#FEF2F2'; border='#FECACA';
+  } else if(!suficiente){
+    impacto=`⚠️ SUSPENSIÓN INSUFICIENTE (${dias} días < ${diasMinimos} días recomendados para ${tipo}). Resultados parcialmente afectados. Interpretar con cautela.`;
+    color='#D97706'; bg='#FFF7ED'; border='#FED7AA';
+  } else {
+    impacto=`✅ Suspensión adecuada (${dias} días ≥ ${diasMinimos} días). Resultados confiables. Se puede interpretar el GastroPanel con normalidad.`;
+    color='#16A34A'; bg='#F0FDF4'; border='#BBF7D0';
+  }
+
+  const g17Corr = !isNaN(g17) && dias < diasMinimos ? (g17 / factorDosis).toFixed(1) : null;
+
+  document.getElementById('gc-ibp-result').innerHTML = `
+    <div class="gc-result-box" style="background:linear-gradient(135deg,${bg},#fff);border-color:${border};">
+      <div class="gc-result-title">EVALUACIÓN DEL IMPACTO DEL IBP</div>
+      <div class="gc-rec-box" style="margin-bottom:10px;">${impacto}</div>
+      ${g17Corr ? `<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:10px;font-size:12px;">
+        📊 G17 corregida estimada (sin efecto IBP): <strong>${g17Corr} pmol/L</strong>
+        <div style="font-size:9px;color:#94A3B8;margin-top:4px;">Corrección aproximada — recomendable repetir examen con suspensión adecuada.</div>
+      </div>` : ''}
+      <div style="margin-top:10px;display:flex;gap:8px;margin-bottom:8px;">
+        <button class="btn btn-gray btn-sm" onclick="gcImprimir('gc-ibp-result')" style="font-size:11px;">🖨️ Imprimir evaluación IBP</button>
+      </div>
+      <div style="font-size:11px;color:#475569;">
+        <strong>Tiempo mínimo de suspensión por IBP:</strong><br>
+        Omeprazol/Pantoprazol: 10-14 días · Lansoprazol: 7-10 días · Esomeprazol: 10-14 días · Rabeprazol: 5-7 días
+      </div>
+      <div style="font-size:9px;color:#94A3B8;margin-top:8px;">
+        Ref: Sipponen P, et al. Chronic gastritis and gastroduodenal ulcer. Gut 2002.
+      </div>
+    </div>`;
+
+  auditLog('GastroCalc IBP', `${tipo} ${dias}d suspendido → ${suficiente?'OK':'Insuficiente'}`);
+}
+
+/* ── Interpretador serológico completo ── */
+function calcInterpretador(){
+  const r = {
+    pgi   : document.getElementById('gc-s-pgi').value,
+    pgii  : document.getElementById('gc-s-pgii').value,
+    ratio : document.getElementById('gc-s-ratio').value,
+    g17   : document.getElementById('gc-s-g17').value,
+    hp    : document.getElementById('gc-s-hp').value,
+  };
+
+  if(!r.pgi && !r.g17){ document.getElementById('gc-interp-result').innerHTML='<div class="alert alert-warning"><span class="alert-icon">⚠️</span>Ingresa al menos PGI y G17 para interpretar.</div>'; return; }
+
+  const mapa = renderMapaSidney(r);
+  const olga = renderScoreOLGA(r);
+  const interp = renderInterpretacion(r);
+
+  // Grid de valores con colores
+  const campos = [
+    {key:'pgi',  label:'PGI',       unit:'µg/L',  ref:'30-160'},
+    {key:'pgii', label:'PGII',      unit:'µg/L',  ref:'3-15'},
+    {key:'ratio',label:'PGI/PGII', unit:'',       ref:'>3'},
+    {key:'g17',  label:'G17',       unit:'pmol/L', ref:'1-7'},
+    {key:'hp',   label:'Anti-HP',   unit:'EIU',   ref:'<30'},
+  ];
+  const valoresHtml = `
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px;">
+      ${campos.map(f => {
+        const cls = classifyValue(f.key, r[f.key]);
+        const color = cls==='normal'?'#16A34A':cls==='abnormal'?'#DC2626':'#D97706';
+        const v = parseFloat(r[f.key]);
+        return `<div style="text-align:center;background:#F8FAFC;border-radius:8px;padding:8px;border:1.5px solid ${cls==='normal'?'#BBF7D0':cls==='abnormal'?'#FECACA':'#FED7AA'};">
+          <div style="font-size:9px;font-weight:800;color:#64748B;">${f.label}</div>
+          <div style="font-size:16px;font-weight:900;color:${color};">${isNaN(v)?'—':v.toFixed(1)}</div>
+          <div style="font-size:8px;color:#94A3B8;">${f.unit||''}</div>
+          <div style="font-size:8px;color:#94A3B8;">ref:${f.ref}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  document.getElementById('gc-interp-result').innerHTML = valoresHtml + mapa + olga + interp;
+  // Agregar botón imprimir al resultado del interpretador
+  const interpEl = document.getElementById('gc-interp-result');
+  if(interpEl){
+    interpEl.innerHTML += `<div style="margin-top:12px;">
+      <button class="btn btn-gray btn-sm" onclick="gcImprimir('gc-interp-result')" style="font-size:11px;">🖨️ Imprimir interpretación completa</button>
+    </div>`;
+  }
+  auditLog('GastroCalc Interpretador', `PGI:${r.pgi} G17:${r.g17} HP:${r.hp}`);
+}
+
+
+/* ═══ GASTROCALC — IMPRIMIR RESULTADO ═══ */
+function gcImprimir(resultId){
+  const el = document.getElementById(resultId);
+  if(!el || !el.innerHTML.trim()){ showExportFeedback('⚠️ Primero calcula un resultado para imprimir.'); return; }
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <title>GastroCalc® — Resultado</title>
+    <style>
+      body{font-family:'Segoe UI',Arial,sans-serif;padding:24px;max-width:700px;margin:0 auto;font-size:13px;}
+      h1{font-size:18px;color:#0F172A;border-bottom:2px solid #1B7EC8;padding-bottom:8px;}
+      .gc-result-box{border:1.5px solid #BAE6FD;border-radius:10px;padding:16px;margin-top:12px;background:#F0F9FF;}
+      .gc-score-bar-wrap{background:#E2E8F0;border-radius:20px;height:10px;overflow:hidden;margin:8px 0;}
+      .gc-score-bar{height:100%;border-radius:20px;}
+      .gc-rec-box{background:#fff;border-radius:6px;padding:10px;margin-top:8px;border:1px solid #E2E8F0;}
+      .footer{margin-top:24px;font-size:10px;color:#94A3B8;border-top:1px solid #E2E8F0;padding-top:8px;}
+    </style>
+  </head><body>
+    <h1>🧮 GastroCalc® — Resultado Clínico</h1>
+    <div style="font-size:11px;color:#64748B;margin-bottom:12px;">
+      Fecha: ${new Date().toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+      · GastroPanel® GEBRAX Diagnóstico &amp; Prevención
+    </div>
+    ${el.innerHTML}
+    <div class="footer">
+      ⚠️ Este resultado es un apoyo clínico computacional. No reemplaza el juicio clínico del médico tratante.
+      GastroCalc® · GastroPanel® · gastropanel@gebrax.com
+    </div>
+  </body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(), 400);
+  auditLog('GastroCalc Impreso', resultId);
+}
+
+
+/* ═══ CESFAM DINÁMICO EN FILTROS ═══ */
+function populateCesfamSelects(){
+  const cesfams = [...new Set(
+    PATIENTS.flatMap(p => p.resultados.map(r => r.cesfam).filter(Boolean))
+  )].sort();
+
+  const selectIds = ['filtCesfam','searchCesfam'];
+  selectIds.forEach(sid => {
+    const sel = document.getElementById(sid);
+    if(!sel) return;
+    const current = sel.value;
+    // Mantener la opción "Todos"
+    sel.innerHTML = '<option value="">Todos los CESFAM</option>' +
+      cesfams.map(cf => `<option${cf===current?' selected':''}>${cf}</option>`).join('');
+  });
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
-  console.log('GastroPanel v5 — Demo Mode + PDF Store + Chart.js activo');
-  const allIds = PATIENTS.flatMap(p=>p.resultados.map(r=>r.id));
-  console.log('IDs test:', allIds);
+  initDarkMode();
+  // debug log removed
 
   // PATIENTS empieza vacío — los datos demo se cargan solo en modo demo
-  console.log('GastroPanel v5 — Sistema listo. PATIENTS vacío para uso normal.');
 });
 </script>
 
@@ -4828,5 +7135,36 @@ window.addEventListener('DOMContentLoaded',()=>{
   </div>
 </div>
 
+<div id="export-toast" style="position:fixed;bottom:24px;right:24px;background:#1D6F42;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:slideUp .3s ease;">✅ Acción completada</div>
+
+<!-- ONBOARDING MODAL -->
+<div id="onboarding-overlay" class="onboarding-overlay hidden">
+  <div class="onboarding-card">
+    <div class="ob-steps">
+      <div class="ob-dot active" id="ob-dot-0"></div>
+      <div class="ob-dot" id="ob-dot-1"></div>
+      <div class="ob-dot" id="ob-dot-2"></div>
+    </div>
+    <div class="onboarding-step active" id="ob-step-0">
+      <div class="ob-icon" id="ob-icon">👋</div>
+      <div class="ob-title" id="ob-title">¡Bienvenido a GastroPanel®!</div>
+      <div class="ob-sub" id="ob-sub">El sistema de gestión de exámenes serológicos para tamizaje gástrico en CESFAM. Vamos a mostrarte cómo funciona en 3 pasos.</div>
+    </div>
+    <div class="onboarding-step" id="ob-step-1">
+      <div class="ob-icon" id="ob-icon-1">🔍</div>
+      <div class="ob-title" id="ob-title-1">Paso 1: Explorar</div>
+      <div class="ob-sub" id="ob-sub-1">Usa el menú lateral para navegar entre módulos. El botón <strong>🔍 Buscar</strong> en la parte superior te permite encontrar cualquier paciente rápidamente.</div>
+    </div>
+    <div class="onboarding-step" id="ob-step-2">
+      <div class="ob-icon">📊</div>
+      <div class="ob-title">Paso 2: Modo Demo</div>
+      <div class="ob-sub">Para ver la app con datos reales, activa el <strong>Modo Demo</strong> desde el botón en el menú. Incluye 40 pacientes con exámenes variados.</div>
+    </div>
+    <div class="ob-actions">
+      <button class="btn btn-gray btn-sm" onclick="closeOnboarding()">Saltar</button>
+      <button class="btn btn-primary btn-sm" id="ob-next-btn" onclick="onboardingNext()">Siguiente →</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
