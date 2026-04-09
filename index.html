@@ -88,7 +88,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:var(--g
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:7px;color:rgba(255,255,255,.55);font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr);margin-bottom:1px;user-select:none;position:relative;}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
 .nav-item.active{background:var(--primary);color:#fff;box-shadow:0 3px 12px rgba(27,126,200,.4);}
-.nav-item.disabled{opacity:.25;cursor:not-allowed;pointer-events:none;}
+.nav-item.disabled{opacity:.5;cursor:pointer;}
 .nav-icon{width:16px;text-align:center;font-size:14px;flex-shrink:0;}
 .nav-badge{background:var(--danger);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:10px;margin-left:auto;}
 .sb-foot{padding:12px 9px;border-top:1px solid rgba(255,255,255,.07);}
@@ -172,7 +172,7 @@ body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:var(--g
 .action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .act-btn{background:var(--primary);color:#fff;border:none;border-radius:11px;padding:18px 12px;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);text-align:center;line-height:1.4;box-shadow:0 3px 12px rgba(27,126,200,.2);}
 .act-btn:hover{background:var(--primary-dark);transform:translateY(-2px);}
-.act-btn.off{background:var(--g200);color:var(--g400);cursor:not-allowed;box-shadow:none;transform:none;pointer-events:none;}
+.act-btn.off{background:var(--g200);color:var(--g400);cursor:pointer;box-shadow:none;transform:none;}
 .act-btn .ai{font-size:20px;display:block;margin-bottom:6px;}
 
 /* ── TABLE ── */
@@ -2038,24 +2038,36 @@ const REFS={
 
 const ROLES_CFG={
   secretaria:{nombre:'Marcela Rojas',rol:'Secretaria / Técnico',initials:'MR',
-    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
-         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
-         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:false},
+    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},
+         {id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
+         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},
+         {id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
+         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},
+         {id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true},
          {id:'reportes',icon:'📈',lbl:'Reportes',on:true}]},
   laboratorio:{nombre:'Claudia Martínez',rol:'Laboratorio',initials:'CM',
-    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:false},
-         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:false},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:false},
-         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true,badge:'5'},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:false},
-         {id:'reportes',icon:'📈',lbl:'Reportes',on:false}]},
+    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},
+         {id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
+         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},
+         {id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
+         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},
+         {id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true},
+         {id:'reportes',icon:'📈',lbl:'Reportes',on:true}]},
   enfermera:{nombre:'Carla Venegas',rol:'Enfermera',initials:'CV',
-    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:false},
-         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:false},
-         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:false},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:false},
+    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},
+         {id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
+         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},
+         {id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
+         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},
+         {id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true},
          {id:'reportes',icon:'📈',lbl:'Reportes',on:true}]},
   medico:{nombre:'Sandra Olivares',rol:'Médico',initials:'SO',
-    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},{id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:false},
-         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},{id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:false},
-         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:false},{id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true,badge:'6'},
+    nav:[{id:'dashboard',icon:'🏠',lbl:'Dashboard',on:true},
+         {id:'nuevo-paciente',icon:'👤',lbl:'Nuevo Paciente',on:true},
+         {id:'buscar-paciente',icon:'🔍',lbl:'Buscar Paciente',on:true},
+         {id:'nuevo-examen',icon:'🧪',lbl:'Nuevo Examen',on:true},
+         {id:'ingreso-resultados',icon:'📋',lbl:'Ingreso Resultados',on:true},
+         {id:'seguimiento',icon:'📊',lbl:'Seguimiento',on:true},
          {id:'reportes',icon:'📈',lbl:'Reportes',on:true},
          {id:'gastrocalc',icon:'🧮',lbl:'GastroCalc',on:true}]},
   paciente:{nombre:'Portal Paciente',rol:'Acceso con identificador',initials:'P',
@@ -2365,7 +2377,7 @@ function setupRole(role){
     const b=item.badge?`<span class="nav-badge">${item.badge}</span>`:'';
     // En modo demo: todos los módulos clickeables en el sidebar
     const isActive = demoMode ? true : item.on;
-    nav.innerHTML+=`<div class="nav-item${isActive?'':' disabled'}" data-view="${item.id}" onclick="navTo('${item.id}')"><span class="nav-icon">${item.icon}</span>${item.lbl}${b}</div>`;
+    nav.innerHTML+=`<div class="nav-item" data-view="${item.id}" onclick="navTo('${item.id}')"><span class="nav-icon">${item.icon}</span>${item.lbl}${b}</div>`;
   });
   ['secretaria','laboratorio','enfermera','medico','paciente'].forEach(r=>{
     const el=document.getElementById('dash-'+r);
@@ -5138,7 +5150,7 @@ function buildAccesoRapido(role){
         <span class="ai">${mcfg.icon}</span>${mcfg.lbl}
       </button>`;
     } else {
-      return `<button class="act-btn off" disabled title="Sin acceso para este rol">
+      return `<button class="act-btn" onclick="navTo('${item.id}')">
         <span class="ai">${mcfg.icon}</span>${mcfg.lbl}
       </button>`;
     }
